@@ -3,153 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Time in Range Project | Type 1 Diabetes Non-Profit</title>
+    <title>The Time in Range Project | Diabetes Peer Mentorship</title>
     <style>
-        /* Base Styles */
+        /* CGM App Theme Colors */
         :root {
-            --primary-blue: #0077b6;
-            --light-blue: #caf0f8;
-            --dark-gray: #333333;
-            --white: #ffffff;
-            --accent: #00b4d8;
+            --bg-dark: #0f172a; /* Deep app background */
+            --bg-panel: #1e293b; /* Glassmorphism panel */
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --cgm-green: #34d399; /* In-Range */
+            --cgm-yellow: #fbbf24; /* High */
+            --cgm-red: #f87171; /* Low */
+            --grid-line: #334155;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
-            color: var(--dark-gray);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             line-height: 1.6;
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center center;
         }
 
         /* Navigation */
         header {
-            background-color: var(--white);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 1px solid var(--grid-line);
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 5%;
+            padding: 1.2rem 5%;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .logo {
             font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary-blue);
+            font-weight: 800;
+            color: var(--text-main);
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Blinking CGM Dot */
+        .cgm-dot {
+            width: 12px;
+            height: 12px;
+            background-color: var(--cgm-green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--cgm-green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(52, 211, 153, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
         }
 
         .nav-links a {
             margin-left: 2rem;
             text-decoration: none;
-            color: var(--dark-gray);
-            font-weight: 500;
+            color: var(--text-muted);
+            font-weight: 600;
             transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            color: var(--primary-blue);
+            color: var(--cgm-green);
         }
 
-        .btn-donate {
-            background-color: var(--primary-blue);
-            color: var(--white) !important;
-            padding: 0.5rem 1.2rem;
-            border-radius: 25px;
+        .btn-action {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white !important;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
-            padding: 5rem 5%;
+            padding: 6rem 5%;
             text-align: center;
+            position: relative;
         }
 
         .hero h1 {
-            font-size: 3rem;
-            color: var(--primary-blue);
+            font-size: 4rem;
             margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--text-main), var(--cgm-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
         }
 
         .hero p {
             font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto 2rem auto;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 3rem auto;
         }
 
-        .btn-primary {
-            display: inline-block;
-            background-color: var(--accent);
-            color: var(--white);
-            padding: 0.8rem 2rem;
-            text-decoration: none;
-            font-size: 1.1rem;
-            border-radius: 30px;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-blue);
-        }
-
-        /* Content Sections */
+        /* Glassmorphism Cards */
         .section {
             padding: 4rem 5%;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        .section-title {
-            text-align: center;
-            color: var(--primary-blue);
-            font-size: 2.2rem;
-            margin-bottom: 2rem;
-        }
-
-        .about-grid {
+        .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
+            gap: 2rem;
         }
 
-        .education-box {
-            background-color: #f8f9fa;
-            padding: 2rem;
-            border-left: 5px solid var(--accent);
-            border-radius: 8px;
-            margin-top: 2rem;
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Footer */
-        footer {
-            background-color: var(--dark-gray);
-            color: var(--white);
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+
+        .card.target::before { background-color: var(--cgm-green); }
+        .card.high::before { background-color: var(--cgm-yellow); }
+
+        h2.section-title {
+            font-size: 2.5rem;
             text-align: center;
-            padding: 2rem 5%;
-            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Simulated Graph UI */
+        .graph-ui {
+            width: 100%;
+            height: 200px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            position: relative;
+            margin-top: 2rem;
+            border-bottom: 2px solid var(--cgm-red);
+            border-top: 2px solid var(--cgm-yellow);
+        }
+
+        .graph-target-zone {
+            position: absolute;
+            top: 25%;
+            bottom: 25%;
+            width: 100%;
+            background: rgba(52, 211, 153, 0.1);
+            border-top: 1px dashed var(--cgm-green);
+            border-bottom: 1px dashed var(--cgm-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cgm-green);
+            font-weight: bold;
+            opacity: 0.5;
+        }
+
+        .graph-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--cgm-green);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--cgm-green);
+            transform: rotate(-5deg); /* Simulated upward trend */
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem;
+            border-top: 1px solid var(--grid-line);
+            margin-top: 4rem;
+            color: var(--text-muted);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .about-grid {
-                grid-template-columns: 1fr;
-            }
-            .nav-links {
-                display: none; /* Add a hamburger menu here for a full site */
-            }
-            .hero h1 {
-                font-size: 2.2rem;
-            }
+            .grid-2 { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.5rem; }
         }
     </style>
 </head>
@@ -157,56 +225,59 @@
 
     <header>
         <nav>
-            <a href="#" class="logo">The TIR Project</a>
+            <a href="#" class="logo">
+                <div class="cgm-dot"></div>
+                The TIR Project
+            </a>
             <div class="nav-links">
-                <a href="#about">About Us</a>
-                <a href="#education">What is TIR?</a>
-                <a href="#resources">Resources</a>
-                <a href="#donate" class="btn-donate">Donate</a>
+                <a href="#mission">Mission</a>
+                <a href="#mentorship">Peer Mentorship</a>
+                <a href="#apply" class="btn-action">Get a Coach</a>
             </div>
         </nav>
     </header>
 
     <section class="hero">
-        <h1>Empowering Lives Through Better Time in Range</h1>
-        <p>We are a non-profit organization dedicated to providing education, resources, and support to help those living with Type 1 Diabetes maximize their Time in Range (TIR).</p>
-        <a href="#about" class="btn-primary">Learn Our Mission</a>
+        <h1>Flatten the Line. Together.</h1>
+        <p>A non-profit providing real-world peer mentorship and coaching for people living with Type 1 and Type 2 Diabetes. We focus on the metric that dictates how you actually feel: Time in Range.</p>
+        <br>
+        <a href="#mentorship" class="btn-action" style="font-size: 1.2rem; padding: 1rem 2rem;">Find Your Mentor</a>
     </section>
 
-    <section id="about" class="section">
-        <h2 class="section-title">Our Mission</h2>
-        <div class="about-grid">
-            <div>
-                <p>Living with Type 1 Diabetes is a constant balancing act. At <strong>The Time in Range Project</strong>, we believe that focusing on Time in Range—rather than just an A1C score—provides a more complete, empowering, and actionable picture of diabetes management.</p>
-                <p>Our goal is to ensure everyone with T1D has access to the Continuous Glucose Monitor (CGM) technology, mental health support, and education required to safely increase the hours they spend feeling their best.</p>
+    <section id="mission" class="section">
+        <h2 class="section-title">Why Time In Range?</h2>
+        <div class="grid-2">
+            <div class="card target">
+                <h3>70 - 180 mg/dL</h3>
+                <p>Time in Range (TIR) measures the percentage of your day spent between 70 and 180 mg/dL. An A1C test only gives you a 3-month average. TIR tells you the whole story of your daily highs, lows, and stability.</p>
+                <p><strong>More time in range means more energy, fewer mood swings, and less long-term burnout.</strong></p>
+                
+                
             </div>
-            <div style="background-color: var(--light-blue); height: 300px; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: var(--primary-blue); font-weight: bold;">
-                [Community Support Image Placeholder]
+            <div class="card high">
+                <h3>The Missing Link: Coaching</h3>
+                <p>Endocrinologists give you the ratios, but they don't live in your shoes. Managing T1D and T2D happens at the dinner table, at the gym, and at 3 AM.</p>
+                <p>Our peer mentors have been in the trenches. They understand insulin timing, the impact of stress, insulin resistance, and the mental toll of chronic management.</p>
             </div>
         </div>
     </section>
 
-    <section id="education" class="section">
-        <h2 class="section-title">Why "Time in Range"?</h2>
-        <p style="text-align: center; max-width: 800px; margin: 0 auto;">
-            Time in Range (TIR) represents the percentage of time a person's blood sugar levels remain within a target range, typically defined as <strong>70 to 180 mg/dL</strong>. 
-        </p>
-        
-        <div style="text-align: center; margin: 2rem 0;">
+    <section id="mentorship" class="section">
+        <div class="card target" style="text-align: center;">
+            <h2>How Our Peer Mentorship Works</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">We pair you with someone who has the same type of diabetes, utilizes similar management tools, and has a proven track record of maintaining a healthy Time in Range.</p>
             
-        </div>
-
-        <div class="education-box">
-            <h3>More Than Just A1C</h3>
-            <p>While A1C provides an average of blood sugar over three months, it doesn't show the daily highs and lows. Two people can have the exact same A1C, but wildly different daily experiences. By focusing on maximizing TIR, individuals experience fewer dangerous extreme lows (hypoglycemia), fewer exhausting highs (hyperglycemia), and an overall better quality of life.</p>
+            <div class="graph-ui">
+                <div class="graph-target-zone">Target Range (70-180)</div>
+                <div class="graph-line"></div>
+                <div class="cgm-dot" style="position: absolute; right: 10%; top: 46%;"></div>
+            </div>
         </div>
     </section>
 
     <footer>
-        <h2>Join Us in Changing the Narrative</h2>
-        <p>Your support helps us fund CGM access programs and educational workshops.</p>
-        <br>
-        <p>&copy; 2026 The Time in Range Project. A registered 501(c)(3) non-profit organization.</p>
+        <p>The Time in Range Project &copy; 2026</p>
+        <p>Empowering T1D and T2D communities through data, tech, and shared experience.</p>
     </footer>
 
 </body>
