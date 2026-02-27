@@ -8,12 +8,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-   <header>
+    <header>
         <nav>
-            <a href="index.html" class="logo">
-                <div class="cgm-dot" id="nav-dot"></div>
-                The TIR Project
-            </a>
+            <a href="index.html" class="logo"><div class="cgm-dot" id="nav-dot"></div>The TIR Project</a>
             <div class="nav-links">
                 <a href="about.html">About Us</a>
                 <a href="how-it-works.html">How It Works</a>
@@ -29,18 +26,9 @@
     </div>
 
     <div class="container">
-        <div class="card" style="max-width: 700px; margin: 0 auto;">
-            <form action="#" method="POST">
-                <div class="form-group">
-                    <label>I am looking to...</label>
-                    <select class="form-control" required>
-                        <option value="get-mentor">Get a Peer Mentor</option>
-                        <option value="be-mentor">Volunteer as a Coach</option>
-                    </select>
-                </div>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                   <form action="https://formspree.io/f/mjgezojy" method="POST">
+        <div class="card" style="max-width: 700px; margin: 0 auto; margin-bottom: 4rem;">
+            
+            <form action="https://formspree.io/f/mjgezojy" method="POST">
                 
                 <div class="form-group">
                     <label>I am looking to...</label>
@@ -77,16 +65,25 @@
 
                 <div class="form-group">
                     <label>What is your biggest daily challenge right now?</label>
-                    <textarea class="form-control" name="biggest_challenge" rows="4" placeholder="Overnight lows, post-meal spikes, burnout, etc..."></textarea>
+                    <textarea class="form-control" name="biggest_challenge" rows="4" placeholder="Overnight lows, post-meal spikes, burnout, etc..." required></textarea>
                 </div>
 
-                <button type="submit" class="btn-action" style="width: 100%; border: none; cursor: pointer; font-size: 1.1rem; padding: 1rem;">Submit Application</button>
+                <button type="submit" class="btn-action" style="width: 100%; border: none; cursor: pointer; font-size: 1.1rem; padding: 1rem; margin-top: 1rem;">Submit Application</button>
             </form>
+
         </div>
     </div>
 
     <footer>
         <p>&copy; 2026 The Time in Range Project. All rights reserved.</p>
     </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const type = urlParams.get('type');
+        if (type === 'be-mentor' || type === 'get-mentor') {
+            document.getElementById('application-type').value = type;
+        }
+    </script>
 </body>
 </html>
