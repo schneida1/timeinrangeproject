@@ -100,3 +100,21 @@ footer {
     text-align: center; padding: 3rem; border-top: 1px solid var(--grid-line);
     margin-top: 4rem; color: var(--text-muted); background: rgba(0,0,0,0.5);
 }
+
+/* Secondary Outline Button */
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--text-muted);
+    color: var(--text-main);
+    padding: 0.7rem 1.8rem;
+    border-radius: 30px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-outline:hover {
+    border-color: var(--cgm-green);
+    color: var(--cgm-green);
+}
