@@ -6,57 +6,65 @@
     <title>About Us | The TIR Project</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <style>
-        .board-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem; }
-        .profile { text-align: center; }
-        .profile-img { width: 120px; height: 120px; border-radius: 50%; background: var(--grid-line); margin: 0 auto 1rem; border: 3px solid var(--cgm-green); }
-    </style>
 </head>
 <body>
     <header>
         <nav>
-            <a href="index.html" class="logo"><div class="cgm-dot"></div>The TIR Project</a>
+            <a href="/" class="logo">
+                <div class="cgm-dot" id="nav-dot"></div>
+                The TIR Project
+            </a>
             <div class="nav-links">
-                <a href="about.html">About Us</a>
-                <a href="donate.html">Donate</a>
+                <a href="/about">The Science</a>
+                <a href="/#how-it-works">How It Works</a>
+                <a href="/donate">Donate</a>
             </div>
-            <a href="apply.html" class="btn-action">Get a Coach</a>
+            <a href="/apply?type=get-mentor" class="btn-action">Get a Coach</a>
         </nav>
     </header>
 
     <div class="page-header">
         <h1>Data-Driven. Peer-Led.</h1>
-        <p>Founded by diabetics, for diabetics. We are bridging the gap between a doctor's clinical targets and the reality of living with this disease.</p>
+        <p>Founded by diabetics, for diabetics. We are bridging the gap between a doctor's clinical targets and the reality of living with this disease 24/7, 365 days a year.</p>
     </div>
 
     <div class="container">
         <div class="card" style="margin-bottom: 4rem;">
-            <h2 style="color: var(--cgm-green);">The Interstitial Lag: Why Mentors Matter</h2>
-            <p>One of the hardest things for newly diagnosed patients to understand is that Continuous Glucose Monitors (CGMs) do not measure blood directly; they measure interstitial fluid.</p>
+            <h2 style="color: #10b981; margin-bottom: 1.5rem;">The Interstitial Lag: Why Mentors Matter</h2>
+            <p>One of the hardest things for newly diagnosed patients to understand is that Continuous Glucose Monitors (CGMs) do not measure blood directly; they measure interstitial fluid (the fluid between your cells).</p>
             
             
             
-            <p style="margin-top: 1.5rem;">Because glucose takes time to travel from the bloodstream into the interstitial fluid, your CGM reading is actually 5 to 15 minutes "behind" your actual blood sugar. <strong>Endocrinologists explain the science, but peer mentors teach you how to pre-bolus your insulin to beat the lag.</strong></p>
+            <p style="margin-top: 1.5rem;">Because glucose takes time to travel from the bloodstream into the interstitial fluid, your CGM reading is actually 5 to 15 minutes "behind" your actual blood sugar. When your blood sugar is rising or falling rapidly, this lag can cause immense confusion and dangerous over-corrections. <strong>Endocrinologists explain the science, but peer mentors teach you the real-world timing required to pre-bolus your insulin and beat the lag.</strong></p>
+        </div>
+
+        <div class="card" style="margin-bottom: 4rem;">
+            <h2 style="color: #f59e0b; margin-bottom: 1.5rem;">Breaking the Diabetes Distress Cycle</h2>
+            <p>Diabetes is as much a psychological battle as it is a physiological one. Constantly calculating carbs, fighting insurance companies, and waking up to alarms takes a massive toll known as "Diabetes Distress."</p>
+
+            
+
+            <p style="margin-top: 1.5rem;">When distress turns into full burnout, Time in Range plummets. Our program focuses heavily on the mental aspect of the disease. Your peer mentor isn't just a data analyst; they are someone who understands exactly how exhausting it feels when you do everything "right" and your blood sugar still spikes. We help you rebuild your relationship with your data so you can manage your health without sacrificing your mental well-being.</p>
         </div>
 
         <h2 style="text-align: center; font-size: 2.5rem; margin-top: 4rem;">Medical Advisory Board</h2>
-        <p style="text-align: center; color: var(--text-muted);">Ensuring our peer mentorship aligns with the latest clinical standards of care.</p>
+        <p style="text-align: center; color: #94a3b8; margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">While our mentors provide lived experience, our curriculum is strictly vetted by our advisory board to ensure it aligns with the latest clinical standards of endocrinology care.</p>
         
-        <div class="board-grid">
-            <div class="profile">
-                <div class="profile-img"></div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+            <div style="text-align: center;">
+                <div style="width: 120px; height: 120px; border-radius: 50%; background: rgba(51, 65, 85, 0.5); margin: 0 auto 1rem; border: 3px solid #10b981;"></div>
                 <h3>Dr. Sarah Jenkins</h3>
-                <p style="color: var(--text-muted);">Lead Endocrinologist</p>
+                <p style="color: #94a3b8;">Lead Endocrinologist</p>
             </div>
-            <div class="profile">
-                <div class="profile-img"></div>
+            <div style="text-align: center;">
+                <div style="width: 120px; height: 120px; border-radius: 50%; background: rgba(51, 65, 85, 0.5); margin: 0 auto 1rem; border: 3px solid #10b981;"></div>
                 <h3>Marcus Chen, CDCES</h3>
-                <p style="color: var(--text-muted);">Diabetes Care Specialist</p>
+                <p style="color: #94a3b8;">Diabetes Care Specialist</p>
             </div>
-            <div class="profile">
-                <div class="profile-img"></div>
+            <div style="text-align: center;">
+                <div style="width: 120px; height: 120px; border-radius: 50%; background: rgba(51, 65, 85, 0.5); margin: 0 auto 1rem; border: 3px solid #10b981;"></div>
                 <h3>Elena Rodriguez, Ph.D.</h3>
-                <p style="color: var(--text-muted);">Behavioral Health & Burnout</p>
+                <p style="color: #94a3b8;">Behavioral Health & Burnout</p>
             </div>
         </div>
     </div>
