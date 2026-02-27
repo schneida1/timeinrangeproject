@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | The TIR Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .board-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .profile { text-align: center; }
+        .profile-img { width: 120px; height: 120px; border-radius: 50%; background: var(--grid-line); margin: 0 auto 1rem; border: 3px solid var(--cgm-green); }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo"><div class="cgm-dot"></div>The TIR Project</a>
+            <div class="nav-links">
+                <a href="about.html">About Us</a>
+                <a href="donate.html">Donate</a>
+            </div>
+            <a href="apply.html" class="btn-action">Get a Coach</a>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h1>Data-Driven. Peer-Led.</h1>
+        <p>Founded by diabetics, for diabetics. We are bridging the gap between a doctor's clinical targets and the reality of living with this disease.</p>
+    </div>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: 4rem;">
+            <h2 style="color: var(--cgm-green);">The Interstitial Lag: Why Mentors Matter</h2>
+            <p>One of the hardest things for newly diagnosed patients to understand is that Continuous Glucose Monitors (CGMs) do not measure blood directly; they measure interstitial fluid.</p>
+            
+            
+            
+            <p style="margin-top: 1.5rem;">Because glucose takes time to travel from the bloodstream into the interstitial fluid, your CGM reading is actually 5 to 15 minutes "behind" your actual blood sugar. <strong>Endocrinologists explain the science, but peer mentors teach you how to pre-bolus your insulin to beat the lag.</strong></p>
+        </div>
+
+        <h2 style="text-align: center; font-size: 2.5rem; margin-top: 4rem;">Medical Advisory Board</h2>
+        <p style="text-align: center; color: var(--text-muted);">Ensuring our peer mentorship aligns with the latest clinical standards of care.</p>
+        
+        <div class="board-grid">
+            <div class="profile">
+                <div class="profile-img"></div>
+                <h3>Dr. Sarah Jenkins</h3>
+                <p style="color: var(--text-muted);">Lead Endocrinologist</p>
+            </div>
+            <div class="profile">
+                <div class="profile-img"></div>
+                <h3>Marcus Chen, CDCES</h3>
+                <p style="color: var(--text-muted);">Diabetes Care Specialist</p>
+            </div>
+            <div class="profile">
+                <div class="profile-img"></div>
+                <h3>Elena Rodriguez, Ph.D.</h3>
+                <p style="color: var(--text-muted);">Behavioral Health & Burnout</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 The Time in Range Project. All rights reserved.</p>
+    </footer>
+</body>
+</html>
