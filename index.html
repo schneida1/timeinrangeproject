@@ -5,460 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Time in Range Project | Diabetes Peer Mentorship</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-        /* Modern App Theme Colors */
-        :root {
-            --bg-dark: #090e17; /* Deeper space background */
-            --bg-panel: rgba(30, 41, 59, 0.6);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --cgm-green: #10b981; /* Target */
-            --cgm-yellow: #f59e0b; /* High */
-            --cgm-red: #ef4444; /* Low */
-            --cgm-purple: #8b5cf6; /* Very High */
-            --grid-line: rgba(51, 65, 85, 0.5);
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
-            background-image: 
-                linear-gradient(var(--grid-line) 1px, transparent 1px),
-                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-            background-size: 40px 40px;
-            background-attachment: fixed;
-            overflow-x: hidden;
-        }
-
-        /* Glassmorphism Header */
-        header {
-            background: rgba(9, 14, 23, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--text-main);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            letter-spacing: -0.5px;
-        }
-
-        .cgm-dot {
-            width: 14px;
-            height: 14px;
-            background-color: var(--cgm-green);
-            border-radius: 50%;
-            box-shadow: 0 0 15px var(--cgm-green);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
-            70% { box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
-
-        .nav-links a {
-            margin-left: 2.5rem;
-            text-decoration: none;
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--cgm-green);
-        }
-
-        .btn-action {
-            background: var(--cgm-green);
-            color: var(--bg-dark) !important;
-            padding: 0.7rem 1.8rem;
-            border-radius: 30px;
-            font-weight: 800;
-            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.2);
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 0.9rem;
-        }
-
-        .btn-action:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(16, 185, 129, 0.4);
-            background: #0ea5e9; /* Shift to blue on hover */
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--text-muted);
-            color: var(--text-main);
-            padding: 0.7rem 1.8rem;
-            border-radius: 30px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .btn-outline:hover {
-            border-color: var(--cgm-green);
-            color: var(--cgm-green);
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 10rem 5% 6rem;
-            text-align: center;
-            max-width: 900px;
-            margin: 0 auto;
-            animation: fadeIn 1s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero h1 {
-            font-size: 4.5rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.1;
-            background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -2px;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            margin-bottom: 3rem;
-            font-weight: 300;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-        }
-
-        /* Stats Bar */
-        .stats-bar {
-            display: flex;
-            justify-content: center;
-            gap: 4rem;
-            padding: 2rem 5%;
-            background: rgba(0,0,0,0.4);
-            border-top: 1px solid var(--grid-line);
-            border-bottom: 1px solid var(--grid-line);
-            margin-bottom: 4rem;
-        }
-
-        .stat-item h3 {
-            font-size: 2.5rem;
-            color: var(--cgm-green);
-            margin: 0;
-            font-weight: 800;
-        }
-
-        .stat-item p {
-            margin: 0;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Layout & Cards */
-        .section {
-            padding: 5rem 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 4rem;
-            letter-spacing: -1px;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .card {
-            background: var(--bg-panel);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            padding: 3rem 2rem;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .step-number {
-            font-size: 4rem;
-            font-weight: 800;
-            color: rgba(255,255,255,0.05);
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            line-height: 1;
-        }
-
-        /* Interactive TIR Tool */
-        .interactive-section {
-            background: linear-gradient(180deg, rgba(16,185,129,0.05) 0%, transparent 100%);
-            border-radius: 30px;
-            padding: 4rem 2rem;
-            text-align: center;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            margin-top: 4rem;
-        }
-
-        .tir-display {
-            font-size: 6rem;
-            font-weight: 800;
-            margin: 1rem 0;
-            color: var(--cgm-green);
-            transition: color 0.3s ease;
-            text-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
-        }
-
-        .slider-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        input[type=range] {
-            width: 100%;
-            -webkit-appearance: none;
-            background: rgba(255,255,255,0.1);
-            height: 8px;
-            border-radius: 4px;
-            outline: none;
-            margin-top: 2rem;
-        }
-
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: #fff;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        #feedback-text {
-            font-size: 1.2rem;
-            margin-top: 1.5rem;
-            font-weight: 600;
-            height: 30px;
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(0,0,0,0.5);
-            padding: 4rem 5% 2rem;
-            border-top: 1px solid var(--grid-line);
-            margin-top: 6rem;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 3rem;
-            max-width: 1200px;
-            margin: 0 auto 3rem;
-        }
-
-        .footer-col h4 {
-            color: var(--text-main);
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-col a {
-            color: var(--text-muted);
-            text-decoration: none;
-            display: block;
-            margin-bottom: 0.8rem;
-            transition: color 0.2s;
-        }
-
-        .footer-col a:hover { color: var(--cgm-green); }
-
-        .copyright {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-            .grid-3, .footer-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 3rem; }
-            .stats-bar { flex-direction: column; gap: 2rem; text-align: center; }
-            .nav-links { display: none; }
-            .hero-buttons { flex-direction: column; }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
         <nav>
-            <a href="#" class="logo">
+            <a href="index.html" class="logo">
                 <div class="cgm-dot" id="nav-dot"></div>
                 The TIR Project
             </a>
             <div class="nav-links">
-                <a href="#about">The Science</a>
-                <a href="#how-it-works">How It Works</a>
-                <a href="#interactive">Check Your TIR</a>
+                <a href="about.html">The Science</a>
+                <a href="index.html#how-it-works">How It Works</a>
+                <a href="index.html#interactive">Check Your TIR</a>
             </div>
-            <a href="#apply" class="btn-action">Get a Coach</a>
+            <a href="apply.html?type=get-mentor" class="btn-action">Get a Coach</a>
         </nav>
     </header>
 
-    <section class="hero">
+    <section class="hero page-header">
         <h1>Flatten the Line.<br>Together.</h1>
         <p>A non-profit dedicated to bridging the gap between clinical advice and real-world application. We provide specialized peer mentorship for Type 1 and Type 2 Diabetes to help you optimize your Time in Range (70-180 mg/dL).</p>
-        <div class="hero-buttons">
-            <a href="#apply" class="btn-action">Find Your Mentor</a>
-            <a href="#coach" class="btn-outline">Become a Coach</a>
+        <div style="display: flex; gap: 1.5rem; justify-content: center; margin-top: 2rem;">
+            <a href="apply.html?type=get-mentor" class="btn-action">Find Your Mentor</a>
+            <a href="apply.html?type=be-mentor" class="btn-outline">Become a Coach</a>
         </div>
     </section>
 
-    <div class="stats-bar">
-        <div class="stat-item">
-            <h3>+15%</h3>
-            <p>Avg. TIR Increase in 3 Months</p>
+    <div style="display: flex; justify-content: center; gap: 4rem; padding: 2rem 5%; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(51, 65, 85, 0.5); border-bottom: 1px solid rgba(51, 65, 85, 0.5); margin-bottom: 4rem; text-align: center;">
+        <div>
+            <h3 style="font-size: 2.5rem; color: #10b981; margin: 0; font-weight: 800;">+15%</h3>
+            <p style="margin: 0; color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Avg. TIR Increase in 3 Months</p>
         </div>
-        <div class="stat-item">
-            <h3>500+</h3>
-            <p>Active Mentorship Pairs</p>
+        <div>
+            <h3 style="font-size: 2.5rem; color: #10b981; margin: 0; font-weight: 800;">500+</h3>
+            <p style="margin: 0; color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Active Mentorship Pairs</p>
         </div>
-        <div class="stat-item">
-            <h3>24/7</h3>
-            <p>Community Support</p>
+        <div>
+            <h3 style="font-size: 2.5rem; color: #10b981; margin: 0; font-weight: 800;">24/7</h3>
+            <p style="margin: 0; color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Community Support</p>
         </div>
     </div>
 
-    <section id="about" class="section">
-        <h2 class="section-title">Why A1C Doesn't Tell the Whole Story</h2>
-        <div style="text-align: center; margin-bottom: 3rem;">
-            
-        </div>
-        <p style="text-align: center; max-width: 800px; margin: 0 auto 4rem; color: var(--text-muted); font-size: 1.1rem;">
-            Two people can have an identical A1C of 7.0%. Person A stays steady between 70-180 mg/dL all day. Person B bounces dangerously between 40 mg/dL and 250 mg/dL. <strong>Person A feels great. Person B feels exhausted.</strong> That is why we focus strictly on Time in Range.
-        </p>
-    </section>
-
-    <section id="how-it-works" class="section">
-        <h2 class="section-title">How Peer Mentorship Works</h2>
-        <div class="grid-3">
+    <section id="how-it-works" class="container">
+        <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 4rem;">How Peer Mentorship Works</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
             <div class="card" style="position: relative;">
-                <div class="step-number">1</div>
-                <h3 style="color: var(--cgm-green);">The Match</h3>
-                <p>We pair you with a mentor who shares your diagnosis (T1D or T2D), uses similar management technology (pump, MDI, specific CGM), and understands your lifestyle.</p>
+                <div style="font-size: 4rem; font-weight: 800; color: rgba(255,255,255,0.05); position: absolute; top: 10px; right: 20px; line-height: 1;">1</div>
+                <h3 style="color: #10b981;">The Match</h3>
+                <p>We pair you with a mentor who shares your diagnosis (T1D or T2D), uses similar management technology, and understands your lifestyle.</p>
             </div>
             <div class="card" style="position: relative;">
-                <div class="step-number">2</div>
-                <h3 style="color: var(--cgm-yellow);">The Baseline</h3>
-                <p>Together, you'll review your current data without judgment. You will identify specific patterns—like post-meal spikes or overnight lows—and pick one target to fix first.</p>
+                <div style="font-size: 4rem; font-weight: 800; color: rgba(255,255,255,0.05); position: absolute; top: 10px; right: 20px; line-height: 1;">2</div>
+                <h3 style="color: #f59e0b;">The Baseline</h3>
+                <p>Together, you'll review your current data without judgment. You will identify specific patterns and pick one target to fix first.</p>
             </div>
             <div class="card" style="position: relative;">
-                <div class="step-number">3</div>
+                <div style="font-size: 4rem; font-weight: 800; color: rgba(255,255,255,0.05); position: absolute; top: 10px; right: 20px; line-height: 1;">3</div>
                 <h3 style="color: #0ea5e9;">The Adjustment</h3>
-                <p>Through weekly calls and text support, your mentor shares practical, lived-experience strategies for pre-bolusing, exercise adjustments, and mental burnout.</p>
+                <p>Through weekly calls and text support, your mentor shares practical strategies for pre-bolusing, exercise adjustments, and mental burnout.</p>
             </div>
         </div>
     </section>
 
-    <section id="interactive" class="section">
-        <div class="interactive-section">
+    <section id="interactive" class="container">
+        <div style="background: linear-gradient(180deg, rgba(16,185,129,0.05) 0%, transparent 100%); border-radius: 30px; padding: 4rem 2rem; text-align: center; border: 1px solid rgba(16, 185, 129, 0.2); margin-top: 4rem;">
             <h2>What is your current Time in Range?</h2>
-            <p style="color: var(--text-muted);">Adjust the slider to see how your TIR impacts your daily management.</p>
+            <p style="color: #94a3b8;">Adjust the slider to see how your TIR impacts your daily management.</p>
             
-            <div class="tir-display" id="tir-value">70%</div>
+            <div id="tir-value" style="font-size: 6rem; font-weight: 800; margin: 1rem 0; color: #10b981; transition: color 0.3s ease; text-shadow: 0 0 30px rgba(16, 185, 129, 0.3);">70%</div>
             
-            <div class="slider-container">
-                <input type="range" min="0" max="100" value="70" id="tir-slider">
-                <div id="feedback-text" style="color: var(--cgm-green);">You are hitting the clinical goal! Great job.</div>
-            </div>
-            
-            <div style="margin-top: 3rem;">
-                
+            <div style="max-width: 600px; margin: 0 auto;">
+                <input type="range" min="0" max="100" value="70" id="tir-slider" style="width: 100%; -webkit-appearance: none; background: rgba(255,255,255,0.1); height: 8px; border-radius: 4px; outline: none; margin-top: 2rem;">
+                <div id="feedback-text" style="font-size: 1.2rem; margin-top: 1.5rem; font-weight: 600; color: #10b981; height: 30px;">You are hitting the clinical goal! Great job.</div>
             </div>
         </div>
     </section>
 
     <footer>
-        <div class="footer-grid">
-            <div class="footer-col">
-                <div class="logo" style="margin-bottom: 1rem;">
-                    <div class="cgm-dot" style="animation: none; opacity: 0.5;"></div>
-                    The TIR Project
-                </div>
-                <p style="color: var(--text-muted); max-width: 300px;">A registered 501(c)(3) non-profit dedicated to improving the daily lives of people with diabetes through peer-led coaching and CGM data optimization.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Programs</h4>
-                <a href="#">T1D Mentorship</a>
-                <a href="#">T2D Mentorship</a>
-                <a href="#">CGM Access Fund</a>
-                <a href="#">Webinars</a>
-            </div>
-            <div class="footer-col">
-                <h4>Organization</h4>
-                <a href="#">About Us</a>
-                <a href="#">Medical Advisory Board</a>
-                <a href="#">Donate</a>
-                <a href="#">Contact</a>
-            </div>
-        </div>
-        <div class="copyright">
-            &copy; 2026 The Time in Range Project. All rights reserved. Not a substitute for medical advice.
-        </div>
+        <p>&copy; 2026 The Time in Range Project. All rights reserved. Not a substitute for medical advice.</p>
     </footer>
 
     <script>
@@ -467,17 +93,11 @@
         const feedback = document.getElementById('feedback-text');
         const navDot = document.getElementById('nav-dot');
 
-        // CGM Colors
-        const colors = {
-            red: '#ef4444',
-            yellow: '#f59e0b',
-            green: '#10b981'
-        };
+        const colors = { red: '#ef4444', yellow: '#f59e0b', green: '#10b981' };
 
         slider.addEventListener('input', function() {
             const val = this.value;
             display.textContent = val + '%';
-
             let color, text;
 
             if (val < 50) {
@@ -485,19 +105,16 @@
                 text = "Burnout is real. A mentor can help you find stability.";
             } else if (val >= 50 && val < 70) {
                 color = colors.yellow;
-                text = "Making progress! Small tweaks to insulin timing can push you higher.";
-            } else if (val >= 70 && val <= 100) {
+                text = "Making progress! Small tweaks can push you higher.";
+            } else {
                 color = colors.green;
-                text = val >= 80 ? "Exceptional! Consider becoming a mentor to help others." : "You are hitting the clinical goal! Great job.";
+                text = val >= 80 ? "Exceptional! Consider becoming a mentor." : "You are hitting the clinical goal! Great job.";
             }
 
-            // Apply colors dynamically
             display.style.color = color;
-            display.style.textShadow = `0 0 30px ${color}40`; // Add hex alpha for glow
+            display.style.textShadow = `0 0 30px ${color}40`;
             feedback.style.color = color;
             feedback.textContent = text;
-            
-            // Sync the top navigation dot to the current health state
             navDot.style.backgroundColor = color;
             navDot.style.boxShadow = `0 0 15px ${color}`;
         });
