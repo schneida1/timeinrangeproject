@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Login | The TIR Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo"><div class="cgm-dot" id="nav-dot"></div>The TIR Project</a>
+            <div class="nav-links">
+                <a href="about.html">About Us</a>
+                <a href="how-it-works.html">How It Works</a>
+                <a href="donate.html">Donate</a>
+            </div>
+            <a href="login.html" class="btn-outline" style="border-color: #10b981; color: #10b981;">Login</a>
+        </nav>
+    </header>
+
+    <div class="page-header" style="padding-bottom: 2rem;">
+        <h1>Welcome Back</h1>
+        <p>Log in to access your mentorship dashboard and track your data.</p>
+    </div>
+
+    <div class="container">
+        <div class="card" style="max-width: 450px; margin: 0 auto 6rem; text-align: center;">
+            <form action="portal.html" method="GET">
+                <div class="form-group" style="text-align: left;">
+                    <label>Email Address</label>
+                    <input type="email" class="form-control" placeholder="you@example.com" required>
+                </div>
+                
+                <div class="form-group" style="text-align: left;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <label>Password</label>
+                        <a href="#" style="color: #94a3b8; font-size: 0.85rem; text-decoration: none;">Forgot?</a>
+                    </div>
+                    <input type="password" class="form-control" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-action" style="width: 100%; border: none; cursor: pointer; font-size: 1.1rem; padding: 1rem; margin-top: 1rem;">Sign In</button>
+            </form>
+            
+            <p style="margin-top: 2rem; color: #94a3b8; font-size: 0.9rem;">
+                Don't have an account? <a href="apply.html?type=get-mentor" style="color: #10b981; text-decoration: none; font-weight: 600;">Apply for Mentorship</a>
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 The Time in Range Project. All rights reserved.</p>
+    </footer>
+</body>
+</html>
