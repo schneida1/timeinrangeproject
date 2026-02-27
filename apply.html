@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply | The TIR Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo"><div class="cgm-dot"></div>The TIR Project</a>
+            <div class="nav-links">
+                <a href="about.html">About Us</a>
+                <a href="donate.html">Donate</a>
+            </div>
+            <a href="apply.html" class="btn-action">Get a Coach</a>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h1>Connect with a Mentor</h1>
+        <p>Whether you need guidance navigating burnout, or you have the experience to help someone else flatten their line, you are in the right place.</p>
+    </div>
+
+    <div class="container">
+        <div class="card" style="max-width: 700px; margin: 0 auto;">
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <label>I am looking to...</label>
+                    <select class="form-control" required>
+                        <option value="get-mentor">Get a Peer Mentor</option>
+                        <option value="be-mentor">Volunteer as a Coach</option>
+                    </select>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Diabetes Type</label>
+                    <select class="form-control" required>
+                        <option>Type 1 Diabetes (T1D)</option>
+                        <option>Type 2 Diabetes (T2D)</option>
+                        <option>LADA / Type 1.5</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Current Management Tools (Select all that apply)</label>
+                    <input type="text" class="form-control" placeholder="e.g., Dexcom G7, Omnipod 5, MDI (Pens)">
+                </div>
+
+                <div class="form-group">
+                    <label>What is your biggest daily challenge right now?</label>
+                    <textarea class="form-control" rows="4" placeholder="Overnight lows, post-meal spikes, burnout, etc..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-action" style="width: 100%; border: none; cursor: pointer; font-size: 1.1rem; padding: 1rem;">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 The Time in Range Project. All rights reserved.</p>
+    </footer>
+</body>
+</html>
