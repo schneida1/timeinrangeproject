@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate | The TIR Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .donation-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2rem; }
+        .donate-card { border: 2px solid transparent; cursor: pointer; text-align: center; transition: all 0.3s; }
+        .donate-card:hover { border-color: var(--cgm-green); transform: translateY(-5px); }
+        .donate-card h2 { font-size: 3rem; margin: 0; color: var(--cgm-green); }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo"><div class="cgm-dot"></div>The TIR Project</a>
+            <div class="nav-links">
+                <a href="about.html">About Us</a>
+                <a href="donate.html" style="color: var(--cgm-green);">Donate</a>
+            </div>
+            <a href="apply.html" class="btn-action">Get a Coach</a>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h1>Fund the Future of TIR</h1>
+        <p>Your tax-deductible donation directly supports the <strong>CGM Access Fund</strong>, providing lifesaving technology and free peer mentorship to uninsured diabetics.</p>
+    </div>
+
+    <div class="container">
+        <div class="donation-grid">
+            <div class="card donate-card">
+                <h2>$25</h2>
+                <h3>Emergency Supplies</h3>
+                <p style="color: var(--text-muted);">Provides test strips and emergency low treatments for one month.</p>
+            </div>
+            <div class="card donate-card" style="border-color: var(--cgm-green); position: relative;">
+                <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--cgm-green); color: var(--bg-dark); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">MOST IMPACT</div>
+                <h2>$150</h2>
+                <h3>CGM Access</h3>
+                <p style="color: var(--text-muted);">Funds one month of continuous glucose monitor sensors for an uninsured patient.</p>
+            </div>
+            <div class="card donate-card">
+                <h2>$500</h2>
+                <h3>Sponsor a Mentorship</h3>
+                <p style="color: var(--text-muted);">Covers the infrastructure and training required for a 6-month mentorship pair.</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 4rem; text-align: center;">
+            <h3 style="margin-bottom: 2rem;">Custom Donation Amount</h3>
+            <form action="#" style="max-width: 400px; margin: 0 auto;">
+                <div class="form-group" style="position: relative;">
+                    <span style="position: absolute; left: 15px; top: 15px; font-size: 1.2rem; color: var(--text-main);">$</span>
+                    <input type="number" class="form-control" style="padding-left: 2.5rem; font-size: 1.2rem;" placeholder="0.00" required>
+                </div>
+                <button type="submit" class="btn-action" style="width: 100%; border: none; cursor: pointer; font-size: 1.1rem; padding: 1rem;">Process Secure Donation</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 The Time in Range Project. All rights reserved.</p>
+    </footer>
+</body>
+</html>
