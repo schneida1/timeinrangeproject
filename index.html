@@ -11,90 +11,104 @@
 
     <header>
         <nav>
-            <a href="/" class="logo">
+            <a href="index.html" class="logo">
                 <div class="cgm-dot" id="nav-dot"></div>
                 The TIR Project
             </a>
             <div class="nav-links">
-                <a href="/about">The Science</a>
-                <a href="/#how-it-works">How It Works</a>
-                <a href="/donate">Donate</a>
+                <a href="about.html">About Us</a>
+                <a href="index.html#how-it-works">How It Works</a>
+                <a href="donate.html">Donate</a>
             </div>
-            <a href="/apply?type=get-mentor" class="btn-action">Get a Coach</a>
+            <a href="apply.html?type=get-mentor" class="btn-action">Get a Coach</a>
         </nav>
     </header>
 
     <section class="hero page-header">
         <h1>Flatten the Line.<br>Together.</h1>
-        <p>A non-profit dedicated to bridging the gap between clinical advice and real-world application. We provide specialized peer mentorship for Type 1 and Type 2 Diabetes to help you optimize your Time in Range (70-180 mg/dL).</p>
+        <p>A non-profit bridging the gap between clinical endocrinology and real-world application. We provide specialized, data-driven peer mentorship for Type 1 and Type 2 Diabetes to optimize your Time in Range (70-180 mg/dL).</p>
         <div style="display: flex; gap: 1.5rem; justify-content: center; margin-top: 2rem;">
             <a href="apply.html?type=get-mentor" class="btn-action">Find Your Mentor</a>
             <a href="apply.html?type=be-mentor" class="btn-outline">Become a Coach</a>
         </div>
     </section>
 
-    <div style="display: flex; justify-content: center; gap: 4rem; padding: 2rem 5%; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(51, 65, 85, 0.5); border-bottom: 1px solid rgba(51, 65, 85, 0.5); margin-bottom: 4rem; text-align: center;">
+    <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 4rem; padding: 2rem 5%; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(51, 65, 85, 0.5); border-bottom: 1px solid rgba(51, 65, 85, 0.5); margin-bottom: 4rem; text-align: center;">
         <div>
             <h3 style="font-size: 2.5rem; color: #10b981; margin: 0; font-weight: 800;">+15%</h3>
-            <p style="margin: 0; color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Avg. TIR Increase in 3 Months</p>
+            <p style="margin: 0; color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Avg. TIR Increase</p>
+        </div>
+        <div>
+            <h3 style="font-size: 2.5rem; color: #10b981; margin: 0; font-weight: 800;">-40%</h3>
+            <p style="margin: 0; color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Severe Hypoglycemia</p>
         </div>
         <div>
             <h3 style="font-size: 2.5rem; color: #10b981; margin: 0; font-weight: 800;">500+</h3>
-            <p style="margin: 0; color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Active Mentorship Pairs</p>
-        </div>
-        <div>
-            <h3 style="font-size: 2.5rem; color: #10b981; margin: 0; font-weight: 800;">24/7</h3>
-            <p style="margin: 0; color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Community Support</p>
+            <p style="margin: 0; color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Active Pairs</p>
         </div>
     </div>
 
+    <section class="container" style="margin-bottom: 6rem;">
+        <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 3rem;">The Clinical Case for Time in Range</h2>
+        
+        <div class="card" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; align-items: center; margin-bottom: 2rem;">
+            <div>
+                <h3 style="font-size: 1.8rem; color: #10b981; margin-bottom: 1rem;">The A1C Illusion</h3>
+                <p style="color: #94a3b8; font-size: 1.1rem; margin-bottom: 1.5rem;">
+                    For decades, HbA1c was the gold standard for diabetes management. However, A1C only provides a 90-day average. It completely masks <strong>Glycemic Variability (GV)</strong>—the dangerous peaks and valleys that cause long-term microvascular complications and daily physical exhaustion.
+                </p>
+                <p style="color: #94a3b8; font-size: 1.1rem;">
+                    Two patients can have an identical A1C of 7.0%. Patient A is stable. Patient B spends 20% of their day dangerously low and 30% dangerously high. <strong>TIR reveals the truth A1C hides.</strong>
+                </p>
+            </div>
+            <div style="text-align: center; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 15px;">
+                [Image of a graph comparing two patients with identical A1C but different Time in Range showing high glycemic variability vs stable glucose]
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <div class="card" style="border-top: 4px solid #f59e0b;">
+                <h3>Reducing Glycemic Variability</h3>
+                <p style="color: #94a3b8;">High GV is linked to oxidative stress and endothelial dysfunction. Our mentors teach advanced pre-bolusing and macronutrient timing to flatten post-prandial (after-meal) spikes.</p>
+            </div>
+            <div class="card" style="border-top: 4px solid #ef4444;">
+                <h3>Minimizing Time Below Range</h3>
+                <p style="color: #94a3b8;">Clinical guidelines mandate keeping Time Below Range (TBR < 70 mg/dL) under 4%. We focus heavily on overnight basal testing and exercise adjustments to prevent severe hypoglycemia.</p>
+            </div>
+        </div>
+    </section>
+
     <section id="how-it-works" class="container">
-        <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 4rem;">How Peer Mentorship Works</h2>
+        <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 4rem;">How Peer Mentorship Bridges the Gap</h2>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
             <div class="card" style="position: relative;">
                 <div style="font-size: 4rem; font-weight: 800; color: rgba(255,255,255,0.05); position: absolute; top: 10px; right: 20px; line-height: 1;">1</div>
                 <h3 style="color: #10b981;">The Match</h3>
-                <p>We pair you with a mentor who shares your diagnosis (T1D or T2D), uses similar management technology, and understands your lifestyle.</p>
+                <p>We pair you with a mentor who shares your exact diagnosis (T1D, T2D, or LADA), utilizes the same management technology (e.g., closed-loop pumps), and understands your lifestyle.</p>
             </div>
             <div class="card" style="position: relative;">
                 <div style="font-size: 4rem; font-weight: 800; color: rgba(255,255,255,0.05); position: absolute; top: 10px; right: 20px; line-height: 1;">2</div>
-                <h3 style="color: #f59e0b;">The Baseline</h3>
-                <p>Together, you'll review your current data without judgment. You will identify specific patterns and pick one target to fix first.</p>
+                <h3 style="color: #f59e0b;">Data Analysis</h3>
+                <p>Together, you review your CGM ambulatory glucose profile (AGP) without judgment. You identify specific clinical patterns—like dawn phenomenon or insulin resistance—and target one variable at a time.</p>
             </div>
             <div class="card" style="position: relative;">
                 <div style="font-size: 4rem; font-weight: 800; color: rgba(255,255,255,0.05); position: absolute; top: 10px; right: 20px; line-height: 1;">3</div>
-                <h3 style="color: #0ea5e9;">The Adjustment</h3>
-                <p>Through weekly calls and text support, your mentor shares practical strategies for pre-bolusing, exercise adjustments, and mental burnout.</p>
+                <h3 style="color: #0ea5e9;">Real-World Adjustment</h3>
+                <p>Through weekly calls, your mentor shares lived-experience strategies that you can't learn in a 15-minute clinical visit, helping you adjust to exercise, stress, and sick days.</p>
             </div>
         </div>
     </section>
-<section class="container" style="margin-bottom: 4rem;">
-        <div class="card" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; align-items: center;">
-            <div>
-                <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Why A1C Doesn't Tell the Whole Story</h2>
-                <p style="color: #94a3b8; font-size: 1.1rem; margin-bottom: 2rem;">
-                    Two people can have the exact same A1C of 7.0%. Person A stays steady between 70-180 mg/dL all day. Person B bounces dangerously between 40 mg/dL and 250 mg/dL. 
-                </p>
-                <p style="color: #94a3b8; font-size: 1.1rem; margin-bottom: 2rem;">
-                    <strong>Person A feels great. Person B feels exhausted.</strong> That is why we focus strictly on Time in Range.
-                </p>
-                <a href="/about" class="btn-outline">Read Our Clinical Approach</a>
-            </div>
-            <div style="text-align: center;">
-                
-            </div>
-        </div>
-    </section>
+
     <section id="interactive" class="container">
-        <div style="background: linear-gradient(180deg, rgba(16,185,129,0.05) 0%, transparent 100%); border-radius: 30px; padding: 4rem 2rem; text-align: center; border: 1px solid rgba(16, 185, 129, 0.2); margin-top: 4rem;">
-            <h2>What is your current Time in Range?</h2>
-            <p style="color: #94a3b8;">Adjust the slider to see how your TIR impacts your daily management.</p>
+        <div style="background: linear-gradient(180deg, rgba(16,185,129,0.05) 0%, transparent 100%); border-radius: 30px; padding: 4rem 2rem; text-align: center; border: 1px solid rgba(16, 185, 129, 0.2); margin-top: 6rem; margin-bottom: 4rem;">
+            <h2>Calculate Your Current TIR Impact</h2>
+            <p style="color: #94a3b8;">Adjust the slider to see how your clinical Time in Range impacts your daily risk factors.</p>
             
             <div id="tir-value" style="font-size: 6rem; font-weight: 800; margin: 1rem 0; color: #10b981; transition: color 0.3s ease; text-shadow: 0 0 30px rgba(16, 185, 129, 0.3);">70%</div>
             
             <div style="max-width: 600px; margin: 0 auto;">
                 <input type="range" min="0" max="100" value="70" id="tir-slider" style="width: 100%; -webkit-appearance: none; background: rgba(255,255,255,0.1); height: 8px; border-radius: 4px; outline: none; margin-top: 2rem;">
-                <div id="feedback-text" style="font-size: 1.2rem; margin-top: 1.5rem; font-weight: 600; color: #10b981; height: 30px;">You are hitting the clinical goal! Great job.</div>
+                <div id="feedback-text" style="font-size: 1.2rem; margin-top: 1.5rem; font-weight: 600; color: #10b981; height: 30px;">Meeting clinical targets. Keep it up!</div>
             </div>
         </div>
     </section>
@@ -118,13 +132,13 @@
 
             if (val < 50) {
                 color = colors.red;
-                text = "Burnout is real. A mentor can help you find stability.";
+                text = "High risk of microvascular complications. Let us help you.";
             } else if (val >= 50 && val < 70) {
                 color = colors.yellow;
-                text = "Making progress! Small tweaks can push you higher.";
+                text = "Moderate variability. Small basal/bolus tweaks can push you higher.";
             } else {
                 color = colors.green;
-                text = val >= 80 ? "Exceptional! Consider becoming a mentor." : "You are hitting the clinical goal! Great job.";
+                text = val >= 80 ? "Exceptional glycemic control! Consider becoming a mentor." : "Meeting clinical targets. Keep it up!";
             }
 
             display.style.color = color;
