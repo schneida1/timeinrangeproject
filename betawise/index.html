@@ -33,33 +33,125 @@
     --shadow-hover: 0 6px 24px rgba(0,169,157,0.14), 0 2px 6px rgba(0,0,0,0.08);
   }
 
-  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
-  .app { max-width: 820px; margin: 0 auto; padding: 28px 16px 60px; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  .app {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 28px 16px 60px;
+  }
 
   /* HEADER */
-  .header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; padding: 18px 22px; background: var(--teal); border-radius: var(--radius); box-shadow: var(--shadow); }
-  .logo { width: 44px; height: 44px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-  .logo-text h1 { font-family: var(--display); font-size: 22px; font-weight: 800; color: #ffffff; letter-spacing: -0.3px; }
-  .logo-text p { font-size: 11px; color: rgba(255,255,255,0.75); letter-spacing: 0.05em; text-transform: uppercase; margin-top: 1px; font-weight: 600; }
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    padding: 18px 22px;
+    background: var(--teal);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .logo {
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .logo-text h1 {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+  }
+  .logo-text p {
+    font-size: 11px;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-top: 1px;
+    font-weight: 600;
+  }
 
   /* TABS */
-  .tabs { display: flex; gap: 6px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 5px; margin-bottom: 24px; box-shadow: var(--shadow); }
-  .tab { flex: 1; padding: 10px 8px; border: none; border-radius: 9px; background: transparent; color: var(--muted); font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; }
-  .tab.active { background: var(--teal); color: #ffffff; box-shadow: 0 2px 8px rgba(0,169,157,0.3); }
+  .tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 5px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+  }
+  .tab {
+    flex: 1;
+    padding: 10px 8px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--muted);
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .tab.active {
+    background: var(--teal);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0,169,157,0.3);
+  }
   .tab:hover:not(.active) { background: var(--teal-light); color: var(--teal-dark); }
 
   /* CARD */
-  .card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 22px; margin-bottom: 16px; box-shadow: var(--shadow); transition: box-shadow 0.2s; }
+  .card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s;
+  }
   .card:hover { box-shadow: var(--shadow-hover); }
-  .card-title { font-family: var(--display); font-size: 17px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+  .card-title {
+    font-family: var(--display);
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
   .card-sub { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
 
   /* TIR BAR */
-  .tir-bar { display: flex; height: 32px; border-radius: 10px; overflow: hidden; gap: 2px; margin: 16px 0 10px; }
-  .tir-seg { transition: flex 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.95); min-width: 0; overflow: hidden; }
-  .tir-seg.low { background: var(--low); }
+  .tir-bar {
+    display: flex;
+    height: 32px;
+    border-radius: 10px;
+    overflow: hidden;
+    gap: 2px;
+    margin: 16px 0 10px;
+  }
+  .tir-seg {
+    transition: flex 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.95);
+    min-width: 0; overflow: hidden;
+    letter-spacing: 0.02em;
+  }
+  .tir-seg.low { background: var(--low); border-radius: 10px 0 0 10px; }
   .tir-seg.inrange { background: var(--inrange); }
-  .tir-seg.high { background: var(--high); }
+  .tir-seg.high { background: var(--high); border-radius: 0 10px 10px 0; }
 
   .tir-legend { display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap; }
   .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); font-weight: 500; }
@@ -67,37 +159,213 @@
 
   /* INPUTS */
   .input-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-  .input-wrap label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 7px; }
-  input[type="number"] { width: 100%; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; padding: 11px 12px; color: var(--text); font-family: var(--display); font-size: 22px; font-weight: 800; text-align: center; outline: none; }
+  .input-wrap label {
+    display: block; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 7px;
+  }
+  .label-low { color: var(--low); }
+  .label-in { color: var(--teal-dark); }
+  .label-high { color: var(--amber); }
+
+  input[type="number"] {
+    width: 100%;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 12px;
+    color: var(--text);
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 800;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input[type="number"]:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(0,169,157,0.15);
+  }
+  input[type="number"]::-webkit-inner-spin-button { display: none; }
+
   .sum-indicator { font-size: 12px; text-align: right; color: var(--muted); margin-bottom: 12px; font-weight: 600; }
   .sum-ok { color: var(--teal-dark); }
   .sum-warn { color: var(--rose); }
 
   /* BUTTONS */
-  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 50px; border: none; font-family: var(--display); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 22px; border-radius: 50px; border: none;
+    font-family: var(--display); font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s; letter-spacing: 0.02em;
+  }
   .btn-primary { background: var(--teal); color: #ffffff; box-shadow: 0 3px 10px rgba(0,169,157,0.35); }
-  .btn-primary:hover { background: var(--teal-dark); transform: translateY(-1px); }
+  .btn-primary:hover { background: var(--teal-dark); transform: translateY(-1px); box-shadow: 0 5px 16px rgba(0,169,157,0.4); }
+  .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
 
-  /* INSIGHTS & CHAT */
-  .insight-block { background: var(--teal-light); border-left: 4px solid var(--teal); padding: 16px 18px; margin-top: 16px; font-size: 14px; line-height: 1.75; color: var(--text); white-space: pre-wrap; }
-  .chat-area { height: 380px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 10px 0; }
+  /* INSIGHT BLOCKS */
+  .insight-block {
+    background: var(--teal-light);
+    border-left: 4px solid var(--teal);
+    border-radius: 0 10px 10px 0;
+    padding: 16px 18px;
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--text);
+    white-space: pre-wrap;
+  }
+  .insight-block.loading { color: var(--muted); font-style: italic; }
+
+  /* TARGETS */
+  .targets-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
+  .target-card {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 14px; text-align: center;
+    transition: transform 0.2s;
+  }
+  .target-card:hover { transform: translateY(-2px); }
+  .target-val { font-family: var(--display); font-size: 26px; font-weight: 800; margin-bottom: 2px; }
+  .target-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; font-weight: 700; }
+  .target-badge { font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: 700; display: inline-block; letter-spacing: 0.02em; }
+  .badge-good { background: rgba(0,169,157,0.12); color: var(--teal-dark); }
+  .badge-warn { background: var(--amber-light); color: var(--amber); }
+  .badge-alert { background: var(--rose-light); color: var(--rose); }
+
+  /* CHAT */
+  .chat-area {
+    height: 380px; overflow-y: auto;
+    padding: 4px 0;
+    display: flex; flex-direction: column; gap: 12px;
+    scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+  }
+  .msg { display: flex; gap: 10px; align-items: flex-start; animation: fadeUp 0.25s ease; }
+  .msg.user { flex-direction: row-reverse; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .avatar {
+    width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 15px;
+  }
+  .avatar.ai { background: var(--teal); }
+  .avatar.user-av { background: #e0ece4; }
   .bubble { max-width: 78%; padding: 11px 15px; border-radius: 14px; font-size: 13.5px; line-height: 1.65; }
-  .bubble.ai { background: var(--surface); border: 1.5px solid var(--border); align-self: flex-start; border-top-left-radius: 3px; }
-  .bubble.user { background: var(--teal); color: white; align-self: flex-end; border-top-right-radius: 3px; }
-  .chat-input-row { display: flex; gap: 10px; margin-top: 14px; }
-  .chat-input { flex: 1; background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px; padding: 11px 15px; font-size: 13px; outline: none; resize: none; }
-  .send-btn { width: 42px; height: 42px; border-radius: 12px; background: var(--teal); border: none; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .bubble.ai { background: var(--surface); border: 1.5px solid var(--border); color: var(--text); border-top-left-radius: 3px; }
+  .bubble.user { background: var(--teal); color: white; border-top-right-radius: 3px; }
 
-  .disclaimer { font-size: 11px; color: var(--muted); text-align: center; margin-top: 24px; line-height: 1.6; padding: 12px 16px; background: var(--surface); border-radius: 10px; border: 1px solid var(--border); }
+  .typing { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
+  .typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); animation: blink 1.2s infinite; }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
+
+  .chat-input-row { display: flex; gap: 10px; margin-top: 14px; }
+  .chat-input {
+    flex: 1; background: var(--bg); border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 11px 15px; color: var(--text);
+    font-family: var(--font); font-size: 13px; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s; resize: none;
+  }
+  .chat-input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,169,157,0.12); }
+  .send-btn {
+    width: 42px; height: 42px; border-radius: 12px;
+    background: var(--teal); border: none; color: #ffffff;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 16px; transition: all 0.2s; flex-shrink: 0; align-self: flex-end;
+    box-shadow: 0 2px 8px rgba(0,169,157,0.3);
+  }
+  .send-btn:hover { background: var(--teal-dark); transform: scale(1.06); }
+  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  /* CHIPS */
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .chip {
+    background: var(--bg); border: 1.5px solid var(--border);
+    border-radius: 20px; padding: 6px 14px; font-size: 12px; font-weight: 600;
+    color: var(--muted); cursor: pointer; transition: all 0.18s;
+    font-family: var(--font);
+  }
+  .chip:hover { border-color: var(--teal); color: var(--teal-dark); background: var(--teal-light); }
+  .chip-active { background: var(--teal-light); border-color: var(--teal); color: var(--teal-dark); }
+  .context-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+
+  .section-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.09em;
+    color: var(--teal-dark); font-weight: 800; margin-bottom: 12px;
+  }
+  .empty-state { text-align: center; color: var(--muted); padding: 30px 20px; font-size: 13px; line-height: 1.6; }
+  .empty-icon { font-size: 34px; margin-bottom: 10px; }
+
+  .disclaimer {
+    font-size: 11px; color: var(--muted); text-align: center;
+    margin-top: 24px; line-height: 1.6; padding: 12px 16px;
+    background: var(--surface); border-radius: 10px;
+    border: 1px solid var(--border);
+    font-weight: 500;
+  }
+
+  /* CGM CONNECT */
+  .connect-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px; border-radius: 50px;
+    border: 1.5px solid var(--teal); background: transparent;
+    font-family: var(--display); font-size: 13px; font-weight: 700;
+    color: var(--teal-dark); cursor: pointer; transition: all 0.2s;
+  }
+  .btn-outline:hover { background: var(--teal-light); }
+  .btn-sm {
+    padding: 7px 14px; font-size: 12px;
+  }
+  .btn-danger {
+    background: transparent; border: 1.5px solid #e0b0aa;
+    color: var(--rose); font-family: var(--display); font-size: 12px;
+    font-weight: 700; border-radius: 50px; padding: 7px 14px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-danger:hover { background: var(--rose-light); }
+
+  .connected-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,169,157,0.1); border: 1.5px solid var(--teal);
+    border-radius: 20px; padding: 4px 12px;
+    font-size: 12px; font-weight: 700; color: var(--teal-dark);
+  }
+  .connected-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .setup-box {
+    background: var(--bg); border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 16px 18px; margin-top: 14px;
+    font-size: 13px; line-height: 1.7; color: var(--text);
+  }
+  .setup-box ol { padding-left: 18px; }
+  .setup-box li { margin-bottom: 6px; }
+  .setup-box a { color: var(--teal-dark); font-weight: 600; }
+  .setup-box code {
+    background: var(--border); border-radius: 4px;
+    padding: 1px 6px; font-size: 12px; font-family: monospace;
+  }
+  .divider { display: flex; align-items: center; gap: 10px; margin: 14px 0; color: var(--muted); font-size: 12px; font-weight: 600; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .ns-input-row { display: flex; gap: 8px; margin-top: 10px; }
+  .ns-input {
+    flex: 1; background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 9px 13px; color: var(--text);
+    font-family: var(--font); font-size: 13px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .ns-input:focus { border-color: var(--teal); }
+  .sync-info { font-size: 11.5px; color: var(--muted); margin-top: 8px; font-weight: 500; }
 </style>
 </head>
 <body>
-
 <nav style="background:#ffffff;border-bottom:1.5px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;font-family:var(--font)">
-  <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--teal-dark);font-weight:700;font-size:14px">← timeinrangeproject.org</a>
+  <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--teal-dark);font-weight:700;font-size:14px">
+    ← timeinrangeproject.org
+  </a>
   <span style="font-size:12px;color:var(--muted);font-weight:600;letter-spacing:0.04em;text-transform:uppercase">Betawise Beta</span>
 </nav>
-
 <div class="app">
   <div class="header">
     <div class="logo">🩺</div>
@@ -114,155 +382,500 @@
   </div>
 
   <div id="tab-dashboard">
-    <div class="card">
+
+    <div class="card" id="connect-card">
       <div class="card-title">Try a Demo Profile</div>
-      <div class="card-sub">Load a profile to explore.</div>
+      <div class="card-sub">Load a realistic patient profile to explore Betawise — or enter your own numbers below.</div>
+
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div onclick="loadDemo('sarah')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;">
-          <div style="font-weight:700;font-size:13px;">🙋 Sarah — T1D</div>
-          <div style="font-size:11px; color:var(--muted)">6% Low | 64% In | 30% High</div>
+
+        <div onclick="loadDemo('sarah')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all 0.18s" onmouseover="this.style.borderColor='#7c3aed';this.style.background='#f5f3ff'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'">
+          <div style="font-weight:700;font-size:13px;color:#1a2e2c;margin-bottom:4px">🙋 Sarah — Type 1, 8 years</div>
+          <div style="font-size:12px;color:#6b8f8c;line-height:1.5;margin-bottom:8px">Pump user working on overnight stability</div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap">
+            <span style="background:#fdecea;color:#d94f3a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Low 6%</span>
+            <span style="background:#e6f5f4;color:#007f76;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">In Range 64%</span>
+            <span style="background:#fef3e2;color:#e8900a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">High 30%</span>
+          </div>
         </div>
-        <div onclick="loadDemo('marcus')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;">
-          <div style="font-weight:700;font-size:13px;">👨 Marcus — T2D</div>
-          <div style="font-size:11px; color:var(--muted)">2% Low | 71% In | 27% High</div>
+
+        <div onclick="loadDemo('marcus')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all 0.18s" onmouseover="this.style.borderColor='#7c3aed';this.style.background='#f5f3ff'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'">
+          <div style="font-weight:700;font-size:13px;color:#1a2e2c;margin-bottom:4px">👨 Marcus — Type 2, 3 years</div>
+          <div style="font-size:12px;color:#6b8f8c;line-height:1.5;margin-bottom:8px">Recently started CGM, diet-managed</div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap">
+            <span style="background:#fdecea;color:#d94f3a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Low 2%</span>
+            <span style="background:#e6f5f4;color:#007f76;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">In Range 71%</span>
+            <span style="background:#fef3e2;color:#e8900a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">High 27%</span>
+          </div>
         </div>
-        <div onclick="loadDemo('priya')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;">
-          <div style="font-weight:700;font-size:13px;">👩 Priya — Newly Diag.</div>
-          <div style="font-size:11px; color:var(--muted)">8% Low | 48% In | 44% High</div>
+
+        <div onclick="loadDemo('priya')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all 0.18s" onmouseover="this.style.borderColor='#7c3aed';this.style.background='#f5f3ff'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'">
+          <div style="font-weight:700;font-size:13px;color:#1a2e2c;margin-bottom:4px">👩 Priya — Type 1, newly diagnosed</div>
+          <div style="font-size:12px;color:#6b8f8c;line-height:1.5;margin-bottom:8px">Still finding her baseline, on MDI</div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap">
+            <span style="background:#fdecea;color:#d94f3a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Low 8%</span>
+            <span style="background:#e6f5f4;color:#007f76;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">In Range 48%</span>
+            <span style="background:#fef3e2;color:#e8900a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">High 44%</span>
+          </div>
         </div>
-        <div onclick="loadDemo('james')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;">
-          <div style="font-weight:700;font-size:13px;">🏃 James — Athlete</div>
-          <div style="font-size:11px; color:var(--muted)">3% Low | 82% In | 15% High</div>
+
+        <div onclick="loadDemo('james')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all 0.18s" onmouseover="this.style.borderColor='#7c3aed';this.style.background='#f5f3ff'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'">
+          <div style="font-weight:700;font-size:13px;color:#1a2e2c;margin-bottom:4px">🏃 James — Type 1, athlete</div>
+          <div style="font-size:12px;color:#6b8f8c;line-height:1.5;margin-bottom:8px">Closed loop system, very active</div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap">
+            <span style="background:#fdecea;color:#d94f3a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Low 3%</span>
+            <span style="background:#e6f5f4;color:#007f76;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">In Range 82%</span>
+            <span style="background:#fef3e2;color:#e8900a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">High 15%</span>
+          </div>
         </div>
+
+      </div>
+
+      <div id="demo-active-bar" style="display:none;margin-top:14px;align-items:center;gap:10px;background:#f5f3ff;border:1.5px solid #ddd6fe;border-radius:10px;padding:10px 14px;font-size:12.5px;color:#7c3aed;font-weight:600">
+        🎭 <span id="demo-active-label"></span>
+        <button onclick="clearDemo()" style="margin-left:auto;background:transparent;border:1.5px solid #ddd6fe;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;color:#7c3aed;cursor:pointer">Clear demo</button>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-title">Your TIR Data</div>
+      <div class="card-title" id="manual-card-title">Your TIR Data</div>
+      <div class="card-sub" id="manual-card-sub">Enter your percentages from your CGM app, or load a demo profile above.</div>
       <div class="input-grid">
-        <div class="input-wrap"><label style="color:var(--low)">⬇ Low</label><input type="number" id="inp-low" value="4" oninput="updateBar()" /></div>
-        <div class="input-wrap"><label style="color:var(--teal)">✓ In Range</label><input type="number" id="inp-in" value="68" oninput="updateBar()" /></div>
-        <div class="input-wrap"><label style="color:var(--amber)">⬆ High</label><input type="number" id="inp-high" value="28" oninput="updateBar()" /></div>
+        <div class="input-wrap">
+          <label class="label-low">⬇ Below Range</label>
+          <input type="number" id="inp-low" min="0" max="100" value="4" oninput="updateBar()" />
+        </div>
+        <div class="input-wrap">
+          <label class="label-in">✓ In Range</label>
+          <input type="number" id="inp-in" min="0" max="100" value="68" oninput="updateBar()" />
+        </div>
+        <div class="input-wrap">
+          <label class="label-high">⬆ Above Range</label>
+          <input type="number" id="inp-high" min="0" max="100" value="28" oninput="updateBar()" />
+        </div>
       </div>
       <div class="sum-indicator sum-ok" id="sum-ind">Total: 100% ✓</div>
-      <div class="tir-bar">
+      <div class="tir-bar" id="tir-bar">
         <div class="tir-seg low" id="seg-low" style="flex:4">4%</div>
         <div class="tir-seg inrange" id="seg-in" style="flex:68">68%</div>
         <div class="tir-seg high" id="seg-high" style="flex:28">28%</div>
       </div>
       <div class="tir-legend">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--low)"></div> Below range</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> In range</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div> Above range</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--low)"></div> Below range (&lt;70 mg/dL)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> In range (70–180 mg/dL)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div> Above range (&gt;180 mg/dL)</div>
       </div>
+    </div>
+    <div class="card">
+      <div class="section-label">How You Compare to Targets</div>
+      <div class="targets-grid" id="targets-grid"></div>
     </div>
   </div>
 
   <div id="tab-insights" style="display:none">
     <div class="card">
       <div class="card-title">AI-Powered TIR Insights</div>
-      <textarea class="chat-input" id="extra-context" rows="2" placeholder="Any extra context?" style="width:100%; margin-bottom:10px;"></textarea>
-      <button class="btn btn-primary" onclick="generateInsights()">✨ Generate My Insights</button>
-      <div id="insights-output" style="display:none"><div class="insight-block" id="insights-text"></div></div>
+      <div class="card-sub">Plain-language explanation of what your numbers mean and what to explore.</div>
+
+      <div class="section-label" style="margin-bottom:8px">Anything the AI should know about you? <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div>
+      <div class="context-chips" id="context-chips">
+        <div class="chip ctx-chip" onclick="toggleChip(this, 'Type 1 diabetes')">Type 1</div>
+        <div class="chip ctx-chip" onclick="toggleChip(this, 'Type 2 diabetes')">Type 2</div>
+        <div class="chip ctx-chip" onclick="toggleChip(this, 'using insulin')">On insulin</div>
+        <div class="chip ctx-chip" onclick="toggleChip(this, 'using an insulin pump')">Pump user</div>
+        <div class="chip ctx-chip" onclick="toggleChip(this, 'pregnant')">Pregnant</div>
+        <div class="chip ctx-chip" onclick="toggleChip(this, 'older adult (65+)')">65+ years</div>
+        <div class="chip ctx-chip" onclick="toggleChip(this, 'recently diagnosed')">Recently diagnosed</div>
+        <div class="chip ctx-chip" onclick="toggleChip(this, 'very physically active')">Very active</div>
+      </div>
+      <textarea class="chat-input" id="extra-context" rows="2" placeholder="Anything else? e.g. 'I've been sick this week' or 'I struggle most with overnight lows'" style="margin-top:10px;width:100%"></textarea>
+
+      <div id="stale-bar" style="display:none;align-items:center;gap:10px;background:var(--amber-light);border:1.5px solid #f5c97a;border-radius:10px;padding:11px 15px;margin-bottom:14px;font-size:12.5px;color:var(--amber);font-weight:600">
+        ⚠️ Your dashboard values changed — regenerate to update your insights and doctor tips.
+        <button class="btn btn-primary" style="margin-left:auto;padding:6px 14px;font-size:12px" onclick="generateInsights()">Regenerate</button>
+      </div>
+      <div style="margin-top:14px">
+        <button class="btn btn-primary" id="insights-btn" onclick="generateInsights()">✨ Generate My Insights</button>
+      </div>
+      <div id="insights-output" style="display:none">
+        <div class="insight-block" id="insights-text"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-label">Things to Discuss with Your Doctor</div>
+      <div id="doctor-tips" class="empty-state">
+        <div class="empty-icon">🩺</div>
+        Generate insights above to see personalized talking points for your next appointment.
+      </div>
     </div>
   </div>
 
   <div id="tab-mentor" style="display:none">
     <div class="card">
       <div class="card-title">Peer Mentor Chat</div>
+      <div class="card-sub">Talk to an AI that thinks like someone who's been managing diabetes for years — not a doctor.</div>
       <div class="chat-area" id="chat-area">
-        <div class="bubble ai">Hey! I'm here to talk through what your numbers mean. What's on your mind?</div>
+        <div class="msg">
+          <div class="avatar ai">🙂</div>
+          <div class="bubble ai">Hey! I'm your RangeSync peer mentor. I've been there — the highs, the lows, the frustrating days when nothing makes sense. I'm here to talk through what your numbers mean, share what helps, and just be a friendly ear. What's on your mind?</div>
+        </div>
+      </div>
+      <div class="chip-row" id="chip-row">
+        <div class="chip" onclick="sendChip('What does a good TIR actually feel like day to day?')">What does good TIR feel like?</div>
+        <div class="chip" onclick="sendChip('My TIR is lower than I want — where do I even start?')">My TIR feels stuck</div>
+        <div class="chip" onclick="sendChip('How do I talk to my doctor about TIR goals?')">Talking to my doctor</div>
+        <div class="chip" onclick="sendChip('I\'m feeling burnt out managing this. Any advice?')">Feeling burnt out</div>
       </div>
       <div class="chat-input-row">
-        <textarea class="chat-input" id="chat-input" rows="1" placeholder="Type a message..."></textarea>
-        <button class="send-btn" onclick="sendMessage()">➤</button>
+        <textarea class="chat-input" id="chat-input" rows="1" placeholder="Type a message..." onkeydown="handleKey(event)"></textarea>
+        <button class="send-btn" id="send-btn" onclick="sendMessage()">➤</button>
       </div>
     </div>
   </div>
 
-  <p class="disclaimer">⚠️ Betawise is an educational tool, not a medical device. Always consult your healthcare team.</p>
+  <p class="disclaimer">⚠️ Betawise is an educational tool, not a medical device. Always consult your healthcare team before making changes to your diabetes management.</p>
 </div>
 
 <script>
-  const GEMINI_KEY = "AIzaSyBfm0HGuydVINjxeptes8jwaZaU6M3fZZc";
+  let chatHistory = [];
+  let insightsGenerated = false;
 
-  function showTab(tabName) {
-    const tabs = ['dashboard', 'insights', 'mentor'];
-    tabs.forEach(t => {
-      document.getElementById('tab-' + t).style.display = (t === tabName) ? 'block' : 'none';
+  const TIR_DATA = () => ({
+    low: parseFloat(document.getElementById('inp-low').value) || 0,
+    inRange: parseFloat(document.getElementById('inp-in').value) || 0,
+    high: parseFloat(document.getElementById('inp-high').value) || 0
+  });
+
+  function showTab(tab) {
+    ['dashboard','insights','mentor'].forEach(t => {
+      document.getElementById('tab-'+t).style.display = t === tab ? 'block' : 'none';
     });
-    
-    document.querySelectorAll('.tab').forEach(btn => {
-      btn.classList.toggle('active', btn.innerText.toLowerCase().includes(tabName));
+    document.querySelectorAll('.tab').forEach((el, i) => {
+      el.classList.toggle('active', ['dashboard','insights','mentor'][i] === tab);
     });
+  }
+
+  function markInsightsStale() {
+    if (!insightsGenerated) return;
+    const staleBar = document.getElementById('stale-bar');
+    if (staleBar) staleBar.style.display = 'flex';
   }
 
   function updateBar() {
-    const low = parseFloat(document.getElementById('inp-low').value) || 0;
-    const inRange = parseFloat(document.getElementById('inp-in').value) || 0;
-    const high = parseFloat(document.getElementById('inp-high').value) || 0;
+    const { low, inRange, high } = TIR_DATA();
     const sum = low + inRange + high;
-    
     const ind = document.getElementById('sum-ind');
-    ind.textContent = `Total: ${sum}% ${sum === 100 ? '✓' : ''}`;
+    ind.textContent = `Total: ${sum}%${sum === 100 ? ' ✓' : ' (should add to 100)'}`;
     ind.className = `sum-indicator ${sum === 100 ? 'sum-ok' : 'sum-warn'}`;
-
-    document.getElementById('seg-low').style.flex = low || 0.1;
-    document.getElementById('seg-in').style.flex = inRange || 0.1;
-    document.getElementById('seg-high').style.flex = high || 0.1;
-    document.getElementById('seg-low').textContent = low + '%';
-    document.getElementById('seg-in').textContent = inRange + '%';
-    document.getElementById('seg-high').textContent = high + '%';
+    document.getElementById('seg-low').style.flex = Math.max(low, 0.5);
+    document.getElementById('seg-in').style.flex = Math.max(inRange, 0.5);
+    document.getElementById('seg-high').style.flex = Math.max(high, 0.5);
+    document.getElementById('seg-low').textContent = low >= 5 ? low+'%' : '';
+    document.getElementById('seg-in').textContent = inRange >= 5 ? inRange+'%' : '';
+    document.getElementById('seg-high').textContent = high >= 5 ? high+'%' : '';
+    updateTargets();
+    markInsightsStale();
   }
 
-  const demos = {
-    sarah: { low: 6, inRange: 64, high: 30 },
-    marcus: { low: 2, inRange: 71, high: 27 },
-    priya: { low: 8, inRange: 48, high: 44 },
-    james: { low: 3, inRange: 82, high: 15 }
-  };
-
-  function loadDemo(id) {
-    const d = demos[id];
-    document.getElementById('inp-low').value = d.low;
-    document.getElementById('inp-in').value = d.inRange;
-    document.getElementById('inp-high').value = d.high;
-    updateBar();
-  }
-
-  async function generateInsights() {
-    const out = document.getElementById('insights-output');
-    const text = document.getElementById('insights-text');
-    out.style.display = 'block';
-    text.innerHTML = "Analyzing trends...";
-    
-    const prompt = `User TIR: Low ${document.getElementById('inp-low').value}%, In-Range ${document.getElementById('inp-in').value}%, High ${document.getElementById('inp-high').value}%. Context: ${document.getElementById('extra-context').value}. Provide 3 short bullet points.`;
-
-    try {
-      const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-      });
-      const data = await resp.json();
-      text.innerText = data.candidates[0].content.parts[0].text;
-    } catch (e) {
-      text.innerText = "Error connecting to AI. Please check your API key.";
+  function badge(val, target, direction) {
+    if (direction === 'above') {
+      if (val >= target) return '<span class="target-badge badge-good">On target ✓</span>';
+      if (val >= target - 10) return '<span class="target-badge badge-warn">Getting there</span>';
+      return '<span class="target-badge badge-alert">Below target</span>';
+    } else {
+      if (val <= target) return '<span class="target-badge badge-good">On target ✓</span>';
+      if (val <= target + 5) return '<span class="target-badge badge-warn">Watch this</span>';
+      return '<span class="target-badge badge-alert">Above target</span>';
     }
   }
 
-  function sendMessage() {
-    const inp = document.getElementById('chat-input');
-    const area = document.getElementById('chat-area');
-    if(!inp.value) return;
-    area.innerHTML += `<div class="bubble user">${inp.value}</div>`;
-    const val = inp.value;
-    inp.value = '';
-    setTimeout(() => {
-      area.innerHTML += `<div class="bubble ai">That sounds like a lot to manage. Based on your ${val} comment, many people find it helpful to look at patterns over 14 days rather than just one day. How long have you been seeing this?</div>`;
-      area.scrollTop = area.scrollHeight;
-    }, 800);
+  function updateTargets() {
+    const { low, inRange, high } = TIR_DATA();
+    document.getElementById('targets-grid').innerHTML = `
+      <div class="target-card">
+        <div class="target-label">In Range</div>
+        <div class="target-val" style="color:var(--teal)">${inRange}%</div>
+        <div style="font-size:10px;color:var(--muted);margin-bottom:6px">Target: ≥70%</div>
+        ${badge(inRange, 70, 'above')}
+      </div>
+      <div class="target-card">
+        <div class="target-label">Below Range</div>
+        <div class="target-val" style="color:var(--low)">${low}%</div>
+        <div style="font-size:10px;color:var(--muted);margin-bottom:6px">Target: &lt;4%</div>
+        ${badge(low, 4, 'below')}
+      </div>
+      <div class="target-card">
+        <div class="target-label">Above Range</div>
+        <div class="target-val" style="color:var(--amber)">${high}%</div>
+        <div style="font-size:10px;color:var(--muted);margin-bottom:6px">Target: &lt;25%</div>
+        ${badge(high, 25, 'below')}
+      </div>
+    `;
   }
+
+  async function callGemini(messages, system, maxTokens = 400) {
+    const apiKey = 'AIzaSyBfm0HGuydVINjxeptes8jwaZaU6M3fZZc';
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+    // Convert messages to Gemini format
+    const formattedMessages = messages.map(m => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }]
+    }));
+
+    const body = {
+      contents: formattedMessages,
+      generationConfig: {
+        maxOutputTokens: maxTokens
+      }
+    };
+
+    if (system) {
+      body.systemInstruction = {
+        parts: [{ text: system }]
+      };
+    }
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  }
+
+  let selectedChips = new Set();
+
+  function toggleChip(el, value) {
+    if (selectedChips.has(value)) {
+      selectedChips.delete(value);
+      el.classList.remove('chip-active');
+    } else {
+      selectedChips.add(value);
+      el.classList.add('chip-active');
+    }
+  }
+
+  async function generateInsights() {
+    const { low, inRange, high } = TIR_DATA();
+    const btn = document.getElementById('insights-btn');
+    const out = document.getElementById('insights-output');
+    const txt = document.getElementById('insights-text');
+    const doctorDiv = document.getElementById('doctor-tips');
+    const extraContext = document.getElementById('extra-context').value.trim();
+
+    const contextParts = [...selectedChips];
+    if (extraContext) contextParts.push(extraContext);
+    const contextLine = contextParts.length
+      ? `\nAdditional context about this person: ${contextParts.join(', ')}.`
+      : '';
+
+    btn.disabled = true;
+    btn.textContent = '⏳ Generating...';
+    out.style.display = 'block';
+    txt.className = 'insight-block loading';
+    txt.textContent = 'Analyzing your TIR data...';
+
+    try {
+      const insightPrompt = `You are a warm, knowledgeable diabetes educator helping a patient understand their Time in Range data. Speak plainly, avoid jargon, and be encouraging but honest.
+
+Patient CGM data:
+- Time Below Range (<70 mg/dL): ${low}%
+- Time In Range (70–180 mg/dL): ${inRange}%
+- Time Above Range (>180 mg/dL): ${high}%
+${contextLine}
+ADA targets for most adults: TIR ≥70%, Time Below Range <4%, Time Above Range <25%.
+
+Provide:
+1. A 2–3 sentence plain-language summary of what these numbers mean for day-to-day health, taking their personal context into account where relevant.
+2. 2–3 specific lifestyle areas worth exploring tailored to their situation (NOT dosing advice — things like meal timing, sleep, stress, exercise).
+3. A brief encouraging closing note.
+
+Keep it warm and human, not clinical. Under 220 words total.`;
+
+      const insight = await callGemini([{ role: 'user', content: insightPrompt }], null, 400);
+      txt.className = 'insight-block';
+      txt.textContent = insight;
+      insightsGenerated = true;
+      const staleBar = document.getElementById('stale-bar');
+      if (staleBar) staleBar.style.display = 'none';
+
+      const tipsPrompt = `Based on this TIR data (Below: ${low}%, In Range: ${inRange}%, Above: ${high}%), give 3 short questions a patient should ask their doctor at their next appointment. Each bullet under 15 words. Format with • bullets. No preamble.`;
+      const tips = await callGemini([{ role: 'user', content: tipsPrompt }], null, 200);
+      doctorDiv.className = 'insight-block';
+      doctorDiv.style.cssText = 'background:var(--amber-light); border-left: 4px solid var(--amber); border-radius: 0 10px 10px 0; padding: 16px 18px; font-size: 13.5px; line-height: 1.9; color: var(--text); margin-top: 0; white-space: pre-wrap;';
+      doctorDiv.textContent = tips;
+
+    } catch (e) {
+      txt.className = 'insight-block';
+      txt.textContent = 'Error generating insights: ' + e.message;
+    }
+
+    btn.disabled = false;
+    btn.textContent = '✨ Regenerate Insights';
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    appendMessage('user', text);
+
+    const typingId = appendTyping();
+    document.getElementById('send-btn').disabled = true;
+
+    const { low, inRange, high } = TIR_DATA();
+    const system = `You are a peer mentor in a diabetes self-management community. You have managed diabetes yourself for many years and deeply understand the emotional and practical challenges — the frustration of unexplained highs, the fear of lows, the mental load of constant management, the burnout. You speak like a knowledgeable friend, not a doctor.
+
+The person you're talking to has shared their CGM data: Time Below Range: ${low}%, Time In Range: ${inRange}%, Time Above Range: ${high}%.
+
+Guidelines:
+- Be warm, empathetic, and real. Validate their feelings.
+- Share practical, lived-experience tips around lifestyle (sleep, food, stress, exercise, mindset).
+- Never suggest specific insulin doses, medication changes, or anything clinical.
+- Keep responses concise — 3–5 sentences max unless they ask for more.
+- If they seem distressed, prioritize emotional support before information.
+- Always remind them their doctor is their partner for clinical decisions.`;
+
+    chatHistory.push({ role: 'user', content: text });
+
+    try {
+      const reply = await callGemini(chatHistory, system, 300);
+      chatHistory.push({ role: 'assistant', content: reply });
+      removeTyping(typingId);
+      appendMessage('ai', reply);
+    } catch (e) {
+      removeTyping(typingId);
+      appendMessage('ai', 'Sorry, I had trouble connecting. Try again in a moment.');
+    }
+
+    document.getElementById('send-btn').disabled = false;
+  }
+
+  function sendChip(text) {
+    document.getElementById('chat-input').value = text;
+    document.getElementById('chip-row').style.display = 'none';
+    sendMessage();
+  }
+
+  function appendMessage(role, text) {
+    const area = document.getElementById('chat-area');
+    const div = document.createElement('div');
+    div.className = `msg ${role === 'user' ? 'user' : ''}`;
+    div.innerHTML = `
+      <div class="avatar ${role === 'user' ? 'user-av' : 'ai'}">${role === 'user' ? '👤' : '🙂'}</div>
+      <div class="bubble ${role}">${text}</div>
+    `;
+    area.appendChild(div);
+    area.scrollTop = area.scrollHeight;
+  }
+
+  function appendTyping() {
+    const area = document.getElementById('chat-area');
+    const id = 'typing-' + Date.now();
+    const div = document.createElement('div');
+    div.className = 'msg'; div.id = id;
+    div.innerHTML = `<div class="avatar ai">🙂</div><div class="bubble ai"><div class="typing"><span></span><span></span><span></span></div></div>`;
+    area.appendChild(div);
+    area.scrollTop = area.scrollHeight;
+    return id;
+  }
+
+  function removeTyping(id) {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  }
+
+  // ── DEMO MODE ───────────────────────────────────────────────────────
+
+  const DEMO_PROFILES = {
+    sarah: {
+      name: 'Sarah', label: 'Sarah — Type 1, 8 years',
+      low: 6, inRange: 64, high: 30,
+      chips: ['Type 1 diabetes', 'using an insulin pump'],
+      context: 'Has been T1D for 8 years. Struggles most with overnight lows and post-meal spikes. Uses a pump but not a closed loop system yet.'
+    },
+    marcus: {
+      name: 'Marcus', label: 'Marcus — Type 2, 3 years',
+      low: 2, inRange: 71, high: 27,
+      chips: ['Type 2 diabetes'],
+      context: 'Diagnosed 3 years ago. Manages with diet and oral medication, no insulin. Just started using a CGM for the first time.'
+    },
+    priya: {
+      name: 'Priya', label: 'Priya — Type 1, newly diagnosed',
+      low: 8, inRange: 48, high: 44,
+      chips: ['Type 1 diabetes', 'recently diagnosed'],
+      context: 'Newly diagnosed Type 1, still in honeymoon phase. On multiple daily injections (MDI). Feeling overwhelmed and anxious about the numbers.'
+    },
+    james: {
+      name: 'James', label: 'James — Type 1, athlete',
+      low: 3, inRange: 82, high: 15,
+      chips: ['Type 1 diabetes', 'very physically active', 'using an insulin pump'],
+      context: 'Has had T1D for 15 years, very engaged with management. Uses a closed loop system. Trains for triathlons and manages exercise-related variability well.'
+    }
+  };
+
+  function loadDemo(profileKey) {
+    const p = DEMO_PROFILES[profileKey];
+
+    // Populate TIR values
+    document.getElementById('inp-low').value = p.low;
+    document.getElementById('inp-in').value = p.inRange;
+    document.getElementById('inp-high').value = p.high;
+    updateBar();
+
+    // Show active demo banner
+    document.getElementById('demo-active-label').textContent = 'Showing demo: ' + p.label;
+    document.getElementById('demo-active-bar').style.display = 'flex';
+
+    // Update card titles
+    document.getElementById('manual-card-title').textContent = p.name + '\'s TIR Data (Demo)';
+    document.getElementById('manual-card-sub').textContent = 'Simulated data for ' + p.label + '. Head to Insights or Peer Mentor to explore.';
+
+    // Pre-select context chips on Insights tab
+    selectedChips = new Set(p.chips);
+    document.querySelectorAll('.ctx-chip').forEach(el => {
+      const match = el.getAttribute('onclick').match(/'([^']+)'\)/);
+      const val = match ? match[1] : null;
+      if (val && selectedChips.has(val)) el.classList.add('chip-active');
+      else el.classList.remove('chip-active');
+    });
+    document.getElementById('extra-context').value = p.context;
+
+    // Reset peer mentor chat
+    chatHistory = [];
+    const area = document.getElementById('chat-area');
+    area.innerHTML = '';
+    appendMessage('ai', `Hey ${p.name}! I can see you've shared your numbers with me. I'd love to chat through what's going on — what's been on your mind most lately?`);
+  }
+
+  function clearDemo() {
+    document.getElementById('inp-low').value = 4;
+    document.getElementById('inp-in').value = 68;
+    document.getElementById('inp-high').value = 28;
+    updateBar();
+    document.getElementById('demo-active-bar').style.display = 'none';
+    document.getElementById('manual-card-title').textContent = 'Your TIR Data';
+    document.getElementById('manual-card-sub').textContent = 'Enter your percentages from your CGM app, or load a demo profile above.';
+    selectedChips = new Set();
+    document.querySelectorAll('.ctx-chip').forEach(el => el.classList.remove('chip-active'));
+    document.getElementById('extra-context').value = '';
+    chatHistory = [];
+    const area = document.getElementById('chat-area');
+    area.innerHTML = '';
+    appendMessage('ai', "Hey! I'm your Betawise peer mentor. I've been there — the highs, the lows, the frustrating days when nothing makes sense. What's on your mind?");
+  }
+
+  updateBar();
 </script>
 </body>
 </html>
