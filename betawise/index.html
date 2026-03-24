@@ -1,161 +1,1131 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8" />
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 <title>Betawise — Time in Range Companion</title>
+
 <style>
+
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;500;600&display=swap');
+
+
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+
+
   :root {
+
     --bg: #f0f7f6;
+
     --surface: #ffffff;
+
     --card: #ffffff;
+
     --border: #d4e9e7;
+
     --teal: #00a99d;
+
     --teal-dark: #007f76;
+
     --teal-light: #e6f5f4;
+
     --amber: #e8900a;
+
     --amber-light: #fef3e2;
+
     --rose: #d94f3a;
+
     --rose-light: #fdecea;
+
     --text: #1a2e2c;
+
     --muted: #6b8f8c;
+
     --low: #d94f3a;
+
     --inrange: #00a99d;
+
     --high: #e8900a;
+
     --radius: 16px;
+
     --font: 'Nunito Sans', sans-serif;
+
     --display: 'Nunito', sans-serif;
+
     --shadow: 0 2px 12px rgba(0,169,157,0.08), 0 1px 3px rgba(0,0,0,0.06);
+
     --shadow-hover: 0 6px 24px rgba(0,169,157,0.14), 0 2px 6px rgba(0,0,0,0.08);
+
   }
 
-  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
-  .app { max-width: 820px; margin: 0 auto; padding: 28px 16px 60px; }
+
+
+  body {
+
+    font-family: var(--font);
+
+    background: var(--bg);
+
+    color: var(--text);
+
+    min-height: 100vh;
+
+  }
+
+
+
+  .app {
+
+    max-width: 820px;
+
+    margin: 0 auto;
+
+    padding: 28px 16px 60px;
+
+  }
+
+
 
   /* HEADER */
-  .header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; padding: 18px 22px; background: var(--teal); border-radius: var(--radius); box-shadow: var(--shadow); }
-  .logo { width: 44px; height: 44px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-  .logo-text h1 { font-family: var(--display); font-size: 22px; font-weight: 800; color: #ffffff; letter-spacing: -0.3px; }
-  .logo-text p { font-size: 11px; color: rgba(255,255,255,0.75); letter-spacing: 0.05em; text-transform: uppercase; margin-top: 1px; font-weight: 600; }
+
+  .header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    margin-bottom: 28px;
+
+    padding: 18px 22px;
+
+    background: var(--teal);
+
+    border-radius: var(--radius);
+
+    box-shadow: var(--shadow);
+
+  }
+
+  .logo {
+
+    width: 44px; height: 44px;
+
+    background: rgba(255,255,255,0.2);
+
+    border-radius: 12px;
+
+    display: flex; align-items: center; justify-content: center;
+
+    font-size: 22px;
+
+    flex-shrink: 0;
+
+  }
+
+  .logo-text h1 {
+
+    font-family: var(--display);
+
+    font-size: 22px;
+
+    font-weight: 800;
+
+    color: #ffffff;
+
+    letter-spacing: -0.3px;
+
+  }
+
+  .logo-text p {
+
+    font-size: 11px;
+
+    color: rgba(255,255,255,0.75);
+
+    letter-spacing: 0.05em;
+
+    text-transform: uppercase;
+
+    margin-top: 1px;
+
+    font-weight: 600;
+
+  }
+
+
 
   /* TABS */
-  .tabs { display: flex; gap: 6px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 5px; margin-bottom: 24px; box-shadow: var(--shadow); }
-  .tab { flex: 1; padding: 10px 8px; border: none; border-radius: 9px; background: transparent; color: var(--muted); font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; }
-  .tab.active { background: var(--teal); color: #ffffff; box-shadow: 0 2px 8px rgba(0,169,157,0.3); }
 
-  /* CARD & UI ELEMENTS */
-  .card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 22px; margin-bottom: 16px; box-shadow: var(--shadow); transition: box-shadow 0.2s; }
+  .tabs {
+
+    display: flex;
+
+    gap: 6px;
+
+    background: var(--surface);
+
+    border: 1.5px solid var(--border);
+
+    border-radius: 12px;
+
+    padding: 5px;
+
+    margin-bottom: 24px;
+
+    box-shadow: var(--shadow);
+
+  }
+
+  .tab {
+
+    flex: 1;
+
+    padding: 10px 8px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: transparent;
+
+    color: var(--muted);
+
+    font-family: var(--font);
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s;
+
+    text-align: center;
+
+  }
+
+  .tab.active {
+
+    background: var(--teal);
+
+    color: #ffffff;
+
+    box-shadow: 0 2px 8px rgba(0,169,157,0.3);
+
+  }
+
+  .tab:hover:not(.active) { background: var(--teal-light); color: var(--teal-dark); }
+
+
+
+  /* CARD */
+
+  .card {
+
+    background: var(--card);
+
+    border: 1.5px solid var(--border);
+
+    border-radius: var(--radius);
+
+    padding: 22px;
+
+    margin-bottom: 16px;
+
+    box-shadow: var(--shadow);
+
+    transition: box-shadow 0.2s;
+
+  }
+
   .card:hover { box-shadow: var(--shadow-hover); }
-  .card-title { font-family: var(--display); font-size: 17px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+
+  .card-title {
+
+    font-family: var(--display);
+
+    font-size: 17px;
+
+    font-weight: 800;
+
+    color: var(--text);
+
+    margin-bottom: 4px;
+
+  }
+
   .card-sub { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
 
-  .tir-bar { display: flex; height: 32px; border-radius: 10px; overflow: hidden; gap: 2px; margin: 16px 0 10px; }
-  .tir-seg { transition: flex 0.5s ease; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: white; min-width: 0; }
-  .tir-seg.low { background: var(--low); }
+
+
+  /* TIR BAR */
+
+  .tir-bar {
+
+    display: flex;
+
+    height: 32px;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    gap: 2px;
+
+    margin: 16px 0 10px;
+
+  }
+
+  .tir-seg {
+
+    transition: flex 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    display: flex; align-items: center; justify-content: center;
+
+    font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.95);
+
+    min-width: 0; overflow: hidden;
+
+    letter-spacing: 0.02em;
+
+  }
+
+  .tir-seg.low { background: var(--low); border-radius: 10px 0 0 10px; }
+
   .tir-seg.inrange { background: var(--inrange); }
-  .tir-seg.high { background: var(--high); }
+
+  .tir-seg.high { background: var(--high); border-radius: 0 10px 10px 0; }
+
+
+
+  .tir-legend { display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap; }
+
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); font-weight: 500; }
+
+  .legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+
+
+
+  /* INPUTS */
 
   .input-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-  input[type="number"] { width: 100%; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; padding: 11px 12px; color: var(--text); font-family: var(--display); font-size: 22px; font-weight: 800; text-align: center; outline: none; }
-  
-  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 50px; border: none; font-family: var(--display); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+
+  .input-wrap label {
+
+    display: block; font-size: 11px; font-weight: 700;
+
+    letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 7px;
+
+  }
+
+  .label-low { color: var(--low); }
+
+  .label-in { color: var(--teal-dark); }
+
+  .label-high { color: var(--amber); }
+
+
+
+  input[type="number"] {
+
+    width: 100%;
+
+    background: var(--bg);
+
+    border: 1.5px solid var(--border);
+
+    border-radius: 10px;
+
+    padding: 11px 12px;
+
+    color: var(--text);
+
+    font-family: var(--display);
+
+    font-size: 22px;
+
+    font-weight: 800;
+
+    text-align: center;
+
+    outline: none;
+
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+  }
+
+  input[type="number"]:focus {
+
+    border-color: var(--teal);
+
+    box-shadow: 0 0 0 3px rgba(0,169,157,0.15);
+
+  }
+
+  input[type="number"]::-webkit-inner-spin-button { display: none; }
+
+
+
+  .sum-indicator { font-size: 12px; text-align: right; color: var(--muted); margin-bottom: 12px; font-weight: 600; }
+
+  .sum-ok { color: var(--teal-dark); }
+
+  .sum-warn { color: var(--rose); }
+
+
+
+  /* BUTTONS */
+
+  .btn {
+
+    display: inline-flex; align-items: center; gap: 8px;
+
+    padding: 11px 22px; border-radius: 50px; border: none;
+
+    font-family: var(--display); font-size: 13px; font-weight: 700;
+
+    cursor: pointer; transition: all 0.2s; letter-spacing: 0.02em;
+
+  }
+
   .btn-primary { background: var(--teal); color: #ffffff; box-shadow: 0 3px 10px rgba(0,169,157,0.35); }
-  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  /* CHAT STYLES */
-  .chat-area { height: 380px; overflow-y: auto; padding: 10px 0; display: flex; flex-direction: column; gap: 12px; }
-  .msg { display: flex; gap: 10px; align-items: flex-start; }
+  .btn-primary:hover { background: var(--teal-dark); transform: translateY(-1px); box-shadow: 0 5px 16px rgba(0,169,157,0.4); }
+
+  .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
+
+
+
+  /* INSIGHT BLOCKS */
+
+  .insight-block {
+
+    background: var(--teal-light);
+
+    border-left: 4px solid var(--teal);
+
+    border-radius: 0 10px 10px 0;
+
+    padding: 16px 18px;
+
+    margin-top: 16px;
+
+    font-size: 14px;
+
+    line-height: 1.75;
+
+    color: var(--text);
+
+    white-space: pre-wrap;
+
+  }
+
+  .insight-block.loading { color: var(--muted); font-style: italic; }
+
+
+
+  /* TARGETS */
+
+  .targets-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
+
+  .target-card {
+
+    background: var(--bg);
+
+    border: 1.5px solid var(--border);
+
+    border-radius: 12px; padding: 14px; text-align: center;
+
+    transition: transform 0.2s;
+
+  }
+
+  .target-card:hover { transform: translateY(-2px); }
+
+  .target-val { font-family: var(--display); font-size: 26px; font-weight: 800; margin-bottom: 2px; }
+
+  .target-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; font-weight: 700; }
+
+  .target-badge { font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: 700; display: inline-block; letter-spacing: 0.02em; }
+
+  .badge-good { background: rgba(0,169,157,0.12); color: var(--teal-dark); }
+
+  .badge-warn { background: var(--amber-light); color: var(--amber); }
+
+  .badge-alert { background: var(--rose-light); color: var(--rose); }
+
+
+
+  /* CHAT */
+
+  .chat-area {
+
+    height: 380px; overflow-y: auto;
+
+    padding: 4px 0;
+
+    display: flex; flex-direction: column; gap: 12px;
+
+    scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+
+  }
+
+  .msg { display: flex; gap: 10px; align-items: flex-start; animation: fadeUp 0.25s ease; }
+
   .msg.user { flex-direction: row-reverse; }
-  .avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
-  .avatar.ai { background: var(--teal); color: white; }
-  .avatar.user-av { background: #e0ece4; }
-  .bubble { max-width: 78%; padding: 11px 15px; border-radius: 14px; font-size: 13.5px; line-height: 1.65; position: relative; }
-  .bubble.ai { background: var(--surface); border: 1.5px solid var(--border); border-top-left-radius: 3px; }
-  .bubble.user { background: var(--teal); color: white; border-top-right-radius: 3px; }
-  
-  .chat-input-row { display: flex; gap: 10px; margin-top: 14px; }
-  .chat-input { flex: 1; background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px; padding: 11px 15px; font-family: var(--font); font-size: 13px; outline: none; resize: none; }
-  .send-btn { width: 42px; height: 42px; border-radius: 12px; background: var(--teal); border: none; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-  .insight-block { background: var(--teal-light); border-left: 4px solid var(--teal); border-radius: 0 10px 10px 0; padding: 16px 18px; margin-top: 16px; font-size: 14px; line-height: 1.75; white-space: pre-wrap; }
-  .loading { font-style: italic; color: var(--muted); }
-  .disclaimer { font-size: 11px; color: var(--muted); text-align: center; margin-top: 24px; padding: 12px; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .avatar {
+
+    width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+
+    display: flex; align-items: center; justify-content: center; font-size: 15px;
+
+  }
+
+  .avatar.ai { background: var(--teal); }
+
+  .avatar.user-av { background: #e0ece4; }
+
+  .bubble { max-width: 78%; padding: 11px 15px; border-radius: 14px; font-size: 13.5px; line-height: 1.65; }
+
+  .bubble.ai { background: var(--surface); border: 1.5px solid var(--border); color: var(--text); border-top-left-radius: 3px; }
+
+  .bubble.user { background: var(--teal); color: white; border-top-right-radius: 3px; }
+
+
+
+  .typing { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
+
+  .typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); animation: blink 1.2s infinite; }
+
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes blink { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
+
+
+
+  .chat-input-row { display: flex; gap: 10px; margin-top: 14px; }
+
+  .chat-input {
+
+    flex: 1; background: var(--bg); border: 1.5px solid var(--border);
+
+    border-radius: 12px; padding: 11px 15px; color: var(--text);
+
+    font-family: var(--font); font-size: 13px; outline: none;
+
+    transition: border-color 0.2s, box-shadow 0.2s; resize: none;
+
+  }
+
+  .chat-input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,169,157,0.12); }
+
+  .send-btn {
+
+    width: 42px; height: 42px; border-radius: 12px;
+
+    background: var(--teal); border: none; color: #ffffff;
+
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+
+    font-size: 16px; transition: all 0.2s; flex-shrink: 0; align-self: flex-end;
+
+    box-shadow: 0 2px 8px rgba(0,169,157,0.3);
+
+  }
+
+  .send-btn:hover { background: var(--teal-dark); transform: scale(1.06); }
+
+  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+
+
+  /* CHIPS */
+
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+  .chip {
+
+    background: var(--bg); border: 1.5px solid var(--border);
+
+    border-radius: 20px; padding: 6px 14px; font-size: 12px; font-weight: 600;
+
+    color: var(--muted); cursor: pointer; transition: all 0.18s;
+
+    font-family: var(--font);
+
+  }
+
+  .chip:hover { border-color: var(--teal); color: var(--teal-dark); background: var(--teal-light); }
+
+  .chip-active { background: var(--teal-light); border-color: var(--teal); color: var(--teal-dark); }
+
+  .context-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+
+
+
+  .section-label {
+
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.09em;
+
+    color: var(--teal-dark); font-weight: 800; margin-bottom: 12px;
+
+  }
+
+  .empty-state { text-align: center; color: var(--muted); padding: 30px 20px; font-size: 13px; line-height: 1.6; }
+
+  .empty-icon { font-size: 34px; margin-bottom: 10px; }
+
+
+
+  .disclaimer {
+
+    font-size: 11px; color: var(--muted); text-align: center;
+
+    margin-top: 24px; line-height: 1.6; padding: 12px 16px;
+
+    background: var(--surface); border-radius: 10px;
+
+    border: 1px solid var(--border);
+
+    font-weight: 500;
+
+  }
+
+
+
+  /* CGM CONNECT */
+
+  .connect-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+
+  .btn-outline {
+
+    display: inline-flex; align-items: center; gap: 8px;
+
+    padding: 10px 18px; border-radius: 50px;
+
+    border: 1.5px solid var(--teal); background: transparent;
+
+    font-family: var(--display); font-size: 13px; font-weight: 700;
+
+    color: var(--teal-dark); cursor: pointer; transition: all 0.2s;
+
+  }
+
+  .btn-outline:hover { background: var(--teal-light); }
+
+  .btn-sm {
+
+    padding: 7px 14px; font-size: 12px;
+
+  }
+
+  .btn-danger {
+
+    background: transparent; border: 1.5px solid #e0b0aa;
+
+    color: var(--rose); font-family: var(--display); font-size: 12px;
+
+    font-weight: 700; border-radius: 50px; padding: 7px 14px;
+
+    cursor: pointer; transition: all 0.2s;
+
+  }
+
+  .btn-danger:hover { background: var(--rose-light); }
+
+
+
+  .connected-badge {
+
+    display: inline-flex; align-items: center; gap: 6px;
+
+    background: rgba(0,169,157,0.1); border: 1.5px solid var(--teal);
+
+    border-radius: 20px; padding: 4px 12px;
+
+    font-size: 12px; font-weight: 700; color: var(--teal-dark);
+
+  }
+
+  .connected-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+
+
+  .setup-box {
+
+    background: var(--bg); border: 1.5px solid var(--border);
+
+    border-radius: 12px; padding: 16px 18px; margin-top: 14px;
+
+    font-size: 13px; line-height: 1.7; color: var(--text);
+
+  }
+
+  .setup-box ol { padding-left: 18px; }
+
+  .setup-box li { margin-bottom: 6px; }
+
+  .setup-box a { color: var(--teal-dark); font-weight: 600; }
+
+  .setup-box code {
+
+    background: var(--border); border-radius: 4px;
+
+    padding: 1px 6px; font-size: 12px; font-family: monospace;
+
+  }
+
+  .divider { display: flex; align-items: center; gap: 10px; margin: 14px 0; color: var(--muted); font-size: 12px; font-weight: 600; }
+
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+
+
+  .ns-input-row { display: flex; gap: 8px; margin-top: 10px; }
+
+  .ns-input {
+
+    flex: 1; background: var(--surface); border: 1.5px solid var(--border);
+
+    border-radius: 10px; padding: 9px 13px; color: var(--text);
+
+    font-family: var(--font); font-size: 13px; outline: none;
+
+    transition: border-color 0.2s;
+
+  }
+
+  .ns-input:focus { border-color: var(--teal); }
+
+  .sync-info { font-size: 11.5px; color: var(--muted); margin-top: 8px; font-weight: 500; }
+
 </style>
+
 </head>
+
 <body>
 
+<nav style="background:#ffffff;border-bottom:1.5px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;font-family:var(--font)">
+
+  <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--teal-dark);font-weight:700;font-size:14px">
+
+    ← timeinrangeproject.org
+
+  </a>
+
+  <span style="font-size:12px;color:var(--muted);font-weight:600;letter-spacing:0.04em;text-transform:uppercase">Betawise Beta</span>
+
+</nav>
+
 <div class="app">
+
   <div class="header">
+
     <div class="logo">🩺</div>
+
     <div class="logo-text">
+
       <h1>Betawise</h1>
+
       <p>Your Time in Range Companion</p>
+
     </div>
+
   </div>
+
+
 
   <div class="tabs">
+
     <button class="tab active" onclick="showTab('dashboard')">📊 Dashboard</button>
+
     <button class="tab" onclick="showTab('insights')">💡 Insights</button>
+
     <button class="tab" onclick="showTab('mentor')">💬 Peer Mentor</button>
+
   </div>
+
+
+
+  <!-- DASHBOARD TAB -->
 
   <div id="tab-dashboard">
-    <div class="card">
-      <div class="card-title">Your TIR Data</div>
-      <div class="card-sub">Enter your percentages from your CGM app.</div>
-      <div class="input-grid">
-        <input type="number" id="inp-low" value="4" oninput="updateBar()" />
-        <input type="number" id="inp-in" value="68" oninput="updateBar()" />
-        <input type="number" id="inp-high" value="28" oninput="updateBar()" />
+
+
+
+    <!-- DEMO CARD -->
+
+    <div class="card" id="connect-card">
+
+      <div class="card-title">Try a Demo Profile</div>
+
+      <div class="card-sub">Load a realistic patient profile to explore Betawise — or enter your own numbers below.</div>
+
+
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+
+
+
+        <div onclick="loadDemo('sarah')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all 0.18s" onmouseover="this.style.borderColor='#7c3aed';this.style.background='#f5f3ff'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'">
+
+          <div style="font-weight:700;font-size:13px;color:#1a2e2c;margin-bottom:4px">🙋 Sarah — Type 1, 8 years</div>
+
+          <div style="font-size:12px;color:#6b8f8c;line-height:1.5;margin-bottom:8px">Pump user working on overnight stability</div>
+
+          <div style="display:flex;gap:5px;flex-wrap:wrap">
+
+            <span style="background:#fdecea;color:#d94f3a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Low 6%</span>
+
+            <span style="background:#e6f5f4;color:#007f76;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">In Range 64%</span>
+
+            <span style="background:#fef3e2;color:#e8900a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">High 30%</span>
+
+          </div>
+
+        </div>
+
+
+
+        <div onclick="loadDemo('marcus')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all 0.18s" onmouseover="this.style.borderColor='#7c3aed';this.style.background='#f5f3ff'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'">
+
+          <div style="font-weight:700;font-size:13px;color:#1a2e2c;margin-bottom:4px">👨 Marcus — Type 2, 3 years</div>
+
+          <div style="font-size:12px;color:#6b8f8c;line-height:1.5;margin-bottom:8px">Recently started CGM, diet-managed</div>
+
+          <div style="display:flex;gap:5px;flex-wrap:wrap">
+
+            <span style="background:#fdecea;color:#d94f3a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Low 2%</span>
+
+            <span style="background:#e6f5f4;color:#007f76;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">In Range 71%</span>
+
+            <span style="background:#fef3e2;color:#e8900a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">High 27%</span>
+
+          </div>
+
+        </div>
+
+
+
+        <div onclick="loadDemo('priya')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all 0.18s" onmouseover="this.style.borderColor='#7c3aed';this.style.background='#f5f3ff'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'">
+
+          <div style="font-weight:700;font-size:13px;color:#1a2e2c;margin-bottom:4px">👩 Priya — Type 1, newly diagnosed</div>
+
+          <div style="font-size:12px;color:#6b8f8c;line-height:1.5;margin-bottom:8px">Still finding her baseline, on MDI</div>
+
+          <div style="display:flex;gap:5px;flex-wrap:wrap">
+
+            <span style="background:#fdecea;color:#d94f3a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Low 8%</span>
+
+            <span style="background:#e6f5f4;color:#007f76;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">In Range 48%</span>
+
+            <span style="background:#fef3e2;color:#e8900a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">High 44%</span>
+
+          </div>
+
+        </div>
+
+
+
+        <div onclick="loadDemo('james')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all 0.18s" onmouseover="this.style.borderColor='#7c3aed';this.style.background='#f5f3ff'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'">
+
+          <div style="font-weight:700;font-size:13px;color:#1a2e2c;margin-bottom:4px">🏃 James — Type 1, athlete</div>
+
+          <div style="font-size:12px;color:#6b8f8c;line-height:1.5;margin-bottom:8px">Closed loop system, very active</div>
+
+          <div style="display:flex;gap:5px;flex-wrap:wrap">
+
+            <span style="background:#fdecea;color:#d94f3a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Low 3%</span>
+
+            <span style="background:#e6f5f4;color:#007f76;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">In Range 82%</span>
+
+            <span style="background:#fef3e2;color:#e8900a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">High 15%</span>
+
+          </div>
+
+        </div>
+
+
+
       </div>
-      <div class="tir-bar">
-        <div class="tir-seg low" id="seg-low" style="flex:4">4%</div>
-        <div class="tir-seg inrange" id="seg-in" style="flex:68">68%</div>
-        <div class="tir-seg high" id="seg-high" style="flex:28">28%</div>
+
+
+
+      <!-- Active demo banner (hidden until a demo is loaded) -->
+
+      <div id="demo-active-bar" style="display:none;margin-top:14px;align-items:center;gap:10px;background:#f5f3ff;border:1.5px solid #ddd6fe;border-radius:10px;padding:10px 14px;font-size:12.5px;color:#7c3aed;font-weight:600">
+
+        🎭 <span id="demo-active-label"></span>
+
+        <button onclick="clearDemo()" style="margin-left:auto;background:transparent;border:1.5px solid #ddd6fe;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;color:#7c3aed;cursor:pointer">Clear demo</button>
+
       </div>
+
     </div>
+
+
+
+    <div class="card">
+
+      <div class="card-title" id="manual-card-title">Your TIR Data</div>
+
+      <div class="card-sub" id="manual-card-sub">Enter your percentages from your CGM app, or load a demo profile above.</div>
+
+      <div class="input-grid">
+
+        <div class="input-wrap">
+
+          <label class="label-low">⬇ Below Range</label>
+
+          <input type="number" id="inp-low" min="0" max="100" value="4" oninput="updateBar()" />
+
+        </div>
+
+        <div class="input-wrap">
+
+          <label class="label-in">✓ In Range</label>
+
+          <input type="number" id="inp-in" min="0" max="100" value="68" oninput="updateBar()" />
+
+        </div>
+
+        <div class="input-wrap">
+
+          <label class="label-high">⬆ Above Range</label>
+
+          <input type="number" id="inp-high" min="0" max="100" value="28" oninput="updateBar()" />
+
+        </div>
+
+      </div>
+
+      <div class="sum-indicator sum-ok" id="sum-ind">Total: 100% ✓</div>
+
+      <div class="tir-bar" id="tir-bar">
+
+        <div class="tir-seg low" id="seg-low" style="flex:4">4%</div>
+
+        <div class="tir-seg inrange" id="seg-in" style="flex:68">68%</div>
+
+        <div class="tir-seg high" id="seg-high" style="flex:28">28%</div>
+
+      </div>
+
+      <div class="tir-legend">
+
+        <div class="legend-item"><div class="legend-dot" style="background:var(--low)"></div> Below range (&lt;70 mg/dL)</div>
+
+        <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> In range (70–180 mg/dL)</div>
+
+        <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div> Above range (&gt;180 mg/dL)</div>
+
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="section-label">How You Compare to Targets</div>
+
+      <div class="targets-grid" id="targets-grid"></div>
+
+    </div>
+
   </div>
+
+
+
+  <!-- INSIGHTS TAB -->
 
   <div id="tab-insights" style="display:none">
+
     <div class="card">
-      <div class="card-title">AI-Powered Insights</div>
-      <textarea class="chat-input" id="extra-context" rows="2" placeholder="e.g. 'I've been sick' or 'I exercise daily'" style="width:100%"></textarea>
+
+      <div class="card-title">AI-Powered TIR Insights</div>
+
+      <div class="card-sub">Plain-language explanation of what your numbers mean and what to explore.</div>
+
+
+
+      <div class="section-label" style="margin-bottom:8px">Anything the AI should know about you? <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div>
+
+      <div class="context-chips" id="context-chips">
+
+        <div class="chip ctx-chip" onclick="toggleChip(this, 'Type 1 diabetes')">Type 1</div>
+
+        <div class="chip ctx-chip" onclick="toggleChip(this, 'Type 2 diabetes')">Type 2</div>
+
+        <div class="chip ctx-chip" onclick="toggleChip(this, 'using insulin')">On insulin</div>
+
+        <div class="chip ctx-chip" onclick="toggleChip(this, 'using an insulin pump')">Pump user</div>
+
+        <div class="chip ctx-chip" onclick="toggleChip(this, 'pregnant')">Pregnant</div>
+
+        <div class="chip ctx-chip" onclick="toggleChip(this, 'older adult (65+)')">65+ years</div>
+
+        <div class="chip ctx-chip" onclick="toggleChip(this, 'recently diagnosed')">Recently diagnosed</div>
+
+        <div class="chip ctx-chip" onclick="toggleChip(this, 'very physically active')">Very active</div>
+
+      </div>
+
+      <textarea class="chat-input" id="extra-context" rows="2" placeholder="Anything else? e.g. 'I've been sick this week' or 'I struggle most with overnight lows'" style="margin-top:10px;width:100%"></textarea>
+
+
+
+      <div id="stale-bar" style="display:none;align-items:center;gap:10px;background:var(--amber-light);border:1.5px solid #f5c97a;border-radius:10px;padding:11px 15px;margin-bottom:14px;font-size:12.5px;color:var(--amber);font-weight:600">
+
+        ⚠️ Your dashboard values changed — regenerate to update your insights and doctor tips.
+
+        <button class="btn btn-primary" style="margin-left:auto;padding:6px 14px;font-size:12px" onclick="generateInsights()">Regenerate</button>
+
+      </div>
+
       <div style="margin-top:14px">
+
         <button class="btn btn-primary" id="insights-btn" onclick="generateInsights()">✨ Generate My Insights</button>
+
       </div>
+
       <div id="insights-output" style="display:none">
+
         <div class="insight-block" id="insights-text"></div>
+
       </div>
+
     </div>
+
+    <div class="card">
+
+      <div class="section-label">Things to Discuss with Your Doctor</div>
+
+      <div id="doctor-tips" class="empty-state">
+
+        <div class="empty-icon">🩺</div>
+
+        Generate insights above to see personalized talking points for your next appointment.
+
+      </div>
+
+    </div>
+
   </div>
+
+
+
+  <!-- MENTOR TAB -->
 
   <div id="tab-mentor" style="display:none">
+
     <div class="card">
+
       <div class="card-title">Peer Mentor Chat</div>
+
+      <div class="card-sub">Talk to an AI that thinks like someone who's been managing diabetes for years — not a doctor.</div>
+
       <div class="chat-area" id="chat-area">
-        <div class="msg ai">
+
+        <div class="msg">
+
           <div class="avatar ai">🙂</div>
-          <div class="bubble ai">Hey! I'm your Betawise peer mentor. I've been managing diabetes for years. What's on your mind today?</div>
+
+          <div class="bubble ai">Hey! I'm your RangeSync peer mentor. I've been there — the highs, the lows, the frustrating days when nothing makes sense. I'm here to talk through what your numbers mean, share what helps, and just be a friendly ear. What's on your mind?</div>
+
         </div>
+
       </div>
+
+      <div class="chip-row" id="chip-row">
+
+        <div class="chip" onclick="sendChip('What does a good TIR actually feel like day to day?')">What does good TIR feel like?</div>
+
+        <div class="chip" onclick="sendChip('My TIR is lower than I want — where do I even start?')">My TIR feels stuck</div>
+
+        <div class="chip" onclick="sendChip('How do I talk to my doctor about TIR goals?')">Talking to my doctor</div>
+
+        <div class="chip" onclick="sendChip('I\'m feeling burnt out managing this. Any advice?')">Feeling burnt out</div>
+
+      </div>
+
       <div class="chat-input-row">
+
         <textarea class="chat-input" id="chat-input" rows="1" placeholder="Type a message..." onkeydown="handleKey(event)"></textarea>
+
         <button class="send-btn" id="send-btn" onclick="sendMessage()">➤</button>
+
       </div>
+
     </div>
+
   </div>
 
-  <p class="disclaimer">⚠️ Betawise is an educational tool, not a medical device.</p>
+
+
+  <p class="disclaimer">⚠️ Betawise is an educational tool, not a medical device. Always consult your healthcare team before making changes to your diabetes management.</p>
+
 </div>
 
+
+
 <script>
-  // YOUR API KEY
+  let chatHistory = [];
+  let insightsGenerated = false;
+
+  // YOUR GEMINI API KEY
   const GEMINI_KEY = "AIzaSyBfm0HGuydVINjxeptes8jwaZaU6M3fZZc";
 
+  const TIR_DATA = () => ({
+    low: parseFloat(document.getElementById('inp-low').value) || 0,
+    inRange: parseFloat(document.getElementById('inp-in').value) || 0,
+    high: parseFloat(document.getElementById('inp-high').value) || 0
+  });
+
+  // --- DEMO PROFILES ---
+  const demos = {
+    sarah: { name: 'Sarah', low: 6, inRange: 64, high: 30 },
+    marcus: { name: 'Marcus', low: 2, inRange: 71, high: 27 },
+    priya: { name: 'Priya', low: 8, inRange: 48, high: 44 },
+    james: { name: 'James', low: 3, inRange: 82, high: 15 }
+  };
+
+  function loadDemo(id) {
+    const demo = demos[id];
+    if (!demo) return;
+    document.getElementById('inp-low').value = demo.low;
+    document.getElementById('inp-in').value = demo.inRange;
+    document.getElementById('inp-high').value = demo.high;
+    updateBar();
+    
+    document.getElementById('demo-active-bar').style.display = 'flex';
+    document.getElementById('demo-active-label').textContent = `Viewing ${demo.name}'s Profile`;
+  }
+
+  function clearDemo() {
+    document.getElementById('inp-low').value = 4;
+    document.getElementById('inp-in').value = 68;
+    document.getElementById('inp-high').value = 28;
+    updateBar();
+    document.getElementById('demo-active-bar').style.display = 'none';
+  }
+
+  // --- UI & TABS ---
   function showTab(tab) {
     ['dashboard','insights','mentor'].forEach(t => {
       document.getElementById('tab-'+t).style.display = t === tab ? 'block' : 'none';
@@ -165,96 +1135,23 @@
     });
   }
 
+  function markInsightsStale() {
+    if (!insightsGenerated) return;
+    const staleBar = document.getElementById('stale-bar');
+    if (staleBar) staleBar.style.display = 'flex';
+  }
+
   function updateBar() {
-    const low = document.getElementById('inp-low').value || 0;
-    const inRange = document.getElementById('inp-in').value || 0;
-    const high = document.getElementById('inp-high').value || 0;
-    document.getElementById('seg-low').style.flex = low;
-    document.getElementById('seg-in').style.flex = inRange;
-    document.getElementById('seg-high').style.flex = high;
-    document.getElementById('seg-low').textContent = low + '%';
-    document.getElementById('seg-in').textContent = inRange + '%';
-    document.getElementById('seg-high').textContent = high + '%';
-  }
-
-  async function callGemini(prompt, system) {
-    const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
-    const res = await fetch(URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: `${system}\n\nUser: ${prompt}` }] }]
-      })
-    });
-    const data = await res.json();
-    return data.candidates[0].content.parts[0].text;
-  }
-
-  async function generateInsights() {
-    const btn = document.getElementById('insights-btn');
-    const txt = document.getElementById('insights-text');
-    const extra = document.getElementById('extra-context').value;
+    const { low, inRange, high } = TIR_DATA();
+    const sum = low + inRange + high;
+    const ind = document.getElementById('sum-ind');
+    ind.textContent = `Total: ${sum}%${sum === 100 ? ' ✓' : ' (should add to 100)'}`;
+    ind.className = `sum-indicator ${sum === 100 ? 'sum-ok' : 'sum-warn'}`;
     
-    btn.disabled = true;
-    btn.textContent = '⏳ Analyzing...';
-    document.getElementById('insights-output').style.display = 'block';
-    txt.className = 'insight-block loading';
-    txt.textContent = 'Thinking...';
-
-    try {
-      const system = "You are a warm diabetes educator. Summarize the user's TIR percentages (Low, In-Range, High) and provide 2 lifestyle tips. Keep it under 150 words.";
-      const dataStr = `Low: ${document.getElementById('inp-low').value}%, In-Range: ${document.getElementById('inp-in').value}%, High: ${document.getElementById('inp-high').value}%. Context: ${extra}`;
-      const result = await callGemini(dataStr, system);
-      txt.className = 'insight-block';
-      txt.textContent = result;
-    } catch (e) {
-      txt.textContent = "Error: " + e.message;
-    } finally {
-      btn.disabled = false;
-      btn.textContent = '✨ Generate My Insights';
-    }
-  }
-
-  async function sendMessage() {
-    const input = document.getElementById('chat-input');
-    const text = input.value.trim();
-    if (!text) return;
-
-    appendMessage('user', text);
-    input.value = '';
-
-    const loadingId = appendMessage('ai', '...');
-
-    try {
-      const system = "You are a supportive Peer Mentor with Type 1 diabetes. You are empathetic, use emojis, and speak like a friend, not a doctor.";
-      const response = await callGemini(text, system);
-      updateMessage(loadingId, response);
-    } catch (e) {
-      updateMessage(loadingId, "Sorry, I lost my connection! Check your API key.");
-    }
-  }
-
-  function appendMessage(role, text) {
-    const area = document.getElementById('chat-area');
-    const id = 'msg-' + Date.now();
-    const msg = document.createElement('div');
-    msg.className = `msg ${role}`;
-    msg.innerHTML = `
-      <div class="avatar ${role}">${role === 'ai' ? '🙂' : '👤'}</div>
-      <div class="bubble ${role}" id="${id}">${text}</div>
-    `;
-    area.appendChild(msg);
-    area.scrollTop = area.scrollHeight;
-    return id;
-  }
-
-  function updateMessage(id, text) {
-    document.getElementById(id).textContent = text;
-    document.getElementById('chat-area').scrollTop = document.getElementById('chat-area').scrollHeight;
-  }
-
-  function handleKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
-</script>
-
-</body>
-</html>
+    document.getElementById('seg-low').style.flex = Math.max(low, 0.5);
+    document.getElementById('seg-in').style.flex = Math.max(inRange, 0.5);
+    document.getElementById('seg-high').style.flex = Math.max(high, 0.5);
+    
+    document.getElementById('seg-low').textContent = low >= 5 ? low+'%' : '';
+    document.getElementById('seg-in').textContent = inRange >= 5 ? inRange+'%' : '';
+    document.getElementById('seg-high').textContent = high >= 5 ? high+'%' : '';
