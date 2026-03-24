@@ -1126,12 +1126,27 @@
   }
 
   // --- UI & TABS ---
-  function showTab(tab) {
-    ['dashboard','insights','mentor'].forEach(t => {
-      document.getElementById('tab-'+t).style.display = t === tab ? 'block' : 'none';
+ function showTab(tabName) {
+    // 1. List the IDs of your content sections
+    const contentIds = ['tab-dashboard', 'tab-insights', 'tab-mentor'];
+    
+    contentIds.forEach(id => {
+      const element = document.getElementById(id);
+      if (element) {
+        // Show the one that matches the clicked tab, hide the others
+        element.style.display = (id === 'tab-' + tabName) ? 'block' : 'none';
+      }
     });
-    document.querySelectorAll('.tab').forEach((el, i) => {
-      el.classList.toggle('active', ['dashboard','insights','mentor'][i] === tab);
+
+    // 2. Update the button styling (the "active" look)
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => {
+      // Check if the button's onclick contains the tabName
+      if (tab.getAttribute('onclick').includes(tabName)) {
+        tab.classList.add('active');
+      } else {
+        tab.classList.remove('active');
+      }
     });
   }
 
