@@ -22,7 +22,8 @@ exports.handler = async function(event, context) {
 
     const body = {
       contents: formattedMessages,
-      generationConfig: { maxOutputTokens: maxTokens || 400 }
+      // Giving the AI plenty of room to think before it answers
+      generationConfig: { maxOutputTokens: 8192 } 
     };
 
     if (system) {
