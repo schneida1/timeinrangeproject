@@ -613,9 +613,10 @@
     `;
   }
 
-  async function callGemini(messages, system, maxTokens = 400) {
+ async function callGemini(messages, system, maxTokens = 400) {
     const apiKey = 'AIzaSyBfm0HGuydVINjxeptes8jwaZaU6M3fZZc';
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    // Updated to use -latest to avoid alias errors
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
     // Convert messages to Gemini format
     const formattedMessages = messages.map(m => ({
