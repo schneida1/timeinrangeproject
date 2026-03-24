@@ -613,10 +613,12 @@
     `;
   }
 
- async function callGemini(messages, system, maxTokens = 400) {
+async function callGemini(messages, system, maxTokens = 400) {
     const apiKey = 'AIzaSyBfm0HGuydVINjxeptes8jwaZaU6M3fZZc';
-    // Updated to use -latest to avoid alias errors
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+    
+    // Trying the current standard model
+    const modelName = 'gemini-2.0-flash'; 
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
 
     // Convert messages to Gemini format
     const formattedMessages = messages.map(m => ({
@@ -644,11 +646,29 @@
     });
 
     const data = await res.json();
-    if (data.error) throw new Error(data.error.message);
+    
+    // If we hit an error, let's automatically fetch the models your key CAN use
+    if (data.error) {
+      try {
+        const modelsRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+        const modelsData = await modelsRes.json();
+        
+        // Filter the list to just show the Gemini models available to you
+        const availableModels = modelsData.models
+          ? modelsData.models
+              .map(m => m.name.replace('models/', ''))
+              .filter(name => name.includes('gemini'))
+              .join(', ')
+          : 'Could not fetch model list.';
+          
+        throw new Error(`${data.error.message}\n\n👉 AVAILABLE MODELS FOR YOUR KEY: ${availableModels}`);
+      } catch (listError) {
+        throw new Error(data.error.message + " (Also failed to fetch ListModels)");
+      }
+    }
     
     return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
   }
-
   let selectedChips = new Set();
 
   function toggleChip(el, value) {
