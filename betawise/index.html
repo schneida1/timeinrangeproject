@@ -381,7 +381,64 @@
     <button class="tab" onclick="showTab('mentor')">💬 Peer Mentor</button>
   </div>
 
+  <!-- DASHBOARD TAB -->
   <div id="tab-dashboard">
+
+    <!-- DEXCOM CONNECT CARD (MOCK PREVIEW) -->
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:4px">
+        <div class="card-title" style="margin-bottom:0">Connect Your CGM</div>
+        <span style="font-size:10px;font-weight:700;background:#fef3e2;color:#e8900a;border-radius:20px;padding:3px 10px;letter-spacing:0.05em;text-transform:uppercase">Coming Soon</span>
+      </div>
+      <div class="card-sub">Sync your data automatically from Dexcom — no manual entry needed.</div>
+
+      <!-- Disconnected state (default) -->
+      <div id="dexcom-disconnected">
+        <button onclick="mockDexcomConnect()" class="btn btn-primary" style="gap:10px">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Dexcom_Logo.svg/200px-Dexcom_Logo.svg.png" style="height:16px;filter:brightness(0) invert(1)" onerror="this.style.display='none'" />
+          Connect Dexcom
+        </button>
+        <div class="sync-info" style="margin-top:10px">🔒 You'll be redirected to Dexcom to securely authorise access. We never see your password.</div>
+      </div>
+
+      <!-- Connected state (shown after mock connect) -->
+      <div id="dexcom-connected" style="display:none">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px">
+          <div class="connected-badge"><div class="connected-dot"></div> Dexcom G7 connected</div>
+          <div class="sync-info" id="dexcom-sync-time">Last synced: just now</div>
+          <div style="margin-left:auto;display:flex;gap:8px">
+            <button class="btn btn-outline btn-sm" onclick="mockDexcomSync()">🔄 Sync Now</button>
+            <button class="btn-danger" onclick="mockDexcomDisconnect()">Disconnect</button>
+          </div>
+        </div>
+
+        <!-- Mock CGM stats pulled from Dexcom -->
+        <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px">
+          <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--teal-dark);margin-bottom:10px">Last 14 days from Dexcom</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center">
+            <div>
+              <div style="font-family:var(--display);font-size:22px;font-weight:800;color:var(--teal-dark)">68%</div>
+              <div style="font-size:10px;color:var(--muted);font-weight:700;margin-top:2px">Time in Range</div>
+            </div>
+            <div>
+              <div style="font-family:var(--display);font-size:22px;font-weight:800;color:var(--rose)">4%</div>
+              <div style="font-size:10px;color:var(--muted);font-weight:700;margin-top:2px">Below Range</div>
+            </div>
+            <div>
+              <div style="font-family:var(--display);font-size:22px;font-weight:800;color:var(--amber)">28%</div>
+              <div style="font-size:10px;color:var(--muted);font-weight:700;margin-top:2px">Above Range</div>
+            </div>
+            <div>
+              <div style="font-family:var(--display);font-size:22px;font-weight:800;color:var(--text)">94%</div>
+              <div style="font-size:10px;color:var(--muted);font-weight:700;margin-top:2px">Sensor Wear</div>
+            </div>
+          </div>
+          <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:11.5px;color:var(--muted)">
+            📱 Synced from <strong style="color:var(--text)">Dexcom G7</strong> · Readings every 5 minutes · 2,016 readings this period
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="card" id="connect-card">
       <div class="card-title">Try a Demo Profile</div>
@@ -431,6 +488,7 @@
 
       </div>
 
+      <!-- Active demo banner (hidden until a demo is loaded) -->
       <div id="demo-active-bar" style="display:none;margin-top:14px;align-items:center;gap:10px;background:#f5f3ff;border:1.5px solid #ddd6fe;border-radius:10px;padding:10px 14px;font-size:12.5px;color:#7c3aed;font-weight:600">
         🎭 <span id="demo-active-label"></span>
         <button onclick="clearDemo()" style="margin-left:auto;background:transparent;border:1.5px solid #ddd6fe;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;color:#7c3aed;cursor:pointer">Clear demo</button>
@@ -472,6 +530,7 @@
     </div>
   </div>
 
+  <!-- INSIGHTS TAB -->
   <div id="tab-insights" style="display:none">
     <div class="card">
       <div class="card-title">AI-Powered TIR Insights</div>
@@ -510,6 +569,7 @@
     </div>
   </div>
 
+  <!-- MENTOR TAB -->
   <div id="tab-mentor" style="display:none">
     <div class="card">
       <div class="card-title">Peer Mentor Chat</div>
@@ -613,22 +673,8 @@
     `;
   }
 
-async function callGemini(messages, system, maxTokens = 400) {
-    // Talk to the Netlify function instead of Google directly
-    const res = await fetch('/.netlify/functions/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages, system, maxTokens })
-    });
+  // ── CHIPS ────────────────────────────────────────────────────────────
 
-    const data = await res.json();
-    
-    if (!res.ok) {
-      throw new Error(data.error || 'Something went wrong connecting to the server.');
-    }
-    
-    return data.text;
-  }
   let selectedChips = new Set();
 
   function toggleChip(el, value) {
@@ -640,6 +686,48 @@ async function callGemini(messages, system, maxTokens = 400) {
       el.classList.add('chip-active');
     }
   }
+
+  // ── DEXCOM MOCK ──────────────────────────────────────────────────────
+
+  function mockDexcomConnect() {
+    document.getElementById('dexcom-disconnected').style.display = 'none';
+    document.getElementById('dexcom-connected').style.display = 'block';
+    // Auto-populate TIR with mock Dexcom data
+    document.getElementById('inp-low').value = 4;
+    document.getElementById('inp-in').value = 68;
+    document.getElementById('inp-high').value = 28;
+    updateBar();
+    document.getElementById('manual-card-title').textContent = 'Your TIR Data (from Dexcom)';
+    document.getElementById('manual-card-sub').textContent = 'Auto-populated from your Dexcom G7. Last 14 days.';
+  }
+
+  function mockDexcomSync() {
+    document.getElementById('dexcom-sync-time').textContent = 'Last synced: ' + new Date().toLocaleTimeString();
+  }
+
+  function mockDexcomDisconnect() {
+    document.getElementById('dexcom-disconnected').style.display = 'block';
+    document.getElementById('dexcom-connected').style.display = 'none';
+    document.getElementById('manual-card-title').textContent = 'Your TIR Data';
+    document.getElementById('manual-card-sub').textContent = 'Enter your percentages from your CGM app, or load a demo profile above.';
+  }
+
+  // ── API ──────────────────────────────────────────────────────────────
+
+  async function callClaude(messages, system, maxTokens = 500) {
+    const body = { model: 'claude-sonnet-4-20250514', max_tokens: maxTokens, messages };
+    if (system) body.system = system;
+    const res = await fetch('/api/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    return data.content?.[0]?.text || '';
+  }
+
+  // ── INSIGHTS ─────────────────────────────────────────────────────────
 
   async function generateInsights() {
     const { low, inRange, high } = TIR_DATA();
@@ -672,33 +760,36 @@ ${contextLine}
 ADA targets for most adults: TIR ≥70%, Time Below Range <4%, Time Above Range <25%.
 
 Provide:
-1. A 2–3 sentence plain-language summary of what these numbers mean for day-to-day health, taking their personal context into account where relevant.
-2. 2–3 specific lifestyle areas worth exploring tailored to their situation (NOT dosing advice — things like meal timing, sleep, stress, exercise).
+1. A 2–3 sentence plain-language summary of what these numbers mean for day-to-day health.
+2. 2–3 specific lifestyle areas worth exploring (NOT dosing advice).
 3. A brief encouraging closing note.
 
 Keep it warm and human, not clinical. Under 220 words total.`;
 
-      const insight = await callGemini([{ role: 'user', content: insightPrompt }], null, 400);
+      const insight = await callClaude([{ role: 'user', content: insightPrompt }], null, 500);
       txt.className = 'insight-block';
       txt.textContent = insight;
       insightsGenerated = true;
       const staleBar = document.getElementById('stale-bar');
       if (staleBar) staleBar.style.display = 'none';
 
-      const tipsPrompt = `Based on this TIR data (Below: ${low}%, In Range: ${inRange}%, Above: ${high}%), give 3 short questions a patient should ask their doctor at their next appointment. Each bullet under 15 words. Format with • bullets. No preamble.`;
-      const tips = await callGemini([{ role: 'user', content: tipsPrompt }], null, 200);
-      doctorDiv.className = 'insight-block';
-      doctorDiv.style.cssText = 'background:var(--amber-light); border-left: 4px solid var(--amber); border-radius: 0 10px 10px 0; padding: 16px 18px; font-size: 13.5px; line-height: 1.9; color: var(--text); margin-top: 0; white-space: pre-wrap;';
+      doctorDiv.style.cssText = 'background:var(--amber-light);border-left:4px solid var(--amber);border-radius:0 10px 10px 0;padding:16px 18px;font-size:13.5px;line-height:1.9;color:var(--text);margin-top:0;white-space:pre-wrap;';
+      doctorDiv.textContent = 'Loading doctor tips...';
+
+      const tipsPrompt = `Based on this TIR data (Below: ${low}%, In Range: ${inRange}%, Above: ${high}%), give 3 short questions a patient should ask their doctor. Each bullet under 15 words. Format with • bullets. No preamble.`;
+      const tips = await callClaude([{ role: 'user', content: tipsPrompt }], null, 250);
       doctorDiv.textContent = tips;
 
     } catch (e) {
       txt.className = 'insight-block';
-      txt.textContent = 'Error generating insights: ' + e.message;
+      txt.textContent = 'Error: ' + e.message;
     }
 
     btn.disabled = false;
     btn.textContent = '✨ Regenerate Insights';
   }
+
+  // ── CHAT ─────────────────────────────────────────────────────────────
 
   async function sendMessage() {
     const input = document.getElementById('chat-input');
@@ -711,22 +802,21 @@ Keep it warm and human, not clinical. Under 220 words total.`;
     document.getElementById('send-btn').disabled = true;
 
     const { low, inRange, high } = TIR_DATA();
-    const system = `You are a peer mentor in a diabetes self-management community. You have managed diabetes yourself for many years and deeply understand the emotional and practical challenges — the frustration of unexplained highs, the fear of lows, the mental load of constant management, the burnout. You speak like a knowledgeable friend, not a doctor.
+    const system = `You are a peer mentor in a diabetes self-management community. You have managed diabetes yourself for many years. You speak like a knowledgeable friend, not a doctor.
 
-The person you're talking to has shared their CGM data: Time Below Range: ${low}%, Time In Range: ${inRange}%, Time Above Range: ${high}%.
+The person's CGM data: Below Range: ${low}%, In Range: ${inRange}%, Above Range: ${high}%.
 
 Guidelines:
-- Be warm, empathetic, and real. Validate their feelings.
-- Share practical, lived-experience tips around lifestyle (sleep, food, stress, exercise, mindset).
-- Never suggest specific insulin doses, medication changes, or anything clinical.
-- Keep responses concise — 3–5 sentences max unless they ask for more.
-- If they seem distressed, prioritize emotional support before information.
+- Be warm, empathetic, and real.
+- Share practical lifestyle tips (sleep, food, stress, exercise, mindset).
+- Never suggest insulin doses or medication changes.
+- Keep responses to 3–5 sentences unless asked for more.
 - Always remind them their doctor is their partner for clinical decisions.`;
 
     chatHistory.push({ role: 'user', content: text });
 
     try {
-      const reply = await callGemini(chatHistory, system, 300);
+      const reply = await callClaude(chatHistory, system, 350);
       chatHistory.push({ role: 'assistant', content: reply });
       removeTyping(typingId);
       appendMessage('ai', reply);
