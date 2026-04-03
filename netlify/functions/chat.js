@@ -1,60 +1,28 @@
-exports.handler = async function(event, context) {
-  // 1. Only allow POST requests
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
+export default async (req) => {
+  // Only allow POST
+  if (req.method !== 'POST') {
+    return new Response('Method not allowed', { status: 405 });
   }
 
   try {
-    // 2. Parse the incoming request body
-    const { messages, system, maxTokens } = JSON.parse(event.body);
+    const body = await req.json();
 
-    // 3. Grab your hidden API key from Netlify's environment variables
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      return { statusCode: 500, body: JSON.stringify({ error: 'API key not configured on server' }) };
-    }
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify(body)
+    });
 
-    // 4. Format the payload for Google
-    const formattedMessages = messages.map(m => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.content }]
-    }));
+    const data = await response.json();
+    return Response.json(data);
 
-    const body = {
-      contents: formattedMessages,
-      // Giving the AI plenty of room to think before it answers
-      generationConfig: { maxOutputTokens: 8192 } 
-    };
-
-    if (system) {
-      body.systemInstruction = { parts: [{ text: system }] };
-    }
-
-    // 5. Make the secure request to Google
-    const googleRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      }
-    );
-
-    const data = await googleRes.json();
-
-    if (data.error) {
-      return { statusCode: 500, body: JSON.stringify({ error: data.error.message }) };
-    }
-
-    const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    
-    // 6. Send the successful response back to the frontend
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ text: replyText })
-    };
-
-  } catch (error) {
-    return { statusCode: 500, body: JSON.stringify({ error: 'Internal Server Error' }) };
+  } catch (err) {
+    return Response.json({ error: { message: err.message } }, { status: 500 });
   }
 };
+
+export const config = { path: '/api/claude' };
