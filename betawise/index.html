@@ -504,7 +504,7 @@ function showToast(msg){const t=document.getElementById('saved-toast');t.textCon
 function toggleChip(el,v){if(selectedChips.has(v)){selectedChips.delete(v);el.classList.remove('chip-active');}else{selectedChips.add(v);el.classList.add('chip-active');}}
 
 // API — direct Anthropic endpoint (no proxy needed)
-async function callClaude(messages,system,maxTokens=500){const body={model:'claude-sonnet-4-20250514',max_tokens:maxTokens,messages};if(system)body.system=system;const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const data=await res.json();if(data.error)throw new Error(data.error.message);return data.content?.map(b=>b.text||'').join('')||'';}
+async function callClaude(messages,system,maxTokens=500){const body={model:'claude-sonnet-4-6',max_tokens:maxTokens,messages};if(system)body.system=system;const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const data=await res.json();if(data.error)throw new Error(data.error.message);return data.content?.map(b=>b.text||'').join('')||'';}
 
 // INSIGHTS (includes TOD data)
 async function generateInsights(){const{low,inRange,high}=TIR_DATA();const btn=document.getElementById('insights-btn'),out=document.getElementById('insights-output'),txt=document.getElementById('insights-text'),doc=document.getElementById('doctor-tips'),ex=document.getElementById('extra-context').value.trim();
