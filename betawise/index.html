@@ -313,6 +313,37 @@
       </div>
     </div>
 
+    <div class="card" id="connect-card">
+      <div class="card-title">Connect Your Real Data</div>
+      <div class="card-sub">Link your Dexcom account or upload a CGM export to use your actual numbers instead of demo data.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:16px">
+          <div style="font-weight:700;font-size:13px;margin-bottom:8px">📡 Connect Dexcom</div>
+          <div id="dexcom-disconnected">
+            <input type="text" id="dexcom-client-id" placeholder="Dexcom Client ID" style="width:100%;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:9px 11px;font-size:12px;margin-bottom:8px;font-family:var(--font)" />
+            <label style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);font-weight:600;margin-bottom:10px"><input type="checkbox" id="dexcom-sandbox" checked /> Use Sandbox (test data)</label>
+            <button class="btn btn-primary" style="width:100%;justify-content:center;padding:9px" onclick="connectDexcom()">Connect Dexcom</button>
+          </div>
+          <div id="dexcom-connected" style="display:none">
+            <div style="font-size:12px;color:var(--teal-dark);font-weight:700;margin-bottom:8px">✓ Connected to Dexcom</div>
+            <button class="btn btn-primary" style="width:100%;justify-content:center;padding:9px;margin-bottom:8px" onclick="fetchDexcomData()">↻ Refresh Data</button>
+            <button class="btn-danger" style="width:100%" onclick="disconnectDexcom()">Disconnect</button>
+          </div>
+          <div id="dexcom-status" style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5"></div>
+        </div>
+        <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:16px">
+          <div style="font-weight:700;font-size:13px;margin-bottom:8px">📁 Upload CGM Export</div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5">Dexcom Clarity or LibreView CSV export</div>
+          <div id="csv-dropzone" style="border:2px dashed var(--border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all 0.18s" onclick="document.getElementById('csv-file-input').click()" ondragover="event.preventDefault();this.style.borderColor='var(--teal)'" ondragleave="this.style.borderColor='var(--border)'" ondrop="handleCsvDrop(event)">
+            <div style="font-size:20px;margin-bottom:4px">📄</div>
+            <div style="font-size:11px;color:var(--muted);font-weight:600">Drop CSV or click to browse</div>
+          </div>
+          <input type="file" id="csv-file-input" accept=".csv" style="display:none" onchange="handleCsvFile(this.files[0])" />
+          <div id="csv-status" style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="card">
       <div class="card-title" id="manual-card-title">Your TIR Data</div>
       <div class="card-sub" id="manual-card-sub">Enter your percentages from your CGM app, or load a demo profile above.</div>
@@ -572,8 +603,44 @@ chatHistory=[];document.getElementById('chat-area').innerHTML='';appendMessage('
 
 function clearDemo(){document.getElementById('inp-low').value=4;document.getElementById('inp-in').value=68;document.getElementById('inp-high').value=28;updateBar();document.getElementById('demo-active-bar').style.display='none';document.getElementById('manual-card-title').textContent='Your TIR Data';document.getElementById('manual-card-sub').textContent='Enter your percentages from your CGM app, or load a demo profile above.';selectedChips=new Set();document.querySelectorAll('.ctx-chip').forEach(el=>el.classList.remove('chip-active'));document.getElementById('extra-context').value='';todData={overnight:{low:8,inRange:60,high:32},morning:{low:3,inRange:62,high:35},afternoon:{low:2,inRange:74,high:24},evening:{low:5,inRange:68,high:27}};saveTODS();renderTOD();chatHistory=[];document.getElementById('chat-area').innerHTML='';appendMessage('ai',"Hey! I'm your Betawise peer mentor. I've been there — the highs, the lows, the frustrating days when nothing makes sense. What's on your mind?");}
 
+// DEXCOM CONNECT
+
+const DEXCOM_REDIRECT=window.location.origin+window.location.pathname;
+
+function connectDexcom(){const clientId=document.getElementById('dexcom-client-id').value.trim();const status=document.getElementById('dexcom-status');if(!clientId){status.textContent='Enter your Dexcom Client ID first.';status.style.color='var(--rose)';return;}const sandbox=document.getElementById('dexcom-sandbox').checked;localStorage.setItem('dexcom_client_id',clientId);sessionStorage.setItem('dexcom_sandbox',sandbox?'1':'0');const base=sandbox?'https://sandbox-api.dexcom.com':'https://api.dexcom.com';const authUrl=`${base}/v2/oauth2/login?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(DEXCOM_REDIRECT)}&response_type=code&scope=offline_access`;status.textContent='Redirecting to Dexcom...';status.style.color='var(--muted)';window.location.href=authUrl;}
+
+function disconnectDexcom(){localStorage.removeItem('dexcom_access_token');localStorage.removeItem('dexcom_refresh_token');document.getElementById('dexcom-connected').style.display='none';document.getElementById('dexcom-disconnected').style.display='block';document.getElementById('dexcom-status').textContent='Disconnected.';document.getElementById('dexcom-status').style.color='var(--muted)';}
+
+async function handleDexcomCallback(){const params=new URLSearchParams(window.location.search);const code=params.get('code');if(!code)return;const status=document.getElementById('dexcom-status');status.textContent='Finishing connection...';status.style.color='var(--muted)';const clientId=localStorage.getItem('dexcom_client_id');const sandbox=sessionStorage.getItem('dexcom_sandbox')==='1';try{const res=await fetch('/api/dexcom-token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,client_id:clientId,redirect_uri:DEXCOM_REDIRECT,sandbox})});const data=await res.json();if(data.access_token){localStorage.setItem('dexcom_access_token',data.access_token);localStorage.setItem('dexcom_refresh_token',data.refresh_token||'');document.getElementById('dexcom-disconnected').style.display='none';document.getElementById('dexcom-connected').style.display='block';status.textContent='';await fetchDexcomData();}else{status.textContent='Could not complete connection: '+(data.error||'unknown error');status.style.color='var(--rose)';}}catch(e){status.textContent='Token exchange needs a small backend endpoint at /api/dexcom-token (Dexcom requires a client secret, which can\'t live in the browser). See the setup notes.';status.style.color='var(--rose)';}window.history.replaceState({},document.title,window.location.pathname);}
+
+async function fetchDexcomData(){const token=localStorage.getItem('dexcom_access_token');if(!token)return;const status=document.getElementById('dexcom-status');status.textContent='Pulling last 14 days of readings...';status.style.color='var(--muted)';try{const end=new Date(),start=new Date(end-14*864e5);const fmt=d=>d.toISOString().slice(0,19);const sandbox=sessionStorage.getItem('dexcom_sandbox')==='1';const base=sandbox?'https://sandbox-api.dexcom.com':'https://api.dexcom.com';const res=await fetch(`${base}/v3/users/self/egvs?startDate=${fmt(start)}&endDate=${fmt(end)}`,{headers:{Authorization:'Bearer '+token}});const data=await res.json();const readings=(data.records||[]).map(r=>({value:r.value,time:new Date(r.systemTime)}));if(readings.length)applyReadings(readings,'Dexcom ('+readings.length+' readings)');status.textContent=readings.length?`✓ Loaded ${readings.length} readings from the last 14 days`:'No readings returned for this window.';status.style.color=readings.length?'var(--teal-dark)':'var(--muted)';}catch(e){status.textContent='Error fetching data: '+e.message;status.style.color='var(--rose)';}}
+
+// SHARED: compute TIR + time-of-day breakdown from raw {value, time} readings (mg/dL) and apply to dashboard
+
+function applyReadings(readings,sourceLabel){let low=0,inRange=0,high=0;const tod={overnight:{low:0,inRange:0,high:0,total:0},morning:{low:0,inRange:0,high:0,total:0},afternoon:{low:0,inRange:0,high:0,total:0},evening:{low:0,inRange:0,high:0,total:0}};for(const r of readings){const v=r.value,hr=r.time.getHours();const period=hr<6?'overnight':hr<12?'morning':hr<18?'afternoon':'evening';tod[period].total++;if(v<70){low++;tod[period].low++;}else if(v>180){high++;tod[period].high++;}else{inRange++;tod[period].inRange++;}}const n=readings.length||1;document.getElementById('inp-low').value=Math.round(low/n*100);document.getElementById('inp-in').value=Math.round(inRange/n*100);document.getElementById('inp-high').value=Math.round(high/n*100);updateBar();for(const p of Object.keys(tod)){const t=tod[p].total||1;todData[p]={low:Math.round(tod[p].low/t*100),inRange:Math.round(tod[p].inRange/t*100),high:Math.round(tod[p].high/t*100)};}saveTODS();renderTOD();document.getElementById('demo-active-bar').style.display='flex';document.getElementById('demo-active-label').textContent='Showing real data: '+sourceLabel;document.getElementById('manual-card-title').textContent='Your TIR Data';document.getElementById('manual-card-sub').textContent='Loaded from '+sourceLabel+'.';}
+
+// CSV IMPORT (Dexcom Clarity + LibreView)
+
+function handleCsvDrop(e){e.preventDefault();e.currentTarget.style.borderColor='var(--border)';const f=e.dataTransfer.files[0];if(f)handleCsvFile(f);}
+
+function handleCsvFile(file){if(!file)return;const status=document.getElementById('csv-status');status.textContent='Reading '+file.name+'...';status.style.color='var(--muted)';const reader=new FileReader();reader.onload=e=>{try{const readings=parseCgmCsv(e.target.result);if(!readings.length){status.textContent='No glucose readings found in this file.';status.style.color='var(--rose)';return;}applyReadings(readings,file.name);status.textContent=`✓ Parsed ${readings.length} readings (~${Math.round(readings.length/288)} days)`;status.style.color='var(--teal-dark)';}catch(err){status.textContent='Could not parse this file: '+err.message;status.style.color='var(--rose)';}};reader.readAsText(file);}
+
+function splitCsvLine(line){const out=[];let cur='',inQ=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){inQ=!inQ;continue;}if(c===','&&!inQ){out.push(cur);cur='';continue;}cur+=c;}out.push(cur);return out;}
+
+function parseGlucoseValue(raw){if(raw==null)return null;const s=String(raw).trim();if(!s||/low|high/i.test(s))return null;let n=parseFloat(s.replace(/[^\d.]/g,''));if(isNaN(n))return null;if(n<30)n=Math.round(n*18.0182);return n;}
+
+function parseCgmCsv(text){const lines=text.split(/\r?\n/).filter(l=>l.trim().length);if(!lines.length)return[];const header=lines[0].toLowerCase();const cols=splitCsvLine(lines[0]);const readings=[];
+
+if(header.includes('glucose value')&&header.includes('timestamp')){const tIdx=cols.findIndex(c=>c.toLowerCase().includes('timestamp'));const vIdx=cols.findIndex(c=>c.toLowerCase().includes('glucose value'));for(let i=1;i<lines.length;i++){const row=splitCsvLine(lines[i]);const val=parseGlucoseValue(row[vIdx]);const ts=row[tIdx];if(val==null||!ts)continue;const d=new Date(ts.replace(' ','T'));if(isNaN(d))continue;readings.push({value:val,time:d});}if(readings.length)return readings;}
+
+if(header.includes('device timestamp')&&(header.includes('historic glucose')||header.includes('glucose mg/dl'))){const tIdx=cols.findIndex(c=>c.toLowerCase().includes('device timestamp'));const hIdx=cols.findIndex(c=>c.toLowerCase().includes('historic glucose'));const sIdx=cols.findIndex(c=>c.toLowerCase().includes('scan glucose'));for(let i=1;i<lines.length;i++){const row=splitCsvLine(lines[i]);const ts=row[tIdx];const raw=(hIdx>=0&&row[hIdx])?row[hIdx]:(sIdx>=0?row[sIdx]:null);const val=parseGlucoseValue(raw);if(val==null||!ts)continue;const d=new Date(ts);if(isNaN(d))continue;readings.push({value:val,time:d});}if(readings.length)return readings;}
+
+const vIdx=cols.findIndex(c=>c.toLowerCase().includes('glucose'));const tIdx=cols.findIndex(c=>/time|date/i.test(c));if(vIdx>=0&&tIdx>=0){for(let i=1;i<lines.length;i++){const row=splitCsvLine(lines[i]);const val=parseGlucoseValue(row[vIdx]);const ts=row[tIdx];if(val==null||!ts)continue;const d=new Date(ts.replace(' ','T'));if(isNaN(d))continue;readings.push({value:val,time:d});}}return readings;}
+
+function initDexcomUI(){if(localStorage.getItem('dexcom_access_token')){document.getElementById('dexcom-disconnected').style.display='none';document.getElementById('dexcom-connected').style.display='block';}const cid=localStorage.getItem('dexcom_client_id');if(cid)document.getElementById('dexcom-client-id').value=cid;if(new URLSearchParams(window.location.search).get('code'))handleDexcomCallback();}
+
 // INIT
-document.getElementById('trend-save-date').value=todayStr();updateBar();renderTOD();renderHistory();loadFromStorage();
+document.getElementById('trend-save-date').value=todayStr();updateBar();renderTOD();renderHistory();loadFromStorage();initDexcomUI();
 window.addEventListener('resize',()=>{if(document.getElementById('tab-trends').style.display!=='none')renderTrendChart();});
 </script>
 </body>
