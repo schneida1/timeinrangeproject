@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact Betawise</title>
+<meta name="description" content="Talk to the Betawise team about clinic, health plan, and employer pilots, investment, or press.">
+<meta name="theme-color" content="#0b6e5c">
+<link rel="icon" href="img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/bw.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-logo" viewBox="0 0 24 24"><path d="M2 14h3.5l2.5-6 4 11 3-8 1.5 3H22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="./"><span class="brand-mark"><svg><use href="#i-logo"/></svg></span>Betawise</a>
+    <nav aria-label="Primary">
+      <a class="link" href="./#partners">For partners</a>
+      <a class="link" href="investors.html">Investors</a>
+      <a class="btn btn-primary btn-sm" href="app.html">Open the app</a>
+    </nav>
+  </div>
+</header>
+
+<main class="section">
+  <div class="wrap" style="max-width:720px">
+    <p class="eyebrow">Contact</p>
+    <h1 style="font-family:var(--display);font-weight:400;font-size:clamp(36px,5.5vw,54px);line-height:1.05;margin-top:8px">Let's talk.</h1>
+    <p class="ink-2" style="font-size:17px;margin-top:12px">Pilots with clinics, health plans and employers, investment, press, or anything else. We read every message and reply within a few business days.</p>
+
+    <form class="card" action="https://formspree.io/f/mjgezojy" method="POST" style="margin-top:28px;display:grid;gap:16px">
+      <input type="hidden" name="_subject" value="Betawise inquiry">
+      <input type="hidden" name="application_type" value="betawise-contact">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="sr-only" aria-hidden="true">
+
+      <div class="field">
+        <label for="inquiry">I'm reaching out about</label>
+        <select id="inquiry" name="inquiry_type" class="input" required>
+          <option value="partnership">A pilot or partnership (clinic, health plan, employer, device)</option>
+          <option value="investor">Investing in Betawise</option>
+          <option value="press">Press or speaking</option>
+          <option value="other">Something else</option>
+        </select>
+      </div>
+      <div class="grid grid-2" style="gap:16px">
+        <div class="field"><label for="name">Name</label><input id="name" name="name" class="input" autocomplete="name" required></div>
+        <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" class="input" autocomplete="email" required></div>
+      </div>
+      <div class="field"><label for="org">Organization <span class="muted" style="font-weight:400">(optional)</span></label><input id="org" name="organization" class="input" autocomplete="organization"></div>
+      <div class="field"><label for="message">Message</label><textarea id="message" name="message" class="input" rows="5" required></textarea></div>
+      <p class="xs muted">Please don't include personal health information in this form. For individual support, <a href="../apply.html?type=get-mentor">request a free peer mentor</a> instead.</p>
+      <div><button class="btn btn-primary btn-lg" type="submit">Send message</button></div>
+    </form>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p style="max-width:520px">Betawise is an educational tool and is not a medical device. In an emergency, call 911.</p>
+    <div style="display:grid;gap:6px;align-content:start"><a href="../index.html">The Time in Range Project</a><a href="./">Betawise home</a></div>
+  </div>
+</footer>
+
+<script type="module" src="js/contact.js"></script>
+</body>
+</html>
