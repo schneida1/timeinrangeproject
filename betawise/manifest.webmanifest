@@ -1,0 +1,11 @@
+{
+  "name": "Betawise",
+  "short_name": "Betawise",
+  "description": "Your CGM data, turned into one clear focus each week.",
+  "start_url": "/betawise/app.html",
+  "scope": "/betawise/",
+  "display": "standalone",
+  "background_color": "#f6f7f5",
+  "theme_color": "#0b6e5c",
+  "icons": [{ "src": "img/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

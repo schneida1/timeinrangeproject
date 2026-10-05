@@ -1,647 +1,183 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Betawise — Time in Range Companion</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;500;600&display=swap');
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #f0f7f6;
-    --surface: #ffffff;
-    --card: #ffffff;
-    --border: #d4e9e7;
-    --teal: #00a99d;
-    --teal-dark: #007f76;
-    --teal-light: #e6f5f4;
-    --amber: #e8900a;
-    --amber-light: #fef3e2;
-    --rose: #d94f3a;
-    --rose-light: #fdecea;
-    --text: #1a2e2c;
-    --muted: #6b8f8c;
-    --low: #d94f3a;
-    --inrange: #00a99d;
-    --high: #e8900a;
-    --radius: 16px;
-    --font: 'Nunito Sans', sans-serif;
-    --display: 'Nunito', sans-serif;
-    --shadow: 0 2px 12px rgba(0,169,157,0.08), 0 1px 3px rgba(0,0,0,0.06);
-    --shadow-hover: 0 6px 24px rgba(0,169,157,0.14), 0 2px 6px rgba(0,0,0,0.08);
-    --overnight: #7c6fc4;
-    --morning: #e8900a;
-    --afternoon: #00a99d;
-    --evening: #3b82c4;
-  }
-
-  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
-  .app { max-width: 820px; margin: 0 auto; padding: 28px 16px 60px; }
-
-  .header {
-    display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
-    padding: 18px 22px; background: var(--teal); border-radius: var(--radius); box-shadow: var(--shadow);
-  }
-  .logo {
-    width: 44px; height: 44px; background: rgba(255,255,255,0.2); border-radius: 12px;
-    display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
-  }
-  .logo-text h1 { font-family: var(--display); font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
-  .logo-text p { font-size: 11px; color: rgba(255,255,255,0.75); letter-spacing: 0.05em; text-transform: uppercase; margin-top: 1px; font-weight: 600; }
-
-  .tabs {
-    display: flex; gap: 6px; background: var(--surface); border: 1.5px solid var(--border);
-    border-radius: 12px; padding: 5px; margin-bottom: 24px; box-shadow: var(--shadow);
-  }
-  .tab {
-    flex: 1; padding: 10px 6px; border: none; border-radius: 9px; background: transparent;
-    color: var(--muted); font-family: var(--font); font-size: 12px; font-weight: 600;
-    cursor: pointer; transition: all 0.2s; text-align: center;
-  }
-  .tab.active { background: var(--teal); color: #fff; box-shadow: 0 2px 8px rgba(0,169,157,0.3); }
-  .tab:hover:not(.active) { background: var(--teal-light); color: var(--teal-dark); }
-
-  .card {
-    background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius);
-    padding: 22px; margin-bottom: 16px; box-shadow: var(--shadow); transition: box-shadow 0.2s;
-  }
-  .card:hover { box-shadow: var(--shadow-hover); }
-  .card-title { font-family: var(--display); font-size: 17px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
-  .card-sub { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
-
-  .tir-bar { display: flex; height: 32px; border-radius: 10px; overflow: hidden; gap: 2px; margin: 16px 0 10px; }
-  .tir-seg {
-    transition: flex 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.95);
-    min-width: 0; overflow: hidden; letter-spacing: 0.02em;
-  }
-  .tir-seg.low { background: var(--low); border-radius: 10px 0 0 10px; }
-  .tir-seg.inrange { background: var(--inrange); }
-  .tir-seg.high { background: var(--high); border-radius: 0 10px 10px 0; }
-
-  .tir-legend { display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap; }
-  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); font-weight: 500; }
-  .legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-
-  .input-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-  .input-wrap label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 7px; }
-  .label-low { color: var(--low); }
-  .label-in { color: var(--teal-dark); }
-  .label-high { color: var(--amber); }
-
-  input[type="number"] {
-    width: 100%; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px;
-    padding: 11px 12px; color: var(--text); font-family: var(--display); font-size: 22px;
-    font-weight: 800; text-align: center; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  input[type="number"]:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,169,157,0.15); }
-  input[type="number"]::-webkit-inner-spin-button { display: none; }
-
-  .sum-indicator { font-size: 12px; text-align: right; color: var(--muted); margin-bottom: 12px; font-weight: 600; }
-  .sum-ok { color: var(--teal-dark); }
-  .sum-warn { color: var(--rose); }
-
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px;
-    border-radius: 50px; border: none; font-family: var(--display); font-size: 13px;
-    font-weight: 700; cursor: pointer; transition: all 0.2s; letter-spacing: 0.02em;
-  }
-  .btn-primary { background: var(--teal); color: #fff; box-shadow: 0 3px 10px rgba(0,169,157,0.35); }
-  .btn-primary:hover { background: var(--teal-dark); transform: translateY(-1px); box-shadow: 0 5px 16px rgba(0,169,157,0.4); }
-  .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
-  .btn-danger {
-    background: transparent; border: 1.5px solid #e0b0aa; color: var(--rose);
-    font-family: var(--display); font-size: 12px; font-weight: 700;
-    border-radius: 50px; padding: 7px 14px; cursor: pointer; transition: all 0.2s;
-  }
-  .btn-danger:hover { background: var(--rose-light); }
-
-  .insight-block {
-    background: var(--teal-light); border-left: 4px solid var(--teal); border-radius: 0 10px 10px 0;
-    padding: 16px 18px; margin-top: 16px; font-size: 14px; line-height: 1.75; color: var(--text); white-space: pre-wrap;
-  }
-  .insight-block.loading { color: var(--muted); font-style: italic; }
-
-  .targets-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
-  .target-card { background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px; padding: 14px; text-align: center; transition: transform 0.2s; }
-  .target-card:hover { transform: translateY(-2px); }
-  .target-val { font-family: var(--display); font-size: 26px; font-weight: 800; margin-bottom: 2px; }
-  .target-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; font-weight: 700; }
-  .target-badge { font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: 700; display: inline-block; }
-  .badge-good { background: rgba(0,169,157,0.12); color: var(--teal-dark); }
-  .badge-warn { background: var(--amber-light); color: var(--amber); }
-  .badge-alert { background: var(--rose-light); color: var(--rose); }
-
-  .chat-area { height: 380px; overflow-y: auto; padding: 4px 0; display: flex; flex-direction: column; gap: 12px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-  .msg { display: flex; gap: 10px; align-items: flex-start; animation: fadeUp 0.25s ease; }
-  .msg.user { flex-direction: row-reverse; }
-  @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-  .avatar { width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; }
-  .avatar.ai { background: var(--teal); }
-  .avatar.user-av { background: #e0ece4; }
-  .bubble { max-width: 78%; padding: 11px 15px; border-radius: 14px; font-size: 13.5px; line-height: 1.65; }
-  .bubble.ai { background: var(--surface); border: 1.5px solid var(--border); color: var(--text); border-top-left-radius: 3px; }
-  .bubble.user { background: var(--teal); color: white; border-top-right-radius: 3px; }
-  .typing { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
-  .typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); animation: blink 1.2s infinite; }
-  .typing span:nth-child(2) { animation-delay: 0.2s; }
-  .typing span:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes blink { 0%,80%,100% { opacity:0.25; } 40% { opacity:1; } }
-
-  .chat-input-row { display: flex; gap: 10px; margin-top: 14px; }
-  .chat-input {
-    flex: 1; background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px;
-    padding: 11px 15px; color: var(--text); font-family: var(--font); font-size: 13px;
-    outline: none; transition: border-color 0.2s, box-shadow 0.2s; resize: none;
-  }
-  .chat-input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,169,157,0.12); }
-  .send-btn {
-    width: 42px; height: 42px; border-radius: 12px; background: var(--teal); border: none;
-    color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
-    font-size: 16px; transition: all 0.2s; flex-shrink: 0; align-self: flex-end;
-    box-shadow: 0 2px 8px rgba(0,169,157,0.3);
-  }
-  .send-btn:hover { background: var(--teal-dark); transform: scale(1.06); }
-  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
-
-  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-  .chip {
-    background: var(--bg); border: 1.5px solid var(--border); border-radius: 20px;
-    padding: 6px 14px; font-size: 12px; font-weight: 600; color: var(--muted);
-    cursor: pointer; transition: all 0.18s; font-family: var(--font);
-  }
-  .chip:hover { border-color: var(--teal); color: var(--teal-dark); background: var(--teal-light); }
-  .chip-active { background: var(--teal-light); border-color: var(--teal); color: var(--teal-dark); }
-  .context-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
-  .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--teal-dark); font-weight: 800; margin-bottom: 12px; }
-  .empty-state { text-align: center; color: var(--muted); padding: 30px 20px; font-size: 13px; line-height: 1.6; }
-  .empty-icon { font-size: 34px; margin-bottom: 10px; }
-  .disclaimer { font-size: 11px; color: var(--muted); text-align: center; margin-top: 24px; line-height: 1.6; padding: 12px 16px; background: var(--surface); border-radius: 10px; border: 1px solid var(--border); font-weight: 500; }
-
-  /* TIME-OF-DAY */
-  .tod-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-top: 16px; }
-  .tod-card { background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 10px 12px; text-align: center; position: relative; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
-  .tod-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
-  .tod-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
-  .tod-card.overnight::before { background: var(--overnight); }
-  .tod-card.morning::before { background: var(--morning); }
-  .tod-card.afternoon::before { background: var(--afternoon); }
-  .tod-card.evening::before { background: var(--evening); }
-  .tod-icon { font-size: 20px; margin-bottom: 6px; }
-  .tod-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 800; margin-bottom: 2px; }
-  .tod-hours { font-size: 10px; color: var(--muted); margin-bottom: 10px; font-weight: 500; }
-  .tod-mini-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; gap: 1px; margin-bottom: 8px; }
-  .tod-mini-bar .s-low { background: var(--low); }
-  .tod-mini-bar .s-in { background: var(--inrange); }
-  .tod-mini-bar .s-hi { background: var(--high); }
-  .tod-stats { display: flex; flex-direction: column; gap: 3px; font-size: 10px; font-weight: 600; }
-  .tod-stat { display: flex; justify-content: space-between; }
-  .tod-stat-val { font-family: var(--display); font-weight: 800; font-size: 12px; }
-  .tod-callout { margin-top: 14px; border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 12px; line-height: 1.6; color: var(--text); font-weight: 500; background: var(--amber-light); border-left: 3px solid var(--amber); }
-  .tod-callout.good { background: var(--teal-light); border-left-color: var(--teal); }
-
-  /* TRENDS */
-  .trend-canvas-wrap { position: relative; width: 100%; height: 260px; margin-top: 14px; }
-  .trend-canvas-wrap canvas { width: 100%; height: 100%; }
-  .trend-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
-  .trend-range-pills { display: flex; gap: 4px; background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px; padding: 3px; }
-  .trend-pill { padding: 5px 12px; border-radius: 6px; border: none; background: transparent; font-family: var(--font); font-size: 11px; font-weight: 700; color: var(--muted); cursor: pointer; transition: all 0.15s; }
-  .trend-pill.active { background: var(--teal); color: #fff; }
-  .trend-pill:hover:not(.active) { color: var(--teal-dark); }
-  .trend-entry-count { font-size: 11px; color: var(--muted); font-weight: 600; }
-  .trend-legend { display: flex; gap: 14px; margin-top: 10px; flex-wrap: wrap; }
-  .trend-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); font-weight: 600; }
-  .trend-legend-line { width: 16px; height: 3px; border-radius: 2px; }
-
-  .save-date-input { background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px; padding: 7px 12px; font-family: var(--font); font-size: 12px; color: var(--text); outline: none; font-weight: 600; }
-  .save-date-input:focus { border-color: var(--teal); }
-
-  .history-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; transition: background 0.15s; font-size: 12px; }
-  .history-row:hover { background: var(--bg); }
-  .history-date { font-weight: 800; font-family: var(--display); min-width: 90px; font-size: 12px; }
-  .history-mini-bar { flex: 1; display: flex; height: 10px; border-radius: 5px; overflow: hidden; gap: 1px; }
-  .history-vals { display: flex; gap: 8px; min-width: 140px; justify-content: flex-end; }
-  .history-val { font-weight: 700; font-size: 11px; }
-  .history-del { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 14px; padding: 2px 6px; border-radius: 6px; transition: all 0.15s; opacity: 0; }
-  .history-row:hover .history-del { opacity: 1; }
-  .history-del:hover { background: var(--rose-light); color: var(--rose); }
-
-  .saved-toast {
-    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px);
-    background: var(--teal-dark); color: #fff; padding: 12px 24px; border-radius: 50px;
-    font-family: var(--display); font-size: 13px; font-weight: 700;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.2); opacity: 0;
-    transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1); z-index: 999; pointer-events: none;
-  }
-  .saved-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  @media (max-width: 600px) {
-    .tod-grid { grid-template-columns: repeat(2,1fr); }
-    .input-grid { grid-template-columns: 1fr; }
-    .targets-grid { grid-template-columns: 1fr; }
-  }
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Betawise CGM Coach</title>
+<meta name="description" content="Betawise turns continuous glucose monitor data into one clear focus each week, an AI peer coach with clinical guardrails, and a clinician-ready report. Built with The Time in Range Project.">
+<meta property="og:title" content="Betawise — Your CGM, finally explained">
+<meta property="og:description" content="Consensus-grade CGM analytics, a weekly focus, an AI peer coach, and a report your endocrinologist will actually read.">
+<meta name="theme-color" content="#0b6e5c">
+<link rel="icon" href="img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/bw.css">
 </head>
 <body>
-<nav style="background:#ffffff;border-bottom:1.5px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;font-family:var(--font)">
-  <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--teal-dark);font-weight:700;font-size:14px">← timeinrangeproject.org</a>
-  <span style="font-size:12px;color:var(--muted);font-weight:600;letter-spacing:0.04em;text-transform:uppercase">Betawise Beta</span>
-</nav>
-<div class="app">
-  <div class="header">
-    <div class="logo">🩺</div>
-    <div class="logo-text"><h1>Betawise</h1><p>Your Time in Range Companion</p></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-logo" viewBox="0 0 24 24"><path d="M2 14h3.5l2.5-6 4 11 3-8 1.5 3H22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16M8 16l3-4 3 2 5-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1" fill="currentColor"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z M14 3v4h4 M9 12h6 M9 16h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5 M16 4.5a3.5 3.5 0 0 1 0 7 M18 14.8c1.9.8 3.1 2.6 3.5 5.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z M12 10v5 M12 18v.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+</svg>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="./"><span class="brand-mark"><svg><use href="#i-logo"/></svg></span>Betawise</a>
+    <nav aria-label="Primary">
+      <a class="link" href="#how">How it works</a>
+      <a class="link" href="#science">Science</a>
+      <a class="link" href="#privacy">Privacy &amp; safety</a>
+      <a class="link" href="#partners">For partners</a>
+      <a class="link" href="investors.html">Investors</a>
+      <a class="btn btn-primary btn-sm" href="app.html">Open the app</a>
+    </nav>
   </div>
+</header>
 
-  <div class="tabs">
-    <button class="tab active" onclick="showTab('dashboard')">📊 Dashboard</button>
-    <button class="tab" onclick="showTab('breakdown')">🕐 Breakdown</button>
-    <button class="tab" onclick="showTab('trends')">📈 Trends</button>
-    <button class="tab" onclick="showTab('insights')">💡 Insights</button>
-    <button class="tab" onclick="showTab('mentor')">💬 Mentor</button>
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">For people living with Type 1 &amp; Type 2 diabetes</p>
+        <h1>Your CGM takes 288 readings a day. <em>Now they finally make sense.</em></h1>
+        <p class="lede">Betawise turns two weeks of glucose data into the metrics your endocrinologist uses, the patterns behind your highs and lows, and one clear thing to focus on this week — with an AI peer coach and real human mentors behind you.</p>
+        <div class="ctas">
+          <a class="btn btn-primary btn-lg" href="app.html">Analyze my data — free</a>
+          <a class="btn btn-secondary btn-lg" href="app.html?demo=sarah">See a live demo</a>
+        </div>
+        <p class="small muted" style="margin-top:14px">Works with Dexcom and FreeStyle Libre. Your readings never leave your device.</p>
+      </div>
+      <div class="device-frame" aria-label="Product preview">
+        <div id="hero-preview">
+          <div class="card focus-card" style="box-shadow:none">
+            <p class="eyebrow">Sarah's focus this week</p>
+            <h2 style="font-size:22px" id="hero-focus-title">Overnight lows</h2>
+            <p class="small" id="hero-focus-detail">Low episodes cluster between midnight and 6 AM.</p>
+          </div>
+          <div id="hero-agp" style="margin-top:14px"></div>
+          <div id="hero-bands" style="margin-top:6px"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="stat-strip">
+        <div><div class="num">38.4M</div><div class="lbl">Americans living with diabetes</div><div class="src">CDC National Diabetes Statistics Report, 2023</div></div>
+        <div><div class="num">$413B</div><div class="lbl">Annual US cost of diabetes</div><div class="src">ADA, Diabetes Care 2024</div></div>
+        <div><div class="num">1 in 5</div><div class="lbl">Adults with Type 1 reach the A1C goal</div><div class="src">T1D Exchange, Diabetes Technol Ther 2019</div></div>
+        <div><div class="num">64%</div><div class="lbl">Higher retinopathy risk per 10-pt drop in time in range</div><div class="src">Beck et al., Diabetes Care 2019</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">The gap</p>
+      <h2>CGMs made glucose data free.<br>Understanding it is still a privilege.</h2>
+      <p class="intro">Most people see an endocrinologist for 15 minutes a few times a year. In between, 4,000 readings every two weeks pile up in an app that shows a squiggly line and an average. Betawise is the missing layer: it reads the data the way an expert would, every week, for everyone.</p>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="how">
+    <div class="wrap">
+      <p class="eyebrow">How it works</p>
+      <h2>Two minutes to your first insight.</h2>
+      <div class="steps" style="margin-top:32px">
+        <div><h3 style="font-size:18px">Bring your data</h3><p class="ink-2" style="margin-top:6px">Connect Dexcom or drop in a Clarity or LibreView export. Analysis happens in your browser.</p></div>
+        <div><h3 style="font-size:18px">See what's really happening</h3><p class="ink-2" style="margin-top:6px">Consensus metrics, your Glycemia Risk Index, an Ambulatory Glucose Profile, and patterns ranked safety-first.</p></div>
+        <div><h3 style="font-size:18px">Focus on one thing</h3><p class="ink-2" style="margin-top:6px">Commit to a single weekly focus, make a plan with your coach, and bring a one-page report to your next visit.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">What you get</p>
+      <h2>Everything between appointments.</h2>
+      <div class="grid grid-3" style="margin-top:32px">
+        <div class="feature card"><div class="ficon"><svg class="icon"><use href="#i-chart"/></svg></div><h3>Clinical-grade metrics</h3><p>Time in range, time in tight range, GMI, variability, and the Glycemia Risk Index — computed exactly as the International Consensus defines them.</p></div>
+        <div class="feature card"><div class="ficon"><svg class="icon"><use href="#i-pulse"/></svg></div><h3>Pattern engine</h3><p>Detects overnight lows, dawn phenomenon, post-meal spikes, rebound highs, prolonged highs, and weekday/weekend differences.</p></div>
+        <div class="feature card"><div class="ficon"><svg class="icon"><use href="#i-target"/></svg></div><h3>One weekly focus</h3><p>Safety first, then the biggest opportunity. We show how many points of time in range you could gain by fixing it.</p></div>
+        <div class="feature card"><div class="ficon"><svg class="icon"><use href="#i-chat"/></svg></div><h3>AI peer coach</h3><p>Talks like a friend who has lived with diabetes for years. Knows your patterns. Never gives dosing advice.</p></div>
+        <div class="feature card"><div class="ficon"><svg class="icon"><use href="#i-file"/></svg></div><h3>Clinic-ready report</h3><p>A one-page summary in the format clinicians already use — AGP, consensus targets, daily profiles, and your questions.</p></div>
+        <div class="feature card"><div class="ficon"><svg class="icon"><use href="#i-users"/></svg></div><h3>Real human mentors</h3><p>When software isn't enough, The Time in Range Project matches you with a trained peer mentor — free.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="science">
+    <div class="wrap">
+      <p class="eyebrow">Built on the evidence</p>
+      <h2>No black boxes where it matters.</h2>
+      <p class="intro">Every number Betawise shows comes from a transparent, peer-reviewed definition. AI explains the numbers; it never invents them.</p>
+      <div class="table-wrap" style="margin-top:28px">
+        <table class="table">
+          <thead><tr><th>What we compute</th><th>Standard</th></tr></thead>
+          <tbody>
+            <tr><td>Time in ranges and targets for adults, older adults, and pregnancy</td><td>Battelino et al. International Consensus on Time in Range. <em>Diabetes Care</em> 2019;42:1593–1603</td></tr>
+            <tr><td>Glycemia Risk Index (GRI) and risk zones A–E</td><td>Klonoff et al. <em>J Diabetes Sci Technol</em> 2023;17:1215–1225</td></tr>
+            <tr><td>Glucose Management Indicator (GMI)</td><td>Bergenstal et al. <em>Diabetes Care</em> 2018;41:2275–2280</td></tr>
+            <tr><td>Time in range and complication risk</td><td>Beck et al. <em>Diabetes Care</em> 2019;42:400–405</td></tr>
+            <tr><td>Time in range and A1C relationship</td><td>Vigersky &amp; McMahon. <em>Diabetes Technol Ther</em> 2019;21:81–85</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="privacy">
+    <div class="wrap">
+      <p class="eyebrow">Privacy &amp; safety</p>
+      <h2>Designed so you can trust it.</h2>
+      <div class="grid grid-3" style="margin-top:32px">
+        <div class="feature"><div class="ficon"><svg class="icon"><use href="#i-lock"/></svg></div><h3>Your data stays yours</h3><p>Readings are analyzed on your device and stored only in your browser. No account required. Delete everything in one tap.</p></div>
+        <div class="feature"><div class="ficon"><svg class="icon"><use href="#i-shield"/></svg></div><h3>Minimum necessary</h3><p>The AI coach receives summary statistics only — never raw readings, dates, names, or device IDs.</p></div>
+        <div class="feature"><div class="ficon"><svg class="icon"><use href="#i-alert"/></svg></div><h3>Clinical guardrails</h3><p>No dosing advice, ever. Emergencies and crisis language trigger fixed safety responses that don't depend on the AI.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="partners">
+    <div class="wrap">
+      <p class="eyebrow">For clinics, health plans &amp; employers</p>
+      <h2>Better visits. Better outcomes. Lower cost.</h2>
+      <p class="intro">Betawise gives patients a reason to look at their data between visits, and gives care teams a standardized summary the moment the visit starts. We partner with endocrinology and primary care practices, payers, and employers to bring guided CGM coaching to their populations.</p>
+      <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
+        <a class="btn btn-primary" href="mailto:partners@timeinrangeproject.org?subject=Betawise%20partnership">Talk to us about a pilot</a>
+        <a class="btn btn-secondary" href="investors.html">Read the investor brief</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap" style="max-width:820px;text-align:center">
+      <p class="quote">"Two people can have the same A1C and completely different lives. Time in range shows the difference. Betawise helps you change it."</p>
+      <p class="muted" style="margin-top:14px">The Time in Range Project</p>
+      <div class="ctas" style="justify-content:center;display:flex;gap:12px;margin-top:28px;flex-wrap:wrap">
+        <a class="btn btn-primary btn-lg" href="app.html">Analyze my data — free</a>
+        <a class="btn btn-secondary btn-lg" href="../apply.html?type=get-mentor">Get a human mentor</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div><a class="brand" href="./"><span class="brand-mark"><svg><use href="#i-logo"/></svg></span>Betawise</a><p style="margin-top:10px;max-width:520px">Betawise is an educational tool and is not a medical device. It does not diagnose, treat, or provide insulin or medication dosing advice. Always make treatment decisions with your healthcare team. In an emergency, call 911.</p></div>
+    <div style="display:grid;gap:6px;align-content:start"><a href="../index.html">The Time in Range Project</a><a href="investors.html">Investors</a><a href="app.html">Open the app</a></div>
   </div>
+</footer>
 
-  <!-- DASHBOARD -->
-  <div id="tab-dashboard">
-    <div class="card">
-      <div class="card-title">Try a Demo Profile</div>
-      <div class="card-sub">Load a realistic patient profile to explore Betawise — or enter your own numbers below.</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div onclick="loadDemo('sarah')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all 0.18s" onmouseover="this.style.borderColor='#7c3aed';this.style.background='#f5f3ff'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'">
-          <div style="font-weight:700;font-size:13px;margin-bottom:4px">🙋 Sarah — Type 1, 8 years</div>
-          <div style="font-size:12px;color:#6b8f8c;line-height:1.5;margin-bottom:8px">Pump user working on overnight stability</div>
-          <div style="display:flex;gap:5px;flex-wrap:wrap">
-            <span style="background:#fdecea;color:#d94f3a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Low 6%</span>
-            <span style="background:#e6f5f4;color:#007f76;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">In Range 64%</span>
-            <span style="background:#fef3e2;color:#e8900a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">High 30%</span>
-          </div>
-        </div>
-        <div onclick="loadDemo('marcus')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all 0.18s" onmouseover="this.style.borderColor='#7c3aed';this.style.background='#f5f3ff'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'">
-          <div style="font-weight:700;font-size:13px;margin-bottom:4px">👨 Marcus — Type 2, 3 years</div>
-          <div style="font-size:12px;color:#6b8f8c;line-height:1.5;margin-bottom:8px">Recently started CGM, diet-managed</div>
-          <div style="display:flex;gap:5px;flex-wrap:wrap">
-            <span style="background:#fdecea;color:#d94f3a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Low 2%</span>
-            <span style="background:#e6f5f4;color:#007f76;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">In Range 71%</span>
-            <span style="background:#fef3e2;color:#e8900a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">High 27%</span>
-          </div>
-        </div>
-        <div onclick="loadDemo('priya')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all 0.18s" onmouseover="this.style.borderColor='#7c3aed';this.style.background='#f5f3ff'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'">
-          <div style="font-weight:700;font-size:13px;margin-bottom:4px">👩 Priya — Type 1, newly diagnosed</div>
-          <div style="font-size:12px;color:#6b8f8c;line-height:1.5;margin-bottom:8px">Still finding her baseline, on MDI</div>
-          <div style="display:flex;gap:5px;flex-wrap:wrap">
-            <span style="background:#fdecea;color:#d94f3a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Low 8%</span>
-            <span style="background:#e6f5f4;color:#007f76;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">In Range 48%</span>
-            <span style="background:#fef3e2;color:#e8900a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">High 44%</span>
-          </div>
-        </div>
-        <div onclick="loadDemo('james')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all 0.18s" onmouseover="this.style.borderColor='#7c3aed';this.style.background='#f5f3ff'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'">
-          <div style="font-weight:700;font-size:13px;margin-bottom:4px">🏃 James — Type 1, athlete</div>
-          <div style="font-size:12px;color:#6b8f8c;line-height:1.5;margin-bottom:8px">Closed loop system, very active</div>
-          <div style="display:flex;gap:5px;flex-wrap:wrap">
-            <span style="background:#fdecea;color:#d94f3a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Low 3%</span>
-            <span style="background:#e6f5f4;color:#007f76;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">In Range 82%</span>
-            <span style="background:#fef3e2;color:#e8900a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">High 15%</span>
-          </div>
-        </div>
-      </div>
-      <div id="demo-active-bar" style="display:none;margin-top:14px;align-items:center;gap:10px;background:#f5f3ff;border:1.5px solid #ddd6fe;border-radius:10px;padding:10px 14px;font-size:12.5px;color:#7c3aed;font-weight:600">
-        🎭 <span id="demo-active-label"></span>
-        <button onclick="clearDemo()" style="margin-left:auto;background:transparent;border:1.5px solid #ddd6fe;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;color:#7c3aed;cursor:pointer">Clear demo</button>
-      </div>
-    </div>
-
-    <div class="card" id="connect-card">
-      <div class="card-title">Connect Your Real Data</div>
-      <div class="card-sub">Link your Dexcom account or upload a CGM export to use your actual numbers instead of demo data.</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:16px">
-          <div style="font-weight:700;font-size:13px;margin-bottom:8px">📡 Connect Dexcom</div>
-          <div id="dexcom-disconnected">
-            <input type="text" id="dexcom-client-id" placeholder="Dexcom Client ID" style="width:100%;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:9px 11px;font-size:12px;margin-bottom:8px;font-family:var(--font)" />
-            <label style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);font-weight:600;margin-bottom:10px"><input type="checkbox" id="dexcom-sandbox" checked /> Use Sandbox (test data)</label>
-            <button class="btn btn-primary" style="width:100%;justify-content:center;padding:9px" onclick="connectDexcom()">Connect Dexcom</button>
-          </div>
-          <div id="dexcom-connected" style="display:none">
-            <div style="font-size:12px;color:var(--teal-dark);font-weight:700;margin-bottom:8px">✓ Connected to Dexcom</div>
-            <button class="btn btn-primary" style="width:100%;justify-content:center;padding:9px;margin-bottom:8px" onclick="fetchDexcomData()">↻ Refresh Data</button>
-            <button class="btn-danger" style="width:100%" onclick="disconnectDexcom()">Disconnect</button>
-          </div>
-          <div id="dexcom-status" style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5"></div>
-        </div>
-        <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:16px">
-          <div style="font-weight:700;font-size:13px;margin-bottom:8px">📁 Upload CGM Export</div>
-          <div style="font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5">Dexcom Clarity or LibreView CSV export</div>
-          <div id="csv-dropzone" style="border:2px dashed var(--border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all 0.18s" onclick="document.getElementById('csv-file-input').click()" ondragover="event.preventDefault();this.style.borderColor='var(--teal)'" ondragleave="this.style.borderColor='var(--border)'" ondrop="handleCsvDrop(event)">
-            <div style="font-size:20px;margin-bottom:4px">📄</div>
-            <div style="font-size:11px;color:var(--muted);font-weight:600">Drop CSV or click to browse</div>
-          </div>
-          <input type="file" id="csv-file-input" accept=".csv" style="display:none" onchange="handleCsvFile(this.files[0])" />
-          <div id="csv-status" style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title" id="manual-card-title">Your TIR Data</div>
-      <div class="card-sub" id="manual-card-sub">Enter your percentages from your CGM app, or load a demo profile above.</div>
-      <div class="input-grid">
-        <div class="input-wrap"><label class="label-low">⬇ Below Range</label><input type="number" id="inp-low" min="0" max="100" value="4" oninput="updateBar()" /></div>
-        <div class="input-wrap"><label class="label-in">✓ In Range</label><input type="number" id="inp-in" min="0" max="100" value="68" oninput="updateBar()" /></div>
-        <div class="input-wrap"><label class="label-high">⬆ Above Range</label><input type="number" id="inp-high" min="0" max="100" value="28" oninput="updateBar()" /></div>
-      </div>
-      <div class="sum-indicator sum-ok" id="sum-ind">Total: 100% ✓</div>
-      <div class="tir-bar"><div class="tir-seg low" id="seg-low" style="flex:4">4%</div><div class="tir-seg inrange" id="seg-in" style="flex:68">68%</div><div class="tir-seg high" id="seg-high" style="flex:28">28%</div></div>
-      <div class="tir-legend">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--low)"></div> Below range (&lt;70 mg/dL)</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> In range (70–180 mg/dL)</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div> Above range (&gt;180 mg/dL)</div>
-      </div>
-    </div>
-    <div class="card"><div class="section-label">How You Compare to Targets</div><div class="targets-grid" id="targets-grid"></div></div>
-  </div>
-
-  <!-- BREAKDOWN -->
-  <div id="tab-breakdown" style="display:none">
-    <div class="card">
-      <div class="card-title">Time-of-Day Breakdown</div>
-      <div class="card-sub">See where your highs and lows cluster. Adjust each period to find patterns.</div>
-      <div class="tod-grid" id="tod-grid"></div>
-      <div id="tod-callout-area"></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Edit Period Data</div>
-      <div class="card-sub">Fine-tune each time period. Each should add to 100%.</div>
-      <div id="tod-editors"></div>
-    </div>
-  </div>
-
-  <!-- TRENDS -->
-  <div id="tab-trends" style="display:none">
-    <div class="card">
-      <div class="card-title">TIR Trend Over Time</div>
-      <div class="card-sub">Save your daily TIR and track progress week by week.</div>
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px">
-        <input type="date" class="save-date-input" id="trend-save-date" />
-        <button class="btn btn-primary" style="padding:9px 18px;font-size:12px" onclick="saveEntry()">💾 Save Today's TIR</button>
-        <span style="font-size:11px;color:var(--muted);font-weight:500">Saves dashboard values for this date</span>
-      </div>
-      <div id="trend-empty">
-        <div class="empty-state"><div class="empty-icon">📈</div><div style="font-weight:700;margin-bottom:4px">No entries yet</div><div>Save your TIR to start tracking. At least 2 entries needed for a chart.</div></div>
-      </div>
-      <div id="trend-has-data" style="display:none">
-        <div class="trend-toolbar">
-          <div class="trend-range-pills">
-            <button class="trend-pill active" data-range="4w" onclick="setTrendRange('4w')">4 Weeks</button>
-            <button class="trend-pill" data-range="8w" onclick="setTrendRange('8w')">8 Weeks</button>
-            <button class="trend-pill" data-range="all" onclick="setTrendRange('all')">All</button>
-          </div>
-          <div class="trend-entry-count" id="trend-entry-count"></div>
-        </div>
-        <div class="trend-canvas-wrap"><canvas id="trend-canvas"></canvas></div>
-        <div class="trend-legend">
-          <div class="trend-legend-item"><div class="trend-legend-line" style="background:var(--inrange)"></div> In Range %</div>
-          <div class="trend-legend-item"><div class="trend-legend-line" style="background:var(--low)"></div> Below %</div>
-          <div class="trend-legend-item"><div class="trend-legend-line" style="background:var(--high)"></div> Above %</div>
-          <div class="trend-legend-item"><div class="trend-legend-line" style="background:transparent;border-top:2px dashed var(--muted)"></div> 70% Target</div>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <div class="section-label" style="margin-bottom:0">Saved Entries</div>
-        <button class="btn-danger" style="font-size:11px;padding:5px 12px" onclick="clearAllHistory()" id="clear-all-btn">Clear All</button>
-      </div>
-      <div id="history-list"></div>
-    </div>
-  </div>
-
-  <!-- INSIGHTS -->
-  <div id="tab-insights" style="display:none">
-    <div class="card">
-      <div class="card-title">AI-Powered TIR Insights</div>
-      <div class="card-sub">Plain-language explanation of what your numbers mean and what to explore.</div>
-      <div class="section-label" style="margin-bottom:8px">Anything the AI should know about you? <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div>
-      <div class="context-chips" id="context-chips">
-        <div class="chip ctx-chip" onclick="toggleChip(this,'Type 1 diabetes')">Type 1</div>
-        <div class="chip ctx-chip" onclick="toggleChip(this,'Type 2 diabetes')">Type 2</div>
-        <div class="chip ctx-chip" onclick="toggleChip(this,'using insulin')">On insulin</div>
-        <div class="chip ctx-chip" onclick="toggleChip(this,'using an insulin pump')">Pump user</div>
-        <div class="chip ctx-chip" onclick="toggleChip(this,'pregnant')">Pregnant</div>
-        <div class="chip ctx-chip" onclick="toggleChip(this,'older adult (65+)')">65+ years</div>
-        <div class="chip ctx-chip" onclick="toggleChip(this,'recently diagnosed')">Recently diagnosed</div>
-        <div class="chip ctx-chip" onclick="toggleChip(this,'very physically active')">Very active</div>
-      </div>
-      <textarea class="chat-input" id="extra-context" rows="2" placeholder="Anything else? e.g. 'I've been sick this week' or 'I struggle most with overnight lows'" style="margin-top:10px;width:100%"></textarea>
-      <div id="stale-bar" style="display:none;align-items:center;gap:10px;background:var(--amber-light);border:1.5px solid #f5c97a;border-radius:10px;padding:11px 15px;margin-top:12px;font-size:12.5px;color:var(--amber);font-weight:600">
-        ⚠️ Dashboard values changed — regenerate to update.
-        <button class="btn btn-primary" style="margin-left:auto;padding:6px 14px;font-size:12px" onclick="generateInsights()">Regenerate</button>
-      </div>
-      <div style="margin-top:14px"><button class="btn btn-primary" id="insights-btn" onclick="generateInsights()">✨ Generate My Insights</button></div>
-      <div id="insights-output" style="display:none"><div class="insight-block" id="insights-text"></div></div>
-    </div>
-    <div class="card">
-      <div class="section-label">Things to Discuss with Your Doctor</div>
-      <div id="doctor-tips" class="empty-state"><div class="empty-icon">🩺</div>Generate insights above to see personalized talking points for your next appointment.</div>
-    </div>
-  </div>
-
-  <!-- MENTOR -->
-  <div id="tab-mentor" style="display:none">
-    <div class="card">
-      <div class="card-title">Peer Mentor Chat</div>
-      <div class="card-sub">Talk to an AI that thinks like someone who's been managing diabetes for years — not a doctor.</div>
-      <div class="chat-area" id="chat-area">
-        <div class="msg"><div class="avatar ai">🙂</div><div class="bubble ai">Hey! I'm your Betawise peer mentor. I've been there — the highs, the lows, the frustrating days when nothing makes sense. I'm here to talk through what your numbers mean, share what helps, and just be a friendly ear. What's on your mind?</div></div>
-      </div>
-      <div class="chip-row" id="chip-row">
-        <div class="chip" onclick="sendChip('What does a good TIR actually feel like day to day?')">What does good TIR feel like?</div>
-        <div class="chip" onclick="sendChip('My TIR is lower than I want — where do I even start?')">My TIR feels stuck</div>
-        <div class="chip" onclick="sendChip('How do I talk to my doctor about TIR goals?')">Talking to my doctor</div>
-        <div class="chip" onclick="sendChip('I\'m feeling burnt out managing this. Any advice?')">Feeling burnt out</div>
-      </div>
-      <div class="chat-input-row">
-        <textarea class="chat-input" id="chat-input" rows="1" placeholder="Type a message..." onkeydown="handleKey(event)"></textarea>
-        <button class="send-btn" id="send-btn" onclick="sendMessage()">➤</button>
-      </div>
-    </div>
-  </div>
-
-  <p class="disclaimer">⚠️ Betawise is an educational tool, not a medical device. Always consult your healthcare team before making changes to your diabetes management.</p>
-</div>
-<div class="saved-toast" id="saved-toast"></div>
-
-<script>
-let chatHistory=[], insightsGenerated=false, selectedChips=new Set(), trendRange='4w', historyEntries=[];
-let todData={overnight:{low:8,inRange:60,high:32},morning:{low:3,inRange:62,high:35},afternoon:{low:2,inRange:74,high:24},evening:{low:5,inRange:68,high:27}};
-const TOD_META={overnight:{icon:'🌙',label:'Overnight',hours:'12 AM – 6 AM',color:'var(--overnight)'},morning:{icon:'🌅',label:'Morning',hours:'6 AM – 12 PM',color:'var(--morning)'},afternoon:{icon:'☀️',label:'Afternoon',hours:'12 PM – 6 PM',color:'var(--afternoon)'},evening:{icon:'🌆',label:'Evening',hours:'6 PM – 12 AM',color:'var(--evening)'}};
-const TIR_DATA=()=>({low:parseFloat(document.getElementById('inp-low').value)||0,inRange:parseFloat(document.getElementById('inp-in').value)||0,high:parseFloat(document.getElementById('inp-high').value)||0});
-
-// STORAGE
-async function loadFromStorage(){if(!window.storage)return;try{const h=await window.storage.get('betawise-history');if(h&&h.value)historyEntries=JSON.parse(h.value);}catch(e){}try{const t=await window.storage.get('betawise-tod');if(t&&t.value)todData=JSON.parse(t.value);}catch(e){}renderHistory();renderTrendChart();renderTOD();}
-async function saveHS(){if(!window.storage)return;try{await window.storage.set('betawise-history',JSON.stringify(historyEntries));}catch(e){}}
-async function saveTODS(){if(!window.storage)return;try{await window.storage.set('betawise-tod',JSON.stringify(todData));}catch(e){}}
-
-// TABS
-const ALL_TABS=['dashboard','breakdown','trends','insights','mentor'];
-function showTab(tab){ALL_TABS.forEach(t=>{document.getElementById('tab-'+t).style.display=t===tab?'block':'none';});document.querySelectorAll('.tab').forEach((el,i)=>{el.classList.toggle('active',ALL_TABS[i]===tab);});if(tab==='trends')renderTrendChart();if(tab==='breakdown')renderTOD();}
-
-// DASHBOARD
-function markInsightsStale(){if(!insightsGenerated)return;const s=document.getElementById('stale-bar');if(s)s.style.display='flex';}
-function updateBar(){const{low,inRange,high}=TIR_DATA();const sum=low+inRange+high;const ind=document.getElementById('sum-ind');ind.textContent=`Total: ${sum}%${sum===100?' ✓':' (should add to 100)'}`;ind.className=`sum-indicator ${sum===100?'sum-ok':'sum-warn'}`;document.getElementById('seg-low').style.flex=Math.max(low,0.5);document.getElementById('seg-in').style.flex=Math.max(inRange,0.5);document.getElementById('seg-high').style.flex=Math.max(high,0.5);document.getElementById('seg-low').textContent=low>=5?low+'%':'';document.getElementById('seg-in').textContent=inRange>=5?inRange+'%':'';document.getElementById('seg-high').textContent=high>=5?high+'%':'';updateTargets();markInsightsStale();}
-function badge(val,target,dir){if(dir==='above'){if(val>=target)return'<span class="target-badge badge-good">On target ✓</span>';if(val>=target-10)return'<span class="target-badge badge-warn">Getting there</span>';return'<span class="target-badge badge-alert">Below target</span>';}else{if(val<=target)return'<span class="target-badge badge-good">On target ✓</span>';if(val<=target+5)return'<span class="target-badge badge-warn">Watch this</span>';return'<span class="target-badge badge-alert">Above target</span>';}}
-function updateTargets(){const{low,inRange,high}=TIR_DATA();document.getElementById('targets-grid').innerHTML=`<div class="target-card"><div class="target-label">In Range</div><div class="target-val" style="color:var(--teal)">${inRange}%</div><div style="font-size:10px;color:var(--muted);margin-bottom:6px">Target: ≥70%</div>${badge(inRange,70,'above')}</div><div class="target-card"><div class="target-label">Below Range</div><div class="target-val" style="color:var(--low)">${low}%</div><div style="font-size:10px;color:var(--muted);margin-bottom:6px">Target: &lt;4%</div>${badge(low,4,'below')}</div><div class="target-card"><div class="target-label">Above Range</div><div class="target-val" style="color:var(--amber)">${high}%</div><div style="font-size:10px;color:var(--muted);margin-bottom:6px">Target: &lt;25%</div>${badge(high,25,'below')}</div>`;}
-
-// TIME-OF-DAY
-function renderTOD(){const grid=document.getElementById('tod-grid'),editors=document.getElementById('tod-editors');let gH='',eH='',wHP=null,wHV=-1,wLP=null,wLV=-1;
-for(const[key,meta]of Object.entries(TOD_META)){const d=todData[key],sum=d.low+d.inRange+d.high,ok=Math.abs(sum-100)<0.5;if(d.high>wHV){wHV=d.high;wHP=key;}if(d.low>wLV){wLV=d.low;wLP=key;}
-gH+=`<div class="tod-card ${key}"><div class="tod-icon">${meta.icon}</div><div class="tod-label" style="color:${meta.color}">${meta.label}</div><div class="tod-hours">${meta.hours}</div><div class="tod-mini-bar"><div class="s-low" style="flex:${Math.max(d.low,0.3)}"></div><div class="s-in" style="flex:${Math.max(d.inRange,0.3)}"></div><div class="s-hi" style="flex:${Math.max(d.high,0.3)}"></div></div><div class="tod-stats"><div class="tod-stat"><span style="color:var(--low)">Low</span><span class="tod-stat-val" style="color:var(--low)">${d.low}%</span></div><div class="tod-stat"><span style="color:var(--inrange)">In Range</span><span class="tod-stat-val" style="color:var(--inrange)">${d.inRange}%</span></div><div class="tod-stat"><span style="color:var(--high)">High</span><span class="tod-stat-val" style="color:var(--high)">${d.high}%</span></div></div></div>`;
-eH+=`<div style="margin-bottom:16px"><div style="font-weight:700;font-size:13px;margin-bottom:8px;display:flex;align-items:center;gap:6px">${meta.icon} ${meta.label}<span style="font-size:11px;color:${ok?'var(--teal-dark)':'var(--rose)'};font-weight:600;margin-left:auto">${ok?'Total: 100% ✓':'Total: '+sum+'%'}</span></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px"><div><label style="font-size:10px;font-weight:700;color:var(--low);display:block;margin-bottom:4px">BELOW</label><input type="number" value="${d.low}" min="0" max="100" style="font-size:16px;padding:8px" oninput="updateTODVal('${key}','low',this.value)"/></div><div><label style="font-size:10px;font-weight:700;color:var(--teal-dark);display:block;margin-bottom:4px">IN RANGE</label><input type="number" value="${d.inRange}" min="0" max="100" style="font-size:16px;padding:8px" oninput="updateTODVal('${key}','inRange',this.value)"/></div><div><label style="font-size:10px;font-weight:700;color:var(--amber);display:block;margin-bottom:4px">ABOVE</label><input type="number" value="${d.high}" min="0" max="100" style="font-size:16px;padding:8px" oninput="updateTODVal('${key}','high',this.value)"/></div></div></div>`;}
-grid.innerHTML=gH;editors.innerHTML=eH;
-const c=[],advice={overnight:'This could point to dawn phenomenon or basal rate gaps — worth discussing with your care team.',morning:'Post-breakfast spikes are common. Consider your morning meal timing and composition.',afternoon:'Afternoon highs can relate to lunch choices or midday stress. A post-lunch walk can help.',evening:'Evening highs often connect to dinner composition or late snacking.'};
-if(wHP&&wHV>30){const m=TOD_META[wHP];c.push(`<div class="tod-callout">💡 <strong>Your highs peak ${m.label.toLowerCase()}</strong> (${m.hours}) at ${wHV}% above range. ${advice[wHP]}</div>`);}
-if(wLP&&wLV>5){const m=TOD_META[wLP];c.push(`<div class="tod-callout">⚠️ <strong>Lows cluster ${m.label.toLowerCase()}</strong> (${m.hours}) at ${wLV}%. ${wLP==='overnight'?'Overnight lows can be risky. Your care team may want to review your evening basal or bedtime routine.':'Talk to your care team — reducing lows here could improve your overall time in range.'}</div>`);}
-const best=Object.entries(todData).sort((a,b)=>b[1].inRange-a[1].inRange)[0];if(best[1].inRange>=70){const m=TOD_META[best[0]];c.push(`<div class="tod-callout good">🎯 <strong>${m.label} is your strongest period</strong> at ${best[1].inRange}% in range. Whatever you're doing then is working — see if those habits can carry into other parts of the day.</div>`);}
-document.getElementById('tod-callout-area').innerHTML=c.join('');}
-function updateTODVal(p,f,v){todData[p][f]=parseFloat(v)||0;saveTODS();renderTOD();}
-
-// TRENDS
-function todayStr(){return new Date().toISOString().slice(0,10);}
-function fmtDate(ds){return new Date(ds+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});}
-function saveEntry(){const{low,inRange,high}=TIR_DATA();if(Math.abs(low+inRange+high-100)>0.5){alert('TIR must add to 100%.');return;}const date=document.getElementById('trend-save-date').value||todayStr();historyEntries=historyEntries.filter(e=>e.date!==date);historyEntries.push({date,low,inRange,high});historyEntries.sort((a,b)=>a.date.localeCompare(b.date));saveHS();renderHistory();renderTrendChart();showToast('✓ Saved for '+fmtDate(date));}
-function deleteEntry(d){historyEntries=historyEntries.filter(e=>e.date!==d);saveHS();renderHistory();renderTrendChart();}
-function clearAllHistory(){if(!confirm('Delete all saved entries?'))return;historyEntries=[];saveHS();renderHistory();renderTrendChart();}
-function renderHistory(){const list=document.getElementById('history-list'),btn=document.getElementById('clear-all-btn');if(!historyEntries.length){list.innerHTML='<div style="text-align:center;color:var(--muted);font-size:12px;padding:16px">No saved entries yet.</div>';btn.style.display='none';return;}btn.style.display='';list.innerHTML=[...historyEntries].reverse().map(e=>`<div class="history-row"><div class="history-date">${fmtDate(e.date)}</div><div class="history-mini-bar"><div style="flex:${Math.max(e.low,0.3)};background:var(--low);border-radius:5px 0 0 5px"></div><div style="flex:${Math.max(e.inRange,0.3)};background:var(--inrange)"></div><div style="flex:${Math.max(e.high,0.3)};background:var(--high);border-radius:0 5px 5px 0"></div></div><div class="history-vals"><span class="history-val" style="color:var(--low)">${e.low}%</span><span class="history-val" style="color:var(--inrange)">${e.inRange}%</span><span class="history-val" style="color:var(--high)">${e.high}%</span></div><button class="history-del" onclick="deleteEntry('${e.date}')">✕</button></div>`).join('');}
-
-function setTrendRange(r){trendRange=r;document.querySelectorAll('.trend-pill').forEach(p=>p.classList.toggle('active',p.dataset.range===r));renderTrendChart();}
-function getFilteredEntries(){if(!historyEntries.length)return[];const now=new Date();let cut=null;if(trendRange==='4w')cut=new Date(now-28*864e5);else if(trendRange==='8w')cut=new Date(now-56*864e5);return cut?historyEntries.filter(e=>new Date(e.date+'T12:00:00')>=cut):[...historyEntries];}
-function renderTrendChart(){const entries=getFilteredEntries(),has=entries.length>=2;document.getElementById('trend-empty').style.display=has?'none':'';document.getElementById('trend-has-data').style.display=has?'':'none';if(!has)return;
-document.getElementById('trend-entry-count').textContent=entries.length+' entries';
-const canvas=document.getElementById('trend-canvas'),ctx=canvas.getContext('2d'),dpr=window.devicePixelRatio||1,rect=canvas.parentElement.getBoundingClientRect();canvas.width=rect.width*dpr;canvas.height=rect.height*dpr;ctx.scale(dpr,dpr);const W=rect.width,H=rect.height;ctx.clearRect(0,0,W,H);
-const pad={top:24,right:16,bottom:36,left:40},cw=W-pad.left-pad.right,ch=H-pad.top-pad.bottom;
-ctx.strokeStyle='#d4e9e7';ctx.lineWidth=1;ctx.font='600 10px Nunito Sans,sans-serif';ctx.fillStyle='#6b8f8c';ctx.textAlign='right';ctx.textBaseline='middle';
-for(const v of[0,25,50,75,100]){const y=pad.top+ch-(v/100)*ch;ctx.beginPath();ctx.moveTo(pad.left,y);ctx.lineTo(W-pad.right,y);ctx.stroke();ctx.fillText(v+'%',pad.left-6,y);}
-const tY=pad.top+ch-0.7*ch;ctx.setLineDash([6,4]);ctx.strokeStyle='#6b8f8c';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(pad.left,tY);ctx.lineTo(W-pad.right,tY);ctx.stroke();ctx.setLineDash([]);
-const xS=entries.length>1?cw/(entries.length-1):cw/2,mL=Math.floor(cw/52),lE=Math.max(1,Math.ceil(entries.length/mL));ctx.textAlign='center';ctx.textBaseline='top';ctx.fillStyle='#6b8f8c';
-entries.forEach((e,i)=>{if(i%lE===0||i===entries.length-1)ctx.fillText(fmtDate(e.date),pad.left+i*xS,H-pad.bottom+8);});
-function drawL(fn,col,w){ctx.beginPath();ctx.strokeStyle=col;ctx.lineWidth=w;ctx.lineJoin='round';ctx.lineCap='round';entries.forEach((e,i)=>{const x=pad.left+i*xS,y=pad.top+ch-(fn(e)/100)*ch;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.stroke();}
-ctx.beginPath();entries.forEach((e,i)=>{const x=pad.left+i*xS,y=pad.top+ch-(e.inRange/100)*ch;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.lineTo(pad.left+(entries.length-1)*xS,pad.top+ch);ctx.lineTo(pad.left,pad.top+ch);ctx.closePath();ctx.fillStyle='rgba(0,169,157,0.08)';ctx.fill();
-drawL(e=>e.low,'#d94f3a',2);drawL(e=>e.high,'#e8900a',2);drawL(e=>e.inRange,'#00a99d',3);
-entries.forEach((e,i)=>{const x=pad.left+i*xS,y=pad.top+ch-(e.inRange/100)*ch;ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=2.5;ctx.strokeStyle='#00a99d';ctx.stroke();});}
-
-function showToast(msg){const t=document.getElementById('saved-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
-function toggleChip(el,v){if(selectedChips.has(v)){selectedChips.delete(v);el.classList.remove('chip-active');}else{selectedChips.add(v);el.classList.add('chip-active');}}
-
-// API — direct Anthropic endpoint (no proxy needed)
-async function callClaude(messages,system,maxTokens=500){const body={model:'claude-sonnet-4-6',max_tokens:maxTokens,messages};if(system)body.system=system;const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const data=await res.json();if(data.error)throw new Error(data.error.message);return data.content?.map(b=>b.text||'').join('')||'';}
-
-// INSIGHTS (includes TOD data)
-async function generateInsights(){const{low,inRange,high}=TIR_DATA();const btn=document.getElementById('insights-btn'),out=document.getElementById('insights-output'),txt=document.getElementById('insights-text'),doc=document.getElementById('doctor-tips'),ex=document.getElementById('extra-context').value.trim();
-const cp=[...selectedChips];if(ex)cp.push(ex);const cl=cp.length?'\nAdditional context: '+cp.join(', ')+'.':'';
-const ts=Object.entries(TOD_META).map(([k,m])=>{const d=todData[k];return m.label+' ('+m.hours+'): Low '+d.low+'%, In Range '+d.inRange+'%, High '+d.high+'%';}).join('\n');
-btn.disabled=true;btn.textContent='⏳ Generating...';out.style.display='block';txt.className='insight-block loading';txt.textContent='Analyzing your TIR data...';
-try{const ip=`You are a warm, knowledgeable diabetes educator. Speak plainly, avoid jargon, be encouraging but honest.
-
-Patient CGM data (overall):
-- Below Range (<70 mg/dL): ${low}%
-- In Range (70–180 mg/dL): ${inRange}%
-- Above Range (>180 mg/dL): ${high}%
-
-Time-of-day breakdown:
-${ts}
-${cl}
-ADA targets: TIR ≥70%, Below <4%, Above <25%.
-
-Provide:
-1. A 2–3 sentence plain-language summary of overall numbers.
-2. A specific callout about which time of day is most problematic and why.
-3. 2–3 specific lifestyle areas worth exploring (NOT dosing advice).
-4. A brief encouraging closing note.
-
-Under 250 words. Warm and human.`;
-const insight=await callClaude([{role:'user',content:ip}],null,600);txt.className='insight-block';txt.textContent=insight;insightsGenerated=true;
-const sb=document.getElementById('stale-bar');if(sb)sb.style.display='none';
-doc.style.cssText='background:var(--amber-light);border-left:4px solid var(--amber);border-radius:0 10px 10px 0;padding:16px 18px;font-size:13.5px;line-height:1.9;color:var(--text);margin-top:0;white-space:pre-wrap;';doc.textContent='Loading doctor tips...';
-const wp=Object.entries(todData).sort((a,b)=>b[1].high-a[1].high)[0][0];
-const tips=await callClaude([{role:'user',content:`Based on TIR data (Below: ${low}%, In Range: ${inRange}%, Above: ${high}%) with worst period being ${wp}, give 3 short questions a patient should ask their doctor. Each bullet under 15 words. Format with • bullets. No preamble.`}],null,250);
-doc.textContent=tips;}catch(e){txt.className='insight-block';txt.textContent='Error: '+e.message;}btn.disabled=false;btn.textContent='✨ Regenerate Insights';}
-
-// CHAT (includes TOD context)
-async function sendMessage(){const input=document.getElementById('chat-input'),text=input.value.trim();if(!text)return;input.value='';appendMessage('user',text);const tid=appendTyping();document.getElementById('send-btn').disabled=true;
-const{low,inRange,high}=TIR_DATA();
-const sys=`You are a peer mentor in a diabetes self-management community. You have managed diabetes yourself for many years. You speak like a knowledgeable friend, not a doctor.
-
-The person's CGM data: Below Range: ${low}%, In Range: ${inRange}%, Above Range: ${high}%.
-Time-of-day: Overnight IR ${todData.overnight.inRange}%, Morning IR ${todData.morning.inRange}%, Afternoon IR ${todData.afternoon.inRange}%, Evening IR ${todData.evening.inRange}%.
-
-Guidelines:
-- Be warm, empathetic, and real.
-- Share practical lifestyle tips (sleep, food, stress, exercise, mindset).
-- Reference their time-of-day patterns when relevant.
-- Never suggest insulin doses or medication changes.
-- Keep responses to 3–5 sentences unless asked for more.
-- Always remind them their doctor is their partner for clinical decisions.`;
-chatHistory.push({role:'user',content:text});
-try{const reply=await callClaude(chatHistory,sys,350);chatHistory.push({role:'assistant',content:reply});removeTyping(tid);appendMessage('ai',reply);}catch(e){removeTyping(tid);appendMessage('ai','Sorry, I had trouble connecting. Try again in a moment.');}document.getElementById('send-btn').disabled=false;}
-
-function sendChip(t){document.getElementById('chat-input').value=t;document.getElementById('chip-row').style.display='none';sendMessage();}
-function appendMessage(role,text){const a=document.getElementById('chat-area'),d=document.createElement('div');d.className=`msg ${role==='user'?'user':''}`;d.innerHTML=`<div class="avatar ${role==='user'?'user-av':'ai'}">${role==='user'?'👤':'🙂'}</div><div class="bubble ${role}">${text}</div>`;a.appendChild(d);a.scrollTop=a.scrollHeight;}
-function appendTyping(){const a=document.getElementById('chat-area'),id='typing-'+Date.now(),d=document.createElement('div');d.className='msg';d.id=id;d.innerHTML=`<div class="avatar ai">🙂</div><div class="bubble ai"><div class="typing"><span></span><span></span><span></span></div></div>`;a.appendChild(d);a.scrollTop=a.scrollHeight;return id;}
-function removeTyping(id){const el=document.getElementById(id);if(el)el.remove();}
-function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}}
-
-// DEMO PROFILES (with TOD)
-const DEMOS={sarah:{name:'Sarah',label:'Sarah — Type 1, 8 years',low:6,inRange:64,high:30,chips:['Type 1 diabetes','using an insulin pump'],context:'Has been T1D for 8 years. Struggles most with overnight lows and post-meal spikes. Uses a pump but not a closed loop system yet.',tod:{overnight:{low:12,inRange:54,high:34},morning:{low:5,inRange:58,high:37},afternoon:{low:3,inRange:72,high:25},evening:{low:4,inRange:70,high:26}}},marcus:{name:'Marcus',label:'Marcus — Type 2, 3 years',low:2,inRange:71,high:27,chips:['Type 2 diabetes'],context:'Diagnosed 3 years ago. Manages with diet and oral medication, no insulin. Just started using a CGM.',tod:{overnight:{low:1,inRange:82,high:17},morning:{low:1,inRange:68,high:31},afternoon:{low:2,inRange:65,high:33},evening:{low:4,inRange:69,high:27}}},priya:{name:'Priya',label:'Priya — Type 1, newly diagnosed',low:8,inRange:48,high:44,chips:['Type 1 diabetes','recently diagnosed'],context:'Newly diagnosed Type 1, honeymoon phase. On MDI. Feeling overwhelmed.',tod:{overnight:{low:14,inRange:42,high:44},morning:{low:6,inRange:44,high:50},afternoon:{low:5,inRange:55,high:40},evening:{low:7,inRange:50,high:43}}},james:{name:'James',label:'James — Type 1, athlete',low:3,inRange:82,high:15,chips:['Type 1 diabetes','very physically active','using an insulin pump'],context:'T1D 15 years, closed loop system. Trains for triathlons.',tod:{overnight:{low:2,inRange:88,high:10},morning:{low:5,inRange:78,high:17},afternoon:{low:4,inRange:76,high:20},evening:{low:1,inRange:86,high:13}}}};
-
-function loadDemo(k){const p=DEMOS[k];document.getElementById('inp-low').value=p.low;document.getElementById('inp-in').value=p.inRange;document.getElementById('inp-high').value=p.high;updateBar();
-document.getElementById('demo-active-label').textContent='Showing demo: '+p.label;document.getElementById('demo-active-bar').style.display='flex';document.getElementById('manual-card-title').textContent=p.name+"'s TIR Data (Demo)";document.getElementById('manual-card-sub').textContent='Simulated data for '+p.label+'. Head to Insights or Peer Mentor to explore.';
-selectedChips=new Set(p.chips);document.querySelectorAll('.ctx-chip').forEach(el=>{const m=el.getAttribute('onclick').match(/'([^']+)'\)/);const v=m?m[1]:null;if(v&&selectedChips.has(v))el.classList.add('chip-active');else el.classList.remove('chip-active');});document.getElementById('extra-context').value=p.context;
-todData=JSON.parse(JSON.stringify(p.tod));saveTODS();renderTOD();
-chatHistory=[];document.getElementById('chat-area').innerHTML='';appendMessage('ai',`Hey ${p.name}! I can see you've shared your numbers with me. I'd love to chat through what's going on — what's been on your mind most lately?`);}
-
-function clearDemo(){document.getElementById('inp-low').value=4;document.getElementById('inp-in').value=68;document.getElementById('inp-high').value=28;updateBar();document.getElementById('demo-active-bar').style.display='none';document.getElementById('manual-card-title').textContent='Your TIR Data';document.getElementById('manual-card-sub').textContent='Enter your percentages from your CGM app, or load a demo profile above.';selectedChips=new Set();document.querySelectorAll('.ctx-chip').forEach(el=>el.classList.remove('chip-active'));document.getElementById('extra-context').value='';todData={overnight:{low:8,inRange:60,high:32},morning:{low:3,inRange:62,high:35},afternoon:{low:2,inRange:74,high:24},evening:{low:5,inRange:68,high:27}};saveTODS();renderTOD();chatHistory=[];document.getElementById('chat-area').innerHTML='';appendMessage('ai',"Hey! I'm your Betawise peer mentor. I've been there — the highs, the lows, the frustrating days when nothing makes sense. What's on your mind?");}
-
-// DEXCOM CONNECT
-
-const DEXCOM_REDIRECT=window.location.origin+window.location.pathname;
-
-function connectDexcom(){const clientId=document.getElementById('dexcom-client-id').value.trim();const status=document.getElementById('dexcom-status');if(!clientId){status.textContent='Enter your Dexcom Client ID first.';status.style.color='var(--rose)';return;}const sandbox=document.getElementById('dexcom-sandbox').checked;localStorage.setItem('dexcom_client_id',clientId);sessionStorage.setItem('dexcom_sandbox',sandbox?'1':'0');const base=sandbox?'https://sandbox-api.dexcom.com':'https://api.dexcom.com';const authUrl=`${base}/v2/oauth2/login?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(DEXCOM_REDIRECT)}&response_type=code&scope=offline_access`;status.textContent='Redirecting to Dexcom...';status.style.color='var(--muted)';window.location.href=authUrl;}
-
-function disconnectDexcom(){localStorage.removeItem('dexcom_access_token');localStorage.removeItem('dexcom_refresh_token');document.getElementById('dexcom-connected').style.display='none';document.getElementById('dexcom-disconnected').style.display='block';document.getElementById('dexcom-status').textContent='Disconnected.';document.getElementById('dexcom-status').style.color='var(--muted)';}
-
-async function handleDexcomCallback(){const params=new URLSearchParams(window.location.search);const code=params.get('code');if(!code)return;const status=document.getElementById('dexcom-status');status.textContent='Finishing connection...';status.style.color='var(--muted)';const clientId=localStorage.getItem('dexcom_client_id');const sandbox=sessionStorage.getItem('dexcom_sandbox')==='1';try{const res=await fetch('/api/dexcom-token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,client_id:clientId,redirect_uri:DEXCOM_REDIRECT,sandbox})});const data=await res.json();if(data.access_token){localStorage.setItem('dexcom_access_token',data.access_token);localStorage.setItem('dexcom_refresh_token',data.refresh_token||'');document.getElementById('dexcom-disconnected').style.display='none';document.getElementById('dexcom-connected').style.display='block';status.textContent='';await fetchDexcomData();}else{status.textContent='Could not complete connection: '+(data.error||'unknown error');status.style.color='var(--rose)';}}catch(e){status.textContent='Token exchange needs a small backend endpoint at /api/dexcom-token (Dexcom requires a client secret, which can\'t live in the browser). See the setup notes.';status.style.color='var(--rose)';}window.history.replaceState({},document.title,window.location.pathname);}
-
-async function fetchDexcomData(){const token=localStorage.getItem('dexcom_access_token');if(!token)return;const status=document.getElementById('dexcom-status');status.textContent='Pulling last 14 days of readings...';status.style.color='var(--muted)';try{const end=new Date(),start=new Date(end-14*864e5);const fmt=d=>d.toISOString().slice(0,19);const sandbox=sessionStorage.getItem('dexcom_sandbox')==='1';const base=sandbox?'https://sandbox-api.dexcom.com':'https://api.dexcom.com';const res=await fetch(`${base}/v3/users/self/egvs?startDate=${fmt(start)}&endDate=${fmt(end)}`,{headers:{Authorization:'Bearer '+token}});const data=await res.json();const readings=(data.records||[]).map(r=>({value:r.value,time:new Date(r.systemTime)}));if(readings.length)applyReadings(readings,'Dexcom ('+readings.length+' readings)');status.textContent=readings.length?`✓ Loaded ${readings.length} readings from the last 14 days`:'No readings returned for this window.';status.style.color=readings.length?'var(--teal-dark)':'var(--muted)';}catch(e){status.textContent='Error fetching data: '+e.message;status.style.color='var(--rose)';}}
-
-// SHARED: compute TIR + time-of-day breakdown from raw {value, time} readings (mg/dL) and apply to dashboard
-
-function applyReadings(readings,sourceLabel){let low=0,inRange=0,high=0;const tod={overnight:{low:0,inRange:0,high:0,total:0},morning:{low:0,inRange:0,high:0,total:0},afternoon:{low:0,inRange:0,high:0,total:0},evening:{low:0,inRange:0,high:0,total:0}};for(const r of readings){const v=r.value,hr=r.time.getHours();const period=hr<6?'overnight':hr<12?'morning':hr<18?'afternoon':'evening';tod[period].total++;if(v<70){low++;tod[period].low++;}else if(v>180){high++;tod[period].high++;}else{inRange++;tod[period].inRange++;}}const n=readings.length||1;document.getElementById('inp-low').value=Math.round(low/n*100);document.getElementById('inp-in').value=Math.round(inRange/n*100);document.getElementById('inp-high').value=Math.round(high/n*100);updateBar();for(const p of Object.keys(tod)){const t=tod[p].total||1;todData[p]={low:Math.round(tod[p].low/t*100),inRange:Math.round(tod[p].inRange/t*100),high:Math.round(tod[p].high/t*100)};}saveTODS();renderTOD();document.getElementById('demo-active-bar').style.display='flex';document.getElementById('demo-active-label').textContent='Showing real data: '+sourceLabel;document.getElementById('manual-card-title').textContent='Your TIR Data';document.getElementById('manual-card-sub').textContent='Loaded from '+sourceLabel+'.';}
-
-// CSV IMPORT (Dexcom Clarity + LibreView)
-
-function handleCsvDrop(e){e.preventDefault();e.currentTarget.style.borderColor='var(--border)';const f=e.dataTransfer.files[0];if(f)handleCsvFile(f);}
-
-function handleCsvFile(file){if(!file)return;const status=document.getElementById('csv-status');status.textContent='Reading '+file.name+'...';status.style.color='var(--muted)';const reader=new FileReader();reader.onload=e=>{try{const readings=parseCgmCsv(e.target.result);if(!readings.length){status.textContent='No glucose readings found in this file.';status.style.color='var(--rose)';return;}applyReadings(readings,file.name);status.textContent=`✓ Parsed ${readings.length} readings (~${Math.round(readings.length/288)} days)`;status.style.color='var(--teal-dark)';}catch(err){status.textContent='Could not parse this file: '+err.message;status.style.color='var(--rose)';}};reader.readAsText(file);}
-
-function splitCsvLine(line){const out=[];let cur='',inQ=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){inQ=!inQ;continue;}if(c===','&&!inQ){out.push(cur);cur='';continue;}cur+=c;}out.push(cur);return out;}
-
-function parseGlucoseValue(raw){if(raw==null)return null;const s=String(raw).trim();if(!s||/low|high/i.test(s))return null;let n=parseFloat(s.replace(/[^\d.]/g,''));if(isNaN(n))return null;if(n<30)n=Math.round(n*18.0182);return n;}
-
-function parseCgmCsv(text){const lines=text.split(/\r?\n/).filter(l=>l.trim().length);if(!lines.length)return[];const header=lines[0].toLowerCase();const cols=splitCsvLine(lines[0]);const readings=[];
-
-if(header.includes('glucose value')&&header.includes('timestamp')){const tIdx=cols.findIndex(c=>c.toLowerCase().includes('timestamp'));const vIdx=cols.findIndex(c=>c.toLowerCase().includes('glucose value'));for(let i=1;i<lines.length;i++){const row=splitCsvLine(lines[i]);const val=parseGlucoseValue(row[vIdx]);const ts=row[tIdx];if(val==null||!ts)continue;const d=new Date(ts.replace(' ','T'));if(isNaN(d))continue;readings.push({value:val,time:d});}if(readings.length)return readings;}
-
-if(header.includes('device timestamp')&&(header.includes('historic glucose')||header.includes('glucose mg/dl'))){const tIdx=cols.findIndex(c=>c.toLowerCase().includes('device timestamp'));const hIdx=cols.findIndex(c=>c.toLowerCase().includes('historic glucose'));const sIdx=cols.findIndex(c=>c.toLowerCase().includes('scan glucose'));for(let i=1;i<lines.length;i++){const row=splitCsvLine(lines[i]);const ts=row[tIdx];const raw=(hIdx>=0&&row[hIdx])?row[hIdx]:(sIdx>=0?row[sIdx]:null);const val=parseGlucoseValue(raw);if(val==null||!ts)continue;const d=new Date(ts);if(isNaN(d))continue;readings.push({value:val,time:d});}if(readings.length)return readings;}
-
-const vIdx=cols.findIndex(c=>c.toLowerCase().includes('glucose'));const tIdx=cols.findIndex(c=>/time|date/i.test(c));if(vIdx>=0&&tIdx>=0){for(let i=1;i<lines.length;i++){const row=splitCsvLine(lines[i]);const val=parseGlucoseValue(row[vIdx]);const ts=row[tIdx];if(val==null||!ts)continue;const d=new Date(ts.replace(' ','T'));if(isNaN(d))continue;readings.push({value:val,time:d});}}return readings;}
-
-function initDexcomUI(){if(localStorage.getItem('dexcom_access_token')){document.getElementById('dexcom-disconnected').style.display='none';document.getElementById('dexcom-connected').style.display='block';}const cid=localStorage.getItem('dexcom_client_id');if(cid)document.getElementById('dexcom-client-id').value=cid;if(new URLSearchParams(window.location.search).get('code'))handleDexcomCallback();}
-
-// INIT
-document.getElementById('trend-save-date').value=todayStr();updateBar();renderTOD();renderHistory();loadFromStorage();initDexcomUI();
-window.addEventListener('resize',()=>{if(document.getElementById('tab-trends').style.display!=='none')renderTrendChart();});
-</script>
+<script type="module" src="js/landing.js"></script>
 </body>
 </html>

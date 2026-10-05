@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Betawise App</title>
+<meta name="description" content="Betawise turns your CGM data into one clear focus each week, an AI coach that knows your patterns, and a clinician-ready report.">
+<meta name="theme-color" content="#0b6e5c">
+<link rel="icon" href="img/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/bw.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-logo" viewBox="0 0 24 24"><path d="M2 14h3.5l2.5-6 4 11 3-8 1.5 3H22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z M14 3v4h4 M9 12h6 M9 16h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8 M15 7h6v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 20h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.4 1.4M17.6 17.6L19 19M5 19l1.4-1.4M17.6 6.4L19 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 12l3 3 5-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 9l6 6M15 9l-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z M12 10v5 M12 18v.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v6M12 7.5v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M7 8V3h10v5 M7 17H4v-7h16v7h-3 M7 14h10v7H7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2-6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5 M16 4.5a3.5 3.5 0 0 1 0 7 M18 14.8c1.9.8 3.1 2.6 3.5 5.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+</svg>
+
+<div class="app">
+  <aside class="sidebar" aria-label="Main">
+    <a class="brand" href="./"><span class="brand-mark"><svg><use href="#i-logo"/></svg></span>Betawise</a>
+    <nav class="sidenav" id="sidenav">
+      <button data-nav="overview"><svg class="icon"><use href="#i-home"/></svg>Overview</button>
+      <button data-nav="patterns"><svg class="icon"><use href="#i-pulse"/></svg>Patterns</button>
+      <button data-nav="coach"><svg class="icon"><use href="#i-chat"/></svg>Coach</button>
+      <button data-nav="report"><svg class="icon"><use href="#i-file"/></svg>Clinic report</button>
+      <button data-nav="progress"><svg class="icon"><use href="#i-trend"/></svg>Progress</button>
+      <button data-nav="settings"><svg class="icon"><use href="#i-gear"/></svg>Settings</button>
+    </nav>
+    <div class="sidebar-foot">
+      <a class="card" href="../apply.html?type=get-mentor" style="padding:14px;text-decoration:none;color:inherit;box-shadow:none">
+        <div style="display:flex;gap:10px;align-items:center"><svg class="icon" style="color:var(--brand)"><use href="#i-users"/></svg><strong style="font-size:13.5px">Talk to a real mentor</strong></div>
+        <p class="xs muted" style="margin-top:6px">Free 1:1 peer mentorship from The Time in Range Project.</p>
+      </a>
+      <p class="disclaimer">Betawise is an educational tool, not a medical device. It does not provide dosing advice. Always work with your care team.</p>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <a class="brand mobile-brand" href="./"><span class="brand-mark"><svg><use href="#i-logo"/></svg></span></a>
+      <h1 id="view-title">Overview</h1>
+      <span class="spacer"></span>
+      <button class="source-pill" id="source-pill" type="button" hidden><span class="dot"></span><span id="source-label"></span></button>
+      <div class="seg" role="group" aria-label="Units">
+        <button type="button" data-unit="mgdl" aria-pressed="true">mg/dL</button>
+        <button type="button" data-unit="mmol" aria-pressed="false">mmol/L</button>
+      </div>
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label="Toggle dark mode"><svg class="icon"><use href="#i-moon"/></svg></button>
+    </header>
+
+    <main class="page" id="page">
+      <!-- Onboarding (no data yet) -->
+      <section data-view="onboard" hidden>
+        <div class="onboard">
+          <p class="eyebrow">Welcome to Betawise</p>
+          <h2>See what your glucose is telling you — in two minutes.</h2>
+          <p class="ink-2" style="margin-top:12px;font-size:17px;max-width:640px">Bring 14 days of CGM data. Betawise computes the same metrics your endocrinologist uses, finds your patterns, and gives you one thing to focus on this week.</p>
+
+          <div class="grid grid-2" style="margin-top:28px">
+            <div class="card">
+              <div class="card-head"><div><div class="card-title">Upload a CGM export</div><div class="card-sub">Dexcom Clarity or LibreView CSV (mg/dL or mmol/L)</div></div><svg class="icon muted"><use href="#i-upload"/></svg></div>
+              <label class="dropzone" id="dropzone">
+                <input type="file" id="file-input" accept=".csv,text/csv" class="sr-only">
+                <strong>Drop a CSV here</strong><br><span class="small muted">or click to choose a file</span>
+              </label>
+              <p class="xs muted" id="upload-status" style="margin-top:8px" role="status"></p>
+            </div>
+            <div class="card">
+              <div class="card-head"><div><div class="card-title">Connect Dexcom</div><div class="card-sub">Secure OAuth. We never see your password.</div></div><svg class="icon muted"><use href="#i-link"/></svg></div>
+              <button class="btn btn-secondary" id="dexcom-connect" type="button" style="width:100%">Connect Dexcom account</button>
+              <p class="xs muted" id="dexcom-status" style="margin-top:8px" role="status"></p>
+            </div>
+          </div>
+
+          <h3 style="margin:32px 0 12px;font-size:16px">Or explore with a sample member</h3>
+          <div class="grid grid-4" id="persona-grid"></div>
+
+          <div class="privacy-note" style="margin-top:24px"><svg class="icon"><use href="#i-shield"/></svg><span><strong>Private by design.</strong> Your readings are analyzed on this device and stored only in this browser. When you use the AI coach, only summary statistics are sent — never raw readings, dates, or identifiers.</span></div>
+        </div>
+      </section>
+
+      <section data-view="overview" hidden></section>
+      <section data-view="patterns" hidden></section>
+      <section data-view="coach" hidden>
+        <div class="grid" style="grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:start" id="coach-grid">
+          <div class="card">
+            <div class="card-head">
+              <div><div class="card-title">Your weekly insight</div><div class="card-sub">A plain-language read of your last 14 days and one focus for the week.</div></div>
+              <button class="btn btn-primary btn-sm" id="insight-btn" type="button"><svg class="icon"><use href="#i-spark"/></svg>Generate</button>
+            </div>
+            <div id="insight-body" class="insight"><p class="muted small">Generate an insight to get a summary, your top focus with small experiments to try, and questions to bring to your next appointment.</p></div>
+          </div>
+          <div class="card chat">
+            <div class="card-head"><div><div class="card-title">Peer coach</div><div class="card-sub">Knows your patterns. Never gives dosing advice.</div></div></div>
+            <div class="chat-log" id="chat-log" aria-live="polite"></div>
+            <div class="suggestions" id="suggestions"></div>
+            <form class="chat-form" id="chat-form">
+              <label for="chat-input" class="sr-only">Message</label>
+              <textarea id="chat-input" class="input" rows="1" placeholder="Ask about your numbers…" maxlength="2000"></textarea>
+              <button class="btn btn-primary" type="submit" id="chat-send" aria-label="Send"><svg class="icon"><use href="#i-send"/></svg></button>
+            </form>
+          </div>
+        </div>
+      </section>
+      <section data-view="report" hidden></section>
+      <section data-view="progress" hidden></section>
+      <section data-view="settings" hidden></section>
+    </main>
+  </div>
+
+  <nav class="bottombar" id="bottombar" aria-label="Main">
+    <button data-nav="overview"><svg class="icon"><use href="#i-home"/></svg>Overview</button>
+    <button data-nav="patterns"><svg class="icon"><use href="#i-pulse"/></svg>Patterns</button>
+    <button data-nav="coach"><svg class="icon"><use href="#i-chat"/></svg>Coach</button>
+    <button data-nav="report"><svg class="icon"><use href="#i-file"/></svg>Report</button>
+    <button data-nav="progress"><svg class="icon"><use href="#i-trend"/></svg>Progress</button>
+  </nav>
+</div>
+
+<div class="tooltip" id="tooltip" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
