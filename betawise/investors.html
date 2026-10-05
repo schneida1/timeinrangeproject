@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Betawise Investor Brief</title>
+<meta name="description" content="Betawise: the intelligence layer for continuous glucose monitoring. Investor brief.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b6e5c">
+<link rel="icon" href="img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/bw.css">
+<style>
+  .slide { padding: 64px 0; border-bottom: 1px solid var(--line); }
+  .slide-num { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .slide h2 { font-family: var(--display); font-weight: 400; font-size: clamp(30px, 4.4vw, 46px); line-height: 1.06; margin-top: 8px; }
+  .slide .intro { color: var(--ink-2); font-size: 17px; max-width: 720px; margin-top: 14px; }
+  .pill-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 28px; }
+  .flow > div { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; position: relative; }
+  .flow > div:not(:last-child)::after { content: '→'; position: absolute; right: -11px; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 700; }
+  .flow h3 { font-size: 15px; }
+  .flow p { font-size: 13.5px; color: var(--ink-2); margin-top: 6px; }
+  @media (max-width: 860px) { .flow { grid-template-columns: 1fr 1fr; } .flow > div::after { display: none; } }
+  @media (max-width: 520px) { .flow { grid-template-columns: 1fr; } }
+  .yes { color: var(--ok); font-weight: 700; }
+  .no { color: var(--muted); }
+  .phase { border-left: 3px solid var(--brand); padding-left: 16px; }
+  .phase h3 { font-size: 16px; }
+  .phase ul { margin: 8px 0 0; padding-left: 18px; color: var(--ink-2); font-size: 14.5px; display: grid; gap: 4px; }
+  .note { font-size: 12px; color: var(--muted); margin-top: 12px; }
+  @media print { .site-nav { display: none; } .slide { break-inside: avoid; padding: 28px 0; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-logo" viewBox="0 0 24 24"><path d="M2 14h3.5l2.5-6 4 11 3-8 1.5 3H22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="./"><span class="brand-mark"><svg><use href="#i-logo"/></svg></span>Betawise <small>Investor brief</small></a>
+    <nav aria-label="Primary">
+      <a class="link" href="#problem">Problem</a>
+      <a class="link" href="#product">Product</a>
+      <a class="link" href="#model">Model</a>
+      <a class="link" href="#moat">Moat</a>
+      <a class="btn btn-primary btn-sm" href="app.html?demo=sarah">Live demo</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="slide" style="padding-top:72px">
+    <p class="eyebrow">Betawise · Investor brief · 2026</p>
+    <h1 style="font-family:var(--display);font-weight:400;font-size:clamp(40px,6.5vw,72px);line-height:1.02;margin-top:12px;max-width:960px">The intelligence layer for continuous glucose monitoring.</h1>
+    <p class="intro" style="font-size:19px">CGMs are becoming as common as smartwatches. Betawise turns their data into weekly, clinically grounded action for patients — and a standardized, billable summary for the clinicians who care for them.</p>
+    <div class="pill-list">
+      <span class="chip">Type 1 &amp; Type 2</span><span class="chip">Dexcom &amp; Libre</span><span class="chip">AI coach + human peer mentors</span><span class="chip">Consensus-standard analytics</span><span class="chip">Privacy-first architecture</span>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <a class="btn btn-primary btn-lg" href="app.html?demo=sarah">Try the product (60 sec)</a>
+      <a class="btn btn-secondary btn-lg" href="#problem">Read the brief</a>
+    </div>
+  </section>
+
+  <section class="slide" id="problem">
+    <span class="slide-num">01 — Problem</span>
+    <h2>The data revolution in diabetes stalled at the last mile.</h2>
+    <p class="intro">A CGM produces ~4,000 readings every two weeks. Most people see a specialist for minutes a few times a year, and device apps stop at charts and averages. The result: better sensors, stubborn outcomes.</p>
+    <div class="stat-strip" style="margin-top:28px">
+      <div><div class="num">38.4M</div><div class="lbl">Americans with diabetes</div><div class="src">CDC, 2023</div></div>
+      <div><div class="num">$413B</div><div class="lbl">US annual cost, ~1 in 4 healthcare dollars spent on people with diabetes</div><div class="src">ADA, Diabetes Care 2024</div></div>
+      <div><div class="num">~21%</div><div class="lbl">of adults with Type 1 meet the A1C goal</div><div class="src">T1D Exchange, 2019</div></div>
+      <div><div class="num">+64%</div><div class="lbl">retinopathy hazard for each 10-pt drop in time in range</div><div class="src">Beck et al., Diabetes Care 2019</div></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <span class="slide-num">02 — Why now</span>
+    <h2>Four curves just crossed.</h2>
+    <div class="grid grid-2" style="margin-top:28px">
+      <div class="card"><div class="card-title">CGMs went over-the-counter</div><p class="ink-2 small" style="margin-top:6px">FDA cleared the first OTC CGMs in 2024, opening the category to tens of millions of people with Type 2 diabetes and prediabetes who are not on insulin — and who have no endocrinologist.</p></div>
+      <div class="card"><div class="card-title">Time in range became the standard</div><p class="ink-2 small" style="margin-top:6px">International consensus targets (2019) and ADA Standards of Care now center CGM metrics, giving us a shared, objective outcome to coach toward and report on.</p></div>
+      <div class="card"><div class="card-title">AI made expert coaching affordable</div><p class="ink-2 small" style="margin-top:6px">Frontier models can explain data with empathy at a cost of cents per conversation. We estimate under $1 per active member per month in model costs.</p></div>
+      <div class="card"><div class="card-title">Reimbursement exists</div><p class="ink-2 small" style="margin-top:6px">CGM interpretation and remote patient monitoring have established CPT codes, so clinics have a reason to adopt tools that make CGM review fast and standardized.</p></div>
+    </div>
+  </section>
+
+  <section class="slide" id="product">
+    <span class="slide-num">03 — Product</span>
+    <h2>From raw readings to one thing to do this week.</h2>
+    <div class="flow">
+      <div><h3>Ingest</h3><p>Dexcom OAuth, Clarity and LibreView exports, mg/dL or mmol/L. Analysis runs on-device.</p></div>
+      <div><h3>Measure</h3><p>Consensus metrics, GMI, CV, Glycemia Risk Index, AGP — deterministic and auditable.</p></div>
+      <div><h3>Prioritize</h3><p>Pattern engine ranks safety first, then sizes each opportunity in points of time in range.</p></div>
+      <div><h3>Act</h3><p>Weekly focus, AI peer coach, human mentor escalation, and a one-page clinic report.</p></div>
+    </div>
+    <div class="grid grid-3" style="margin-top:20px">
+      <div class="card"><div class="card-title">For members</div><p class="small ink-2" style="margin-top:6px">A weekly focus and coach that knows their patterns. Commitments and progress tracking turn insight into habit.</p></div>
+      <div class="card"><div class="card-title">For clinicians</div><p class="small ink-2" style="margin-top:6px">A consensus-format summary (AGP, targets, flagged patterns, patient questions) that makes a 15-minute visit count.</p></div>
+      <div class="card"><div class="card-title">For payers &amp; employers</div><p class="small ink-2" style="margin-top:6px">Population-level time-in-range and GRI movement — an objective, continuous outcome metric instead of a quarterly A1C.</p></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <span class="slide-num">04 — Impact</span>
+    <h2>We measure what matters to the person, not engagement.</h2>
+    <p class="intro">Our north-star metric is <strong>time in range gained per member</strong>, with time below range as a safety constraint that can never get worse. Every 10 points of time in range is associated with roughly a 0.8-point lower A1C and substantially lower risk of eye and kidney complications.</p>
+    <div class="grid grid-3" style="margin-top:28px">
+      <div class="card kpi"><div class="k-label">North star</div><div class="k-value">+TIR</div><div class="k-foot muted">Points gained at 90 days vs. baseline</div></div>
+      <div class="card kpi"><div class="k-label">Safety guardrail</div><div class="k-value">TBR ↓</div><div class="k-foot muted">Time below range must not rise</div></div>
+      <div class="card kpi"><div class="k-label">Leading indicator</div><div class="k-value">Weekly focus</div><div class="k-foot muted">% of members committing &amp; re-uploading</div></div>
+    </div>
+  </section>
+
+  <section class="slide" id="model">
+    <span class="slide-num">05 — Business model</span>
+    <h2>Free for people. Paid by the organizations that save money when they do better.</h2>
+    <div class="table-wrap" style="margin-top:28px">
+      <table class="table">
+        <thead><tr><th>Channel</th><th>Customer</th><th>How we're paid</th><th>Why they buy</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Consumer</strong></td><td>People with diabetes</td><td>Free core; optional premium (coach, history, family sharing)</td><td>Mission, distribution, and the data flywheel</td></tr>
+          <tr><td><strong>Clinics</strong></td><td>Endocrinology &amp; primary care</td><td>Per-provider SaaS</td><td>Faster, standardized CGM review supporting existing interpretation and RPM workflows</td></tr>
+          <tr><td><strong>Payers &amp; employers</strong></td><td>Health plans, self-insured employers</td><td>Per-member-per-month, with outcomes-based upside</td><td>Diabetes is among their largest cost drivers; TIR is a measurable outcome</td></tr>
+          <tr><td><strong>Device partners</strong></td><td>CGM makers, OTC retail</td><td>White-label licensing</td><td>Onboarding and retention for new OTC users with no clinician</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Pricing to be validated in pilots. Revenue figures are intentionally omitted until pilot data exist.</p>
+  </section>
+
+  <section class="slide">
+    <span class="slide-num">06 — Landscape</span>
+    <h2>The only option built for every CGM user, between every visit.</h2>
+    <div class="table-wrap" style="margin-top:28px">
+      <table class="table">
+        <thead><tr><th></th><th>Device apps</th><th>Virtual diabetes programs</th><th>Clinic data platforms</th><th>Metabolic wellness apps</th><th>Betawise</th></tr></thead>
+        <tbody>
+          <tr><td>Type 1 and Type 2</td><td class="yes">✓</td><td class="no">Mostly T2</td><td class="yes">✓</td><td class="no">Non-diabetic</td><td class="yes">✓</td></tr>
+          <tr><td>Tells you what to do this week</td><td class="no">—</td><td class="yes">✓</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Consensus-standard clinical report</td><td class="yes">✓</td><td class="no">Varies</td><td class="yes">✓</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td>Device-agnostic</td><td class="no">—</td><td class="no">Varies</td><td class="yes">✓</td><td class="no">Varies</td><td class="yes">✓</td></tr>
+          <tr><td>Human peer mentors</td><td class="no">—</td><td class="no">Paid coaches</td><td class="no">—</td><td class="no">—</td><td class="yes">✓ via nonprofit partner</td></tr>
+          <tr><td>Marginal cost per member</td><td class="no">Low</td><td class="no">High (human-led)</td><td class="no">Low</td><td class="no">Low</td><td class="yes">Low (AI-first, humans on escalation)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="slide" id="moat">
+    <span class="slide-num">07 — Defensibility</span>
+    <h2>Trust is the moat in healthcare AI.</h2>
+    <div class="grid grid-2" style="margin-top:28px">
+      <div class="card"><div class="card-title">Deterministic clinical core</div><p class="small ink-2" style="margin-top:6px">Metrics and patterns are computed by tested, auditable code. The language model explains — it never calculates or invents a number. This is what lets clinicians trust the report.</p></div>
+      <div class="card"><div class="card-title">Safety architecture</div><p class="small ink-2" style="margin-top:6px">No dosing advice, server-side prompts, deterministic emergency and crisis triage, and data minimization by default (the AI sees summary statistics only).</p></div>
+      <div class="card"><div class="card-title">Community distribution</div><p class="small ink-2" style="margin-top:6px">Partnership with The Time in Range Project, a peer-mentorship nonprofit, gives us a trusted acquisition channel and a human layer competitors pay heavily for.</p></div>
+      <div class="card"><div class="card-title">Outcomes flywheel</div><p class="small ink-2" style="margin-top:6px">With explicit opt-in, de-identified "focus → result" data teaches us which weekly focuses actually move time in range for which people.</p></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <span class="slide-num">08 — Regulatory &amp; privacy posture</span>
+    <h2>Built to ship responsibly, and to scale into regulated care.</h2>
+    <p class="intro">Today Betawise is designed as an educational, non-dosing tool whose logic is transparent to the user and their clinician. Data stays on-device for consumers. B2B deployments will run on HIPAA-ready infrastructure under BAAs. Any future feature that recommends treatment changes would go through the appropriate FDA pathway first.</p>
+    <p class="note">Regulatory positioning should be confirmed with qualified FDA counsel before commercial launch.</p>
+  </section>
+
+  <section class="slide">
+    <span class="slide-num">09 — Roadmap</span>
+    <h2>From beta to the standard of care.</h2>
+    <div class="grid grid-3" style="margin-top:28px">
+      <div class="phase"><h3>Now · Beta</h3><ul><li>Consensus analytics, GRI, AGP</li><li>Pattern engine &amp; weekly focus</li><li>AI peer coach with guardrails</li><li>Clinic report, Dexcom + CSV</li></ul></div>
+      <div class="phase"><h3>Next · Pilots</h3><ul><li>Accounts with encrypted sync</li><li>Abbott &amp; Apple Health integrations</li><li>2–3 clinic pilots, 1 employer pilot</li><li>90-day outcomes study (TIR, TBR)</li></ul></div>
+      <div class="phase"><h3>Then · Scale</h3><ul><li>Clinician dashboard &amp; EHR export</li><li>Meal, activity &amp; medication context</li><li>Spanish-language coach</li><li>Payer contracts on outcomes</li></ul></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <span class="slide-num">10 — Traction &amp; team</span>
+    <h2>Where we are.</h2>
+    <div class="grid grid-2" style="margin-top:28px">
+      <div class="card">
+        <div class="card-title">Traction</div>
+        <ul class="small ink-2" style="margin:10px 0 0;padding-left:18px;display:grid;gap:6px">
+          <li>Working product: analytics engine with automated tests, AI coach, clinic report</li>
+          <li>Nonprofit partner with an active peer-mentor network: <span class="placeholder">[# mentors / pairs]</span></li>
+          <li>Beta users: <span class="placeholder">[#]</span> · Weekly active: <span class="placeholder">[%]</span></li>
+          <li>Clinic / partner LOIs: <span class="placeholder">[names or #]</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Team</div>
+        <ul class="small ink-2" style="margin:10px 0 0;padding-left:18px;display:grid;gap:6px">
+          <li><span class="placeholder">[Founder — role, lived experience, background]</span></li>
+          <li><span class="placeholder">[Clinical advisor — endocrinologist / CDCES]</span></li>
+          <li><span class="placeholder">[Technical lead]</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" style="border-bottom:0">
+    <span class="slide-num">11 — The ask</span>
+    <h2>Raising <span class="placeholder">[$X]</span> to prove outcomes and launch partnerships.</h2>
+    <div class="grid grid-3" style="margin-top:28px">
+      <div class="card kpi"><div class="k-label">Clinical</div><div class="k-value" style="font-size:22px">Outcomes study</div><div class="k-foot muted">90-day TIR/TBR results with an academic partner</div></div>
+      <div class="card kpi"><div class="k-label">Product</div><div class="k-value" style="font-size:22px">Accounts &amp; integrations</div><div class="k-foot muted">HIPAA-ready backend, Abbott and Apple Health</div></div>
+      <div class="card kpi"><div class="k-label">Go-to-market</div><div class="k-value" style="font-size:22px">First paid pilots</div><div class="k-foot muted">Clinics and one self-insured employer</div></div>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:32px">
+      <a class="btn btn-primary btn-lg" href="app.html?demo=sarah">See the product</a>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p style="max-width:720px">Statistics cite their public sources. Forward-looking statements are plans, not guarantees. Bracketed fields are placeholders to be completed by the team. Betawise is not a medical device.</p>
+    <a href="./">betawise home</a>
+  </div>
+</footer>
+</body>
+</html>

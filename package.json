@@ -1,0 +1,16 @@
+{
+  "name": "timeinrangeproject",
+  "private": true,
+  "type": "module",
+  "description": "The Time in Range Project website and the Betawise CGM coaching app",
+  "scripts": {
+    "dev": "node dev-server.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0"
+  }
+}
