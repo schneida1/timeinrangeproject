@@ -202,8 +202,8 @@ textarea.input { resize: vertical; }
 
 /* ---------- Brand mark ---------- */
 .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-weight: 700; font-size: 17px; letter-spacing: -0.01em; }
-.brand-mark { width: 30px; height: 30px; border-radius: 9px; background: var(--brand); display: grid; place-items: center; color: var(--brand-ink); }
-.brand-mark svg { width: 20px; height: 20px; }
+.brand-mark { width: 30px; height: 30px; display: block; flex: none; }
+.brand-mark svg { width: 100%; height: 100%; display: block; }
 .brand small { font-weight: 500; color: var(--muted); font-size: 12px; margin-left: 2px; }
 
 /* ---------- Charts ---------- */
