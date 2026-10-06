@@ -260,9 +260,10 @@ function patternHTML(p) {
   return `<article class="pattern sev-${p.severity}">
     <div class="p-icon">${icon(s.icon)}</div>
     <div>
-      <h3>${esc(p.title)} <span class="badge ${s.badge}">${icon(s.icon)}${s.label}</span></h3>
+      <span class="badge ${s.badge}">${icon(s.icon)}${s.label}</span>
+      <h3>${esc(p.title)}</h3>
       <p>${esc(p.detail)}</p>
-      <p class="why" style="margin-top:6px">${esc(p.why)}</p>
+      <details class="why"><summary>Why it matters</summary><p>${esc(p.why)}</p></details>
     </div>
   </article>`;
 }
@@ -308,28 +309,27 @@ function renderOverview() {
 
   el.innerHTML = `
     ${!m.sufficient ? `<div class="privacy-note" style="background:var(--warn-soft)">${icon('alert')}<span><strong>Limited data.</strong> Consensus guidelines recommend at least 10–14 days with 70%+ sensor wear. You have ${m.spanDays.toFixed(1)} days at ${Math.round(m.activePercent)}% — treat these numbers as early signals.</span></div>` : ''}
-    ${state.persona ? `<div class="privacy-note">${icon('info')}<span>You're viewing <strong>${esc(PERSONAS[state.persona].name)}</strong>, a sample member with simulated CGM data. <button class="btn btn-ghost btn-sm" data-action="new-data" type="button">Use my own data</button></span></div>` : ''}
+    ${state.persona ? `<div class="privacy-note">${icon('info')}<span class="note-row"><span>Sample member <strong>${esc(PERSONAS[state.persona].name)}</strong> · simulated data</span><button class="btn btn-secondary btn-sm" data-action="new-data" type="button">Use my data</button></span></div>` : ''}
 
     <div class="grid" style="grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)" data-responsive>
       <div class="card focus-card">
         <p class="eyebrow">Your focus this week</p>
         ${focus ? `
           <h2>${esc(focus.title)}</h2>
-          <p>${esc(focus.detail)}</p>
-          <p style="font-size:14px">${esc(focus.why)}</p>` : `
+          <p>${esc(focus.detail)}</p>` : `
           <h2>You're hitting your targets.</h2>
-          <p>Nothing is flagged. A stretch goal: raise time in tight range (70–140) from ${pct(m.titr)} — that's where the next gains in long-term health live.</p>`}
+          <p>Nothing is flagged. Stretch goal: raise time in tight range (70–140) above ${pct(m.titr)}.</p>`}
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
-          <button class="btn btn-secondary" data-action="ask-focus" type="button">${icon('chat')}Make a plan with the coach</button>
-          ${focus ? `<button class="btn btn-secondary" data-action="commit" type="button" ${committed ? 'disabled' : ''}>${icon('check')}${committed ? 'Committed for this week' : 'Commit to this focus'}</button>` : ''}
+          <button class="btn btn-secondary" data-action="ask-focus" type="button">${icon('chat')}Plan it with the coach</button>
+          ${focus ? `<button class="btn btn-secondary" data-action="commit" type="button" ${committed ? 'disabled' : ''}>${icon('check')}${committed ? 'Committed this week' : 'Commit'}</button>` : ''}
         </div>
       </div>
 
       <div class="card">
-        <div class="card-head"><div><div class="card-title">Glycemia Risk Index</div><div class="card-sub">One number for overall risk from lows and highs (lower is better)</div></div></div>
+        <div class="card-head"><div><div class="card-title">Glycemia Risk Index</div><div class="card-sub">Overall risk from lows and highs · lower is better</div></div></div>
         <div style="display:flex;align-items:baseline;gap:12px"><span class="big-number">${Math.round(m.gri.gri)}</span><span class="badge badge-brand">Zone ${m.gri.zone} · ${esc(m.gri.zoneLabel)}</span></div>
         ${griGauge(m.gri)}
-        <p class="xs muted" style="margin-top:10px">Lows contribute ${Math.round(3 * m.gri.hypoComponent)} pts, highs ${Math.round(1.6 * m.gri.hyperComponent)} pts. Lows are weighted more heavily because they're more dangerous short-term.</p>
+        <p class="xs muted" style="margin-top:12px">From lows ${Math.round(3 * m.gri.hypoComponent)} · from highs ${Math.round(1.6 * m.gri.hyperComponent)}</p>
       </div>
     </div>
 
@@ -342,7 +342,7 @@ function renderOverview() {
 
     <div class="grid" style="grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)" data-responsive>
       <div class="card">
-        <div class="card-head"><div><div class="card-title">Your typical day</div><div class="card-sub">Ambulatory Glucose Profile — ${Math.round(m.spanDays)} days layered onto one 24-hour view</div></div></div>
+        <div class="card-head"><div><div class="card-title">Your typical day</div><div class="card-sub">${Math.round(m.spanDays)} days layered into one 24 hours (AGP)</div></div></div>
         <div id="agp-wrap"></div>
         <div class="legend"><span><i style="background:var(--brand-strong);height:3px"></i>Median</span><span><i style="background:var(--brand);opacity:.45"></i>Middle 50% of days</span><span><i style="background:var(--brand);opacity:.18"></i>90% of days</span><span><i style="background:var(--g-tir);opacity:.25"></i>Target range</span></div>
       </div>
@@ -354,9 +354,9 @@ function renderOverview() {
 
     <div class="grid grid-2">
       <div class="card">
-        <div class="card-head"><div><div class="card-title">Where your biggest gains are</div><div class="card-sub">If each part of the day matched your best stretch (${esc(strength?.title?.split(' is ')[0] || 'best period')})</div></div></div>
-        ${opportunities(m).map((o) => `<div class="opportunity"><span><strong>${esc(o.label)}</strong> <span class="muted small">${esc(o.hours)} · ${pct(o.tir)} in range</span></span><span class="tabular"><strong>+${o.gain.toFixed(1)}</strong> <span class="muted small">pts TIR</span></span><div class="opp-bar"><div style="width:${Math.min(100, (o.gain / Math.max(1, opp.gain)) * 100)}%"></div></div></div>`).join('')}
-        ${opp && opp.gain >= 1 ? `<p class="small ink-2" style="margin-top:12px">Closing the ${esc(opp.label.toLowerCase())} gap alone could lift time in range about <strong>${opp.gain.toFixed(1)} points</strong> — roughly a <strong>${benefit.gmiDrop.toFixed(1)}%</strong> lower GMI. In large studies, every 10 points of TIR gained is associated with meaningfully lower risk of eye and kidney complications.</p>` : ''}
+        <div class="card-head"><div><div class="card-title">Where your biggest gains are</div><div class="card-sub">If each part of the day matched your best (${esc((strength?.title?.split(' is ')[0] || 'best period').toLowerCase())})</div></div></div>
+        ${opportunities(m).map((o) => `<div class="opportunity"><span class="opp-label"><strong>${esc(o.label)}</strong><span class="muted xs">${pct(o.tir)} in range now</span></span><span class="tabular opp-gain"><strong>+${o.gain.toFixed(1)}</strong><span class="muted xs">pts</span></span><div class="opp-bar"><div style="width:${Math.min(100, (o.gain / Math.max(1, opp.gain)) * 100)}%"></div></div></div>`).join('')}
+        ${opp && opp.gain >= 1 ? `<p class="small ink-2" style="margin-top:14px">Fixing ${esc(opp.label.toLowerCase())}s alone ≈ <strong>+${opp.gain.toFixed(1)} pts</strong> time in range and <strong>−${benefit.gmiDrop.toFixed(1)}%</strong> GMI.</p>` : ''}
       </div>
       <div class="card">
         <div class="card-head"><div><div class="card-title">Consensus targets</div><div class="card-sub">${m.targetsMet} of ${m.checks.length} met · ${esc(m.profile.label)}</div></div><button class="btn btn-ghost btn-sm" data-nav-to="settings" type="button">Change</button></div>
@@ -392,23 +392,29 @@ function renderPatterns() {
     </div>
     <div class="grid grid-4">
       ${periods.map((p) => `<div class="card period-card">
-        <div class="k-label small muted" style="font-weight:600">${esc(p.label)} <span class="xs">· ${esc(p.hours)}</span></div>
+        <div class="period-head"><strong>${esc(p.label)}</strong><span class="muted xs">${esc(p.hours)}</span></div>
         <div class="p-big">${pct(p.tir)}</div>
         <div class="mini-stack" role="img" aria-label="${esc(p.label)}: ${pct(p.tbr, 1)} below, ${pct(p.tir)} in range, ${pct(p.tar)} above">
           <div class="bg-low" style="flex:${Math.max(p.tbr, 0.3)}"></div><div class="bg-tir" style="flex:${Math.max(p.tir, 0.3)}"></div><div class="bg-high" style="flex:${Math.max(p.tar, 0.3)}"></div>
         </div>
-        <div class="xs ink-2 tabular">Low ${pct(p.tbr, 1)} · High ${pct(p.tar)} · Avg ${g(p.mean)}</div>
+        <div class="period-stats xs tabular"><span>Low <b>${pct(p.tbr, 1)}</b></span><span>High <b>${pct(p.tar)}</b></span><span>Avg <b>${g(p.mean)}</b></span></div>
       </div>`).join('')}
     </div>
     <div class="card">
-      <div class="card-head"><div><div class="card-title">Day by day</div><div class="card-sub">Each tile is one day, midnight to midnight. Shaded band is your target range; red dots are lows.</div></div></div>
-      <div class="strips">${m.days.map(dayCell).join('')}</div>
+      <div class="card-head"><div><div class="card-title">Day by day</div><div class="card-sub">Shaded band is your target range · red dots are lows</div></div></div>
+      <div class="strips" id="day-strips">${fullDays(m).slice(-7).map(dayCell).join('')}</div>
+      ${fullDays(m).length > 7 ? `<button class="btn btn-ghost btn-sm" data-action="all-days" type="button" style="margin-top:10px">Show all ${fullDays(m).length} days</button>` : ''}
     </div>`;
+}
+
+// Days with under half a day of sensor data (e.g. today so far) would show misleading percentages.
+function fullDays(m) {
+  return m.days.filter((d) => d.n * m.interval >= 12 * 60);
 }
 
 function dayCell(d) {
   const date = new Date(`${d.date}T12:00:00`);
-  const label = date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+  const label = date.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric' });
   return `<div class="strip-cell"><div class="d"><span>${esc(label)}</span><span class="tabular">${pct(d.tir)}</span></div>${dailyStrip(d, { lo: state.metrics.profile.lo, hi: state.metrics.profile.hi })}</div>`;
 }
 
@@ -587,7 +593,7 @@ function renderReport() {
       <h3>Ambulatory glucose profile</h3>
       <div id="report-agp"></div>
       <h3>Daily glucose profiles</h3>
-      <div class="strips">${m.days.map(dayCell).join('')}</div>
+      <div class="strips">${fullDays(m).map(dayCell).join('')}</div>
       <h3>Patient's questions</h3>
       <ol style="margin:0;padding-left:18px">${questions.map((q) => `<li>${esc(q)}</li>`).join('')}</ol>
       <p class="xs muted" style="margin-top:16px">Metrics follow the International Consensus on Time in Range (Battelino et al., Diabetes Care 2019) and the Glycemia Risk Index (Klonoff et al., JDST 2023). Patterns are generated algorithmically for discussion and are not a diagnosis. Betawise is not a medical device.</p>
@@ -692,6 +698,10 @@ function bindEvents() {
     const action = ev.target.closest('[data-action]')?.dataset.action;
     if (!action) return;
     if (action === 'new-data') go('onboard');
+    if (action === 'all-days') {
+      $('#day-strips').innerHTML = fullDays(state.metrics).map(dayCell).join('');
+      ev.target.closest('button').remove();
+    }
     if (action === 'print') window.print();
     if (action === 'ask-focus') {
       go('coach');

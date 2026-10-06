@@ -481,8 +481,9 @@ export function detectPatterns(m) {
   }
 
   // Weekday vs weekend.
-  const wk = m.days.filter((d) => d.dow > 0 && d.dow < 6);
-  const we = m.days.filter((d) => d.dow === 0 || d.dow === 6);
+  const fullDays = m.days.filter((d) => d.n * m.interval >= 12 * 60);
+  const wk = fullDays.filter((d) => d.dow > 0 && d.dow < 6);
+  const we = fullDays.filter((d) => d.dow === 0 || d.dow === 6);
   if (wk.length >= 3 && we.length >= 2) {
     const a = wk.reduce((s, d) => s + d.tir, 0) / wk.length;
     const b = we.reduce((s, d) => s + d.tir, 0) / we.length;
