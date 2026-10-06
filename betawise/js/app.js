@@ -615,20 +615,22 @@ function renderProgress() {
   const commits = state.commitments.filter((c) => c.key === key).slice(-6).reverse();
   const el = $('[data-view="progress"]');
   el.innerHTML = `
-    ${state.persona ? `<div class="privacy-note">${icon('info')}<span>Sample history for ${esc(PERSONAS[state.persona].name)}, showing what eight weeks of progress tracking looks like.</span></div>` : ''}
-    <div class="grid grid-3">
-      ${kpi('Time in range now', pct(last.tir), '', null, `${entries.length} snapshot${entries.length === 1 ? '' : 's'}`)}
-      ${kpi('Change since first snapshot', `${delta >= 0 ? '+' : ''}${delta.toFixed(1)}`, 'pts', entries.length > 1 ? (delta >= 0 ? ['ok', 'Improving'] : ['warn', 'Slipping — that happens']) : null, 'Add more data over time')}
-      ${kpi('GRI now', Math.round(last.gri), '', null, entries.length > 1 ? `was ${Math.round(first.gri)}` : '')}
+    ${state.persona ? `<div class="privacy-note">${icon('info')}<span>Sample history for ${esc(PERSONAS[state.persona].name)} · 8 weeks</span></div>` : ''}
+    <div class="grid grid-3 kpi-row">
+      ${kpi('Time in range', pct(last.tir), '', null, `${entries.length} snapshot${entries.length === 1 ? '' : 's'}`)}
+      ${kpi('Change', `${delta >= 0 ? '+' : ''}${delta.toFixed(1)}`, 'pts', entries.length > 1 ? (delta >= 0 ? ['ok', 'Improving'] : ['warn', 'Slipping']) : null, 'since first')}
+      ${kpi('GRI', Math.round(last.gri), '', null, entries.length > 1 ? `was ${Math.round(first.gri)}` : '')}
     </div>
     <div class="card">
-      <div class="card-head"><div><div class="card-title">Time in range over time</div><div class="card-sub">A snapshot is saved each time you load new data. Lows shown in red.</div></div></div>
-      ${entries.length > 1 ? trendChart(entries, { target: m.profile.targets.tir }) + `<div class="legend"><span><i class="bg-tir"></i>Time in range</span><span><i class="bg-vlow"></i>Time below range</span><span><i style="border-top:2px dashed var(--muted);height:0;border-radius:0"></i>Goal</span></div>` : '<p class="muted small">Load fresh data next week to start your trend line.</p>'}
+      <div class="card-head"><div><div class="card-title">Time in range over time</div><div class="card-sub">Saved each time you load new data</div></div></div>
+      ${entries.length > 1 ? '<div id="trend-wrap"></div>' + `<div class="legend"><span><i class="bg-tir"></i>Time in range</span><span><i class="bg-vlow"></i>Time below range</span><span><i style="border-top:2px dashed var(--muted);height:0;border-radius:0"></i>Goal</span></div>` : '<p class="muted small">Load fresh data next week to start your trend line.</p>'}
     </div>
     <div class="card">
-      <div class="card-head"><div><div class="card-title">Weekly commitments</div><div class="card-sub">Small, specific focuses beat big resolutions.</div></div></div>
+      <div class="card-head"><div><div class="card-title">Weekly commitments</div><div class="card-sub">Small, specific focuses beat big resolutions</div></div></div>
       ${commits.length ? commits.map((c) => `<div class="opportunity"><span>${icon('check')} <strong>${esc(c.title)}</strong></span><span class="muted small">${new Date(c.at).toLocaleDateString()}</span></div>`).join('') : '<p class="muted small">Commit to your weekly focus from the Overview to start a streak.</p>'}
     </div>`;
+  const wrap = $('#trend-wrap');
+  if (wrap) wrap.innerHTML = trendChart(entries, { target: m.profile.targets.tir, width: wrap.clientWidth || 720 });
 }
 
 // ---------------------------------------------------------------------------
@@ -642,9 +644,9 @@ function renderSettings() {
       <div class="card">
         <div class="card-head"><div><div class="card-title">Targets</div><div class="card-sub">Based on the International Consensus on Time in Range</div></div></div>
         <div class="field"><label for="set-profile">Target profile</label>
-          <select id="set-profile" class="input">${Object.values(TARGET_PROFILES).map((p) => `<option value="${p.id}" ${p.id === state.profile ? 'selected' : ''}>${esc(p.label)} (${p.lo}–${p.hi} mg/dL, TIR >${p.targets.tir}%)</option>`).join('')}</select>
+          <select id="set-profile" class="input">${Object.values(TARGET_PROFILES).map((p) => `<option value="${p.id}" ${p.id === state.profile ? 'selected' : ''}>${esc(p.label)}</option>`).join('')}</select>
         </div>
-        <p class="xs muted" style="margin-top:8px">Ask your care team which targets fit you. Older adults and people at high risk of lows often use less strict goals.</p>
+        <p class="xs muted" style="margin-top:8px">Range ${g(TARGET_PROFILES[state.profile].lo)}–${g(TARGET_PROFILES[state.profile].hi)} ${unitLabel()} · time in range goal >${TARGET_PROFILES[state.profile].targets.tir}%. Ask your care team which targets fit you.</p>
       </div>
       <form class="card" id="context-form">
         <div class="card-head"><div><div class="card-title">About you</div><div class="card-sub">Optional. Helps the coach personalize advice. Stored on this device.</div></div></div>
@@ -739,7 +741,7 @@ function bindEvents() {
 
   document.addEventListener('change', (ev) => {
     if (ev.target.id === 'set-profile') {
-      state.profile = ev.target.value; store.set('profile', state.profile); recompute(); toast('Targets updated');
+      state.profile = ev.target.value; store.set('profile', state.profile); recompute(); renderSettings(); toast('Targets updated');
     }
     if (ev.target.id === 'file-input') handleFile(ev.target.files[0]);
   });
@@ -782,6 +784,7 @@ function bindEvents() {
     resizeTimer = setTimeout(() => {
       if (state.view === 'overview' && $('#agp-wrap')) drawAgp($('#agp-wrap'), 260);
       if (state.view === 'report' && $('#report-agp')) drawAgp($('#report-agp'), 220);
+      if (state.view === 'progress') renderProgress();
     }, 150);
   });
   window.addEventListener('beforeprint', () => { if (state.metrics && state.view !== 'report') go('report'); });

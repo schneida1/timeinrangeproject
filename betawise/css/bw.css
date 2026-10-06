@@ -163,7 +163,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
   padding: 20px; box-shadow: var(--shadow);
 }
-.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.card-head > div:first-child { flex: 1 1 200px; min-width: 0; }
 .card-title { font-size: 16px; font-weight: 650; }
 .card-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
 
@@ -344,6 +345,17 @@ textarea.input { resize: vertical; }
 .bottombar { display: none; }
 @media (max-width: 860px) {
   .page .grid, .page > section { gap: 14px; }
+  .chat { height: min(560px, calc(100vh - 210px)); }
+  .chat .suggestions { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -18px 10px; padding: 0 18px; }
+  .chat .suggestions::-webkit-scrollbar { display: none; }
+  .chat .suggestions button { flex: none; }
+  .kpi-row { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 8px !important; }
+  .kpi-row .kpi { padding: 12px; }
+  .kpi-row .k-label { font-size: 11px; }
+  .kpi-row .k-value { font-size: 20px; }
+  .kpi-row .k-value small { display: block; margin: 0; font-size: 11px; }
+  .kpi-row .k-foot { font-size: 11px; }
+  .kpi-row .badge { padding: 1px 6px; font-size: 11px; }
   .card { padding: 18px; }
   .focus-card h2 { font-size: 22px; }
   .app { grid-template-columns: minmax(0, 1fr); }
@@ -440,7 +452,7 @@ textarea.input { resize: vertical; }
 .persona:hover { border-color: var(--brand); box-shadow: var(--shadow); }
 .persona .p-name { font-weight: 650; }
 .persona .p-meta { font-size: 13px; color: var(--muted); }
-.dropzone { border: 1.5px dashed var(--line-strong); border-radius: var(--radius); padding: 24px; text-align: center; cursor: pointer; background: var(--surface); }
+.dropzone { display: block; border: 1.5px dashed var(--line-strong); border-radius: var(--radius); padding: 24px; text-align: center; cursor: pointer; background: var(--surface); }
 .dropzone.is-over { border-color: var(--brand); background: var(--brand-soft); }
 .privacy-note { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--ink-2); background: var(--surface-2); border-radius: var(--radius); padding: 12px 14px; }
 .privacy-note .icon { color: var(--brand); margin-top: 1px; }

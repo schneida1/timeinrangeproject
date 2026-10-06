@@ -96,23 +96,23 @@ export function dailyStrip(day, { lo = 70, hi = 180 } = {}) {
 }
 
 // Line chart of saved TIR snapshots over time.
-export function trendChart(entries, { target = 70 } = {}) {
-  const W = 720, H = 220, pad = { t: 14, r: 16, b: 26, l: 36 };
+export function trendChart(entries, { target = 70, width = 720 } = {}) {
+  const W = Math.max(320, Math.min(960, Math.round(width))), H = 220, pad = { t: 14, r: 16, b: 26, l: 36 };
   const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
   const n = entries.length;
   const x = (i) => pad.l + (n === 1 ? cw / 2 : (i / (n - 1)) * cw);
   const y = (v) => pad.t + ch - (v / 100) * ch;
   const grid = [0, 25, 50, 75, 100].map((v) => `<line x1="${pad.l}" x2="${W - pad.r}" y1="${y(v)}" y2="${y(v)}" class="viz-grid"/><text x="${pad.l - 6}" y="${y(v) + 4}" text-anchor="end" class="viz-axis">${v}%</text>`).join('');
   const path = (k) => entries.map((e, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(e[k]).toFixed(1)}`).join('');
-  const every = Math.max(1, Math.ceil(n / 8));
-  const labels = entries.map((e, i) => (i % every === 0 || i === n - 1)
+  const every = Math.max(1, Math.ceil(n / Math.max(3, Math.floor(W / 90))));
+  const labels = entries.map((e, i) => ((i % every === 0 && n - 1 - i >= every) || i === n - 1)
     ? `<text x="${x(i)}" y="${H - 6}" text-anchor="middle" class="viz-axis">${esc(e.label)}</text>` : '').join('');
   const dots = entries.map((e, i) => `<circle cx="${x(i)}" cy="${y(e.tir)}" r="4.5" class="viz-point" data-i="${i}"><title>${esc(e.label)}: ${Math.round(e.tir)}% in range, ${e.tbr.toFixed(1)}% below</title></circle>`).join('');
   const last = entries[n - 1];
   return `<svg viewBox="0 0 ${W} ${H}" class="viz trend" role="img" aria-label="Time in range over time">
     ${grid}
     <line x1="${pad.l}" x2="${W - pad.r}" y1="${y(target)}" y2="${y(target)}" class="viz-goal"/>
-    <text x="${W - pad.r}" y="${y(target) - 6}" text-anchor="end" class="viz-axis">Goal ${target}%</text>
+    <text x="${pad.l + 6}" y="${y(target) - 6}" class="viz-axis">Goal ${target}%</text>
     <path d="${path('tbr')}" class="viz-line-low"/>
     <path d="${path('tir')}" class="viz-line-tir"/>
     ${dots}
